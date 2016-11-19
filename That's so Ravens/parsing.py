@@ -11,3 +11,13 @@ def parsing(questionNum):
         Answers_w.append(row[2:5])
     f.close()
     return Questions[questionNum], Answers_c[questionNum], Answers_w[questionNum]
+
+
+def blurb(questionNum):
+    reader = csv.reader('Answers.scv')
+    blurbs = []
+    for rows in reader:
+        blurbs.append(row)
+    reader.close()
+    return blurbs[questionNum]
+    
