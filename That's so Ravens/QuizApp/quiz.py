@@ -19,5 +19,9 @@ class Quiz:
         
         
         
+    def init_screen(self): 
+        self.zFrame = display.get_surface() 
+        
+        
         
     
