@@ -30,9 +30,13 @@ class Quiz:
         while not done: 
             for event in pygame.event.get():
                 done = event.type == pygame.QUIT #true or false value
+                
+                
+                
                 self.screen.blit(zFrame_background, backgroundRect)
+                pygame.display.flip()
          
-        
+        pygame.quit()        
         
         
         
