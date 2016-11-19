@@ -1,0 +1,15 @@
+Environment app Starts in Mackenzie quad.
+select one of 5 environments which lead to minigames.
+
+Block 1 selection triggers initiation of mini-game: "Get to first Sysc 1005 Lab";
+Block 2 selection triggers initiation of mini-game: "Phisics 1004 -- pure magic";
+Block 4 selection triggers initiation of mini-game: "ECOR1010 Midterm --SCE past and future";
+Selecting "The Thing" (structure in middle of quad) triggers "Climbing The Thing" minigame;
+
+
+Block 3 can only be selected after all other games have been completed. With
+money collected from other environments you buy a sandwich and coffee and chill
+with Leos squad.
+
+
+Main Environment -- Macenzie quad Setup
