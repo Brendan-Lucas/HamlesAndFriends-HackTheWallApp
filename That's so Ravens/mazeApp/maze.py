@@ -16,15 +16,15 @@ class Rodney(pygame.sprite.Sprite):
                               self.image.set_colorkey(white)
                               self.rect = self.image.get_rect()
                               
-array = [[3,0,0,0,0,0,0,0], [3,0,0,0,0,0,0,0], [7,2,5,0,8,2,2,5], [8,2,6,0,3,0,0,4], [3,0,0,0,3,0,0,4], [7,2,2,2,6,0,0,4], [0,0,0,0,0,0,0,4], [0,8,1,1,5,0,0,4], [10,6,0,0,7,1,1,6]]
+array = [[3,0,0,0,0,0,0,0,8,1,1,1,1,5,0,0], [3,0,0,0,0,0,0,0,3,8,1,1,5,3,0,0], [7,2,5,0,8,2,2,5,3,3,0,0,3,3,0,0], [8,2,6,0,3,0,0,4,7,6,0,0,3,7,1,5], [3,0,0,0,3,0,0,4,0,0,0,0,3,8,1,6], [7,2,2,2,6,0,0,4,8,1,1,1,6,7,5,0], [0,0,0,0,0,0,0,4,3,8,1,1,5,8,6,0], [0,8,1,1,5,0,0,4,7,6,0,0,3,7,1,5], [0,3,0,0,7,1,1,6,0,8,1,1,6,0,0,3], [0,7,5,0,0,0,0,0,0,3,0,8,1,5,0,3], [0,0,3,8,1,1,1,1,1,6,0,3,0,7,1,6], [0,0,7,6,0,0,0,0,0,10,1,6,0,0,0,0]]
                               
 pygame.init()
 
 black=(0,0,0)
 white=(255,255,255)
 gold =(255,215,0)
-width = 60
-height = 60
+width = 40
+height = 40
 size = [560,840] 
 screen = pygame.display.set_mode(size)
 
@@ -33,43 +33,43 @@ tile_list = pygame.sprite.Group()
 #Tile 1
 
 tileUp= Tile(white,width,height)
-pygame.draw.line(tileUp.image,black,[0,0],[0,height],10)
-pygame.draw.line(tileUp.image,black,[width-1,0],[width-1,height],10)
+pygame.draw.line(tileUp.image,black,[0,0],[0,height],5)
+pygame.draw.line(tileUp.image,black,[width-1,0],[width-1,height],5)
 tile_list.add(tileUp)
 
 
 #tile 2
 tileSide=Tile(white,width,height)
-pygame.draw.line(tileSide.image,black,[0,0],[width-1,0],10)
-pygame.draw.line(tileSide.image,black,[0,height],[width-1,height],10)
+pygame.draw.line(tileSide.image,black,[0,0],[width-1,0],5)
+pygame.draw.line(tileSide.image,black,[0,height],[width-1,height],5)
 tile_list.add(tileSide)
 
 
 #tile 3
 tileBotLeft= Tile(white,width,height)
-pygame.draw.line(tileBotLeft.image,black,[0,0],[0,height],10)
-pygame.draw.line(tileBotLeft.image,black,[0,height],[width-1,height],10)
+pygame.draw.line(tileBotLeft.image,black,[0,0],[0,height],5)
+pygame.draw.line(tileBotLeft.image,black,[0,height],[width-1,height],5)
 tile_list.add(tileBotLeft)
 
 
 #tile 4
 tileBotRight= Tile(white,width,height)
-pygame.draw.line(tileBotRight.image,black,[0,height],[width-1,height],10)
-pygame.draw.line(tileBotRight.image,black,[width-1,height],[width-1,0],10)
+pygame.draw.line(tileBotRight.image,black,[0,height],[width-1,height],5)
+pygame.draw.line(tileBotRight.image,black,[width-1,height],[width-1,0],5)
 tile_list.add(tileBotRight)
 
 
 #tile 5
 tileTopRight= Tile(white,width,height)
-pygame.draw.line(tileTopRight.image,black,[0,0],[width-1,0],10)
-pygame.draw.line(tileTopRight.image,black,[width-1,0],[width-1,height],10)
+pygame.draw.line(tileTopRight.image,black,[0,0],[width-1,0],5)
+pygame.draw.line(tileTopRight.image,black,[width-1,0],[width-1,height],5)
 tile_list.add(tileTopRight)
 
 
 #tile 6
 tileTopLeft= Tile(white,width,height)
-pygame.draw.line(tileTopLeft.image,black,[0,0],[width-1,0],10)
-pygame.draw.line(tileTopLeft.image,black,[0,0],[0,height],10)
+pygame.draw.line(tileTopLeft.image,black,[0,0],[width-1,0],5)
+pygame.draw.line(tileTopLeft.image,black,[0,0],[0,height],5)
 tile_list.add(tileTopLeft)
 
 
