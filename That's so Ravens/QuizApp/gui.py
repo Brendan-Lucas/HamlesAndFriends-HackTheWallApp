@@ -8,30 +8,32 @@ GREEN    = (   0, 255,   0)
 RED      = ( 255,   0,   0)
 BLUE     = (   0,   0, 255)
 
-size = (600, 900)
+size = (560, 840)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Quiz App")
 
 done = False
 
 clock = pygame.time.Clock()
+#greenButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_green.jpg").transform.scale(screen, (220, 132)) 
+#redButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_red.jpg").transform.scale(screen, (220, 132)) 
+whiteButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_silverAdjust.jpg")
+blueButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_purpleAdjust.jpg")
 
 
-def makebutton(displayFrame, colour, left, top, width, height, Answer):
+def makebutton(displayFrame, left, top, width, height, Answer):
 
     mouse = pygame.mouse.get_pos()
     
-    #blueButton = pygame.image.load("Button_purple.jpg").convert()
-    #greenButton = pygame.image.load("ImagesForQuizApp/Button_green.png").convert()
-    #redButton = pygame.image.load("ImagesForQuizApp/Button_red.png").convert()    
-    whiteButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_silver.jpg")
+    
+    
     if left+width > mouse[0] > left and top < mouse[1] < top+height:
-
-                
+        
+        rect = displayFrame.blit(blueButton, [(left), (top)])       
         if event.type == pygame.MOUSEBUTTONDOWN:
             print 'button' + str(mouse)
     else:
-        rect = pygame.draw.rect(displayFrame, colour, (left, top, width, height))  
+        rect = displayFrame.blit(whiteButton, [(left), (top)])  
 
     X = left+(width/2)
     Y = top+(height/2)      
@@ -48,7 +50,6 @@ backgroundRect=zFrame_background.get_rect()
 
 while not done:
     for event in pygame.event.get():
-        whiteButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_silver.jpg")
         pos = pygame.mouse.get_pos()
         x = pos[0]
         y = pos[1]
@@ -56,10 +57,11 @@ while not done:
             done = True
         #elif event.type == p
         
-        
         screen.blit(zFrame_background, backgroundRect)
-        makebutton(screen, WHITE, 100, 400, 300, 200, 'plop')
-        
+        makebutton(screen, 60, 520, 220, 132, 'plop')
+        makebutton(screen, 290, 520, 220, 132, 'plop')
+        makebutton(screen, 60, 657, 220, 132, 'plop')
+        makebutton(screen, 290, 657, 220, 132, 'plop')
         pygame.display.flip()
         
         clock.tick(60)
