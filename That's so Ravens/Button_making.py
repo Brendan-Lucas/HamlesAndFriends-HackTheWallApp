@@ -1,3 +1,8 @@
+import pygame
+
+pygame.init()
+
+
 def text_object(text, font):
    textsurface = font.reader(text, true, black)
    return textsurface, textsurface.get_rect()
