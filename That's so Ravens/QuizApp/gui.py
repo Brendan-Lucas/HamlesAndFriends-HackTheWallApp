@@ -18,7 +18,7 @@ done = False
 
 clock = pygame.time.Clock()
 greenButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_greenAdjust.jpg")
-greenButton.set_colokey(BLACK)
+greenButton.set_colorkey(BLACK)
 redButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_redAdjust.jpg")
 redButton.set_colorkey(BLACK)
 whiteButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_silverAdjust.jpg")
