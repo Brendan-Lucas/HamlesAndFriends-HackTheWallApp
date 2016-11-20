@@ -21,9 +21,9 @@ global grid
 
 grid = []
 
-for i in range (0,10):
+for i in range (0,12):
     grid.append([])
-    for j in range (0,10):
+    for j in range (0,20):
         grid[i].append(0)
     
 #instantiate and create the 25x25 grid with all 0
@@ -39,7 +39,8 @@ grid[0][0] = 1
 dvar = 0 #random gen from 1 to 5 to decide to go towards end goal
 gvar = 0 #random gen from 1 to 4 to decide to go different directions, cant be backwards
 
-completed = False
+global COMPLETED
+COMPLETED = 0
 
 
 def topcheck():
@@ -77,41 +78,41 @@ def leftcheck():
 def findMatch(direction):
 
     if direction == 'top':
-         if grid[cursor[0]][cursor[1]]  == 2:
-             return 2
-         elif grid[cursor[0]][cursor[1]]  == 3:
-             return 6
-         elif grid[cursor[0]][cursor[1]]  == 4:
-             return 5
-         else :
-             return 'error,in topfindMatch'
+        if grid[cursor[0]][cursor[1]]  == 2:
+            return 2
+        elif grid[cursor[0]][cursor[1]]  == 3:
+            return 6
+        elif grid[cursor[0]][cursor[1]]  == 4:
+            return 5
+        else :
+            return 'error,in topfindMatch'
     elif direction == 'right':
-         if grid[cursor[0]][cursor[1]] == 3:
-             return 3
-         elif grid[cursor[0]][cursor[1]] == 1:
-             return 5
-         elif grid[cursor[0]][cursor[1]] == 2:
-             return 8
-         else:
-             return 'error,in rightfindMatch'
+        if grid[cursor[0]][cursor[1]] == 3:
+            return 3
+        elif grid[cursor[0]][cursor[1]] == 1:
+            return 5
+        elif grid[cursor[0]][cursor[1]] == 2:
+            return 8
+        else:
+            return 'error,in rightfindMatch'
     elif direction == 'down':
-         if grid[cursor[0]][cursor[1]] == 1:
+        if grid[cursor[0]][cursor[1]] == 1:
              return 1
-         elif grid[cursor[0]][cursor[1]]  == 3:
+        elif grid[cursor[0]][cursor[1]]  == 3:
              return 7
-         elif grid[cursor[0]][cursor[1]]  == 4:
+        elif grid[cursor[0]][cursor[1]]  == 4:
              return 8
-         else:
+        else:
              return 'error,in downfindMatch'  
     elif direction == 'left':
-         if grid[cursor[0]][cursor[1]]  == 2:
-             return 7
-         elif grid[cursor[0]][cursor[1]]  == 4:
-             return 4
-         elif grid[cursor[0]][cursor[1]]  == 1:
-             return 6
-         else:
-              return 'error,in leftfindMatch'  
+        if grid[cursor[0]][cursor[1]]  == 2:
+            return 7
+        elif grid[cursor[0]][cursor[1]]  == 4:
+            return 4
+        elif grid[cursor[0]][cursor[1]]  == 1:
+            return 6
+        else:
+            return 'error,in leftfindMatch'  
     else:  
         return 'could not find direction'
     
@@ -120,121 +121,121 @@ def findMatch(direction):
 def fillSpace(path):   
     #change value of block to matching type
     if path == 'top':
-     if topcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('top')
-         grid[cursor[0]][cursor[1] -1] = 2
-         cursor[1] -= 1
-     elif rightcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('right')
-         grid[cursor[0]+1][cursor[1]] = 3
-         cursor[0] += 1
-     elif downcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('down')
-         grid[cursor[0]][cursor[1]+1] = 1
-         cursor[1] += 1
-     elif leftcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('left')
-         grid[cursor[0]-1][cursor[1]] = 4
-         cursor[0] -= 1
-     else:
-         print('no spaces trying to go top')
-         completed = True
-         print(completed)
+        if topcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('top')
+            grid[cursor[0]][cursor[1] -1] = 2
+            cursor[1] -= 1
+        elif rightcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('right')
+            grid[cursor[0]+1][cursor[1]] = 3
+            cursor[0] += 1
+        elif downcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('down')
+            grid[cursor[0]][cursor[1]+1] = 1
+            cursor[1] += 1
+        elif leftcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('left')
+            grid[cursor[0]-1][cursor[1]] = 4
+            cursor[0] -= 1
+        else:
+            print('no spaces trying to go top')
+            COMPLETED = 1
+            print(COMPLETED)
      
       
       
     elif path == 'right':
-         if rightcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('right')
-              grid[cursor[0]+1][cursor[1]] = 3
-              cursor[0] += 1
-         elif topcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('top')
-              grid[cursor[0]][cursor[1] -1] = 2
-              cursor[1] -= 1
-         elif downcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('down')
-              grid[cursor[0]][cursor[1]+1] = 1
-              cursor[1] += 1
-         elif leftcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('left')
-              grid[cursor[0]-1][cursor[1]] = 4
-              cursor[0] -= 1
-         else:
-             print ('no spaces trying to go right')
-             completed = True
-             print(completed)
+        if rightcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('right')
+            grid[cursor[0]+1][cursor[1]] = 3
+            cursor[0] += 1
+        elif topcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('top')
+            grid[cursor[0]][cursor[1] -1] = 2
+            cursor[1] -= 1
+        elif downcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('down')
+            grid[cursor[0]][cursor[1]+1] = 1
+            cursor[1] += 1
+        elif leftcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('left')
+            grid[cursor[0]-1][cursor[1]] = 4
+            cursor[0] -= 1
+        else:
+            print ('no spaces trying to go right')
+            COMPLETED = 1
+            print(COMPLETED)
                   
         
     elif path == 'down':
-         if downcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('down')
-              grid[cursor[0]][cursor[1]+1] = 1
-              cursor[1] += 1
-         elif topcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('top')
-              grid[cursor[0]][cursor[1] -1] = 2
-              cursor[1] -= 1
-         elif rightcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('right')
-              grid[cursor[0]+1][cursor[1]] = 3
-              cursor[0] += 1
-         elif leftcheck() == 0:
-              grid[cursor[0]][cursor[1]] = findMatch('left')
-              grid[cursor[0]-1][cursor[1]] = 4
-              cursor[0] -= 1
-         else:
-             print ('no spaces trying to go down')
-             completed = True
-             print(completed)
+        if downcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('down')
+            grid[cursor[0]][cursor[1]+1] = 1
+            cursor[1] += 1
+        elif topcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('top')
+            grid[cursor[0]][cursor[1] -1] = 2
+            cursor[1] -= 1
+        elif rightcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('right')
+            grid[cursor[0]+1][cursor[1]] = 3
+            cursor[0] += 1
+        elif leftcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('left')
+            grid[cursor[0]-1][cursor[1]] = 4
+            cursor[0] -= 1
+        else:
+            print ('no spaces trying to go down')
+            COMPLETED = 1
+            print(COMPLETED)
         
     elif path == 'left':
-     if leftcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('left')
-         grid[cursor[0]-1][cursor[1]] = 4
-         cursor[0] -= 1
-     elif downcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('down')
-         grid[cursor[0]][cursor[1]+1] = 1
-         cursor[1] += 1
-     elif topcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('top')
-         grid[cursor[0]][cursor[1] -1] = 2
-         cursor[1] -= 1
-     elif rightcheck() == 0:
-         grid[cursor[0]][cursor[1]] = findMatch('right')
-         grid[cursor[0]+1][cursor[1]] = 3
-         cursor[0] += 1
-     else:
-         print ('no spaces trying to go left')
-         completed = True
-         print(completed)
+        if leftcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('left')
+            grid[cursor[0]-1][cursor[1]] = 4
+            cursor[0] -= 1
+        elif downcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('down')
+            grid[cursor[0]][cursor[1]+1] = 1
+            cursor[1] += 1
+        elif topcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('top')
+            grid[cursor[0]][cursor[1] -1] = 2
+            cursor[1] -= 1
+        elif rightcheck() == 0:
+            grid[cursor[0]][cursor[1]] = findMatch('right')
+            grid[cursor[0]+1][cursor[1]] = 3
+            cursor[0] += 1
+        else:
+            print ('no spaces trying to go left')
+            COMPLETED = 1
+            print(COMPLETED)
     else:
-        completed = True
+        COMPLETED = 1
 
-while completed != True:
+while COMPLETED != 1:
     if cursor[0] == len(grid)-1 and cursor[1] == len(grid)-1:
-        completed = True
+        COMPLETED = 1
     dvar = random.randint(1,5)
     gvar = random.randint(1,4)
      
     #chance to make path influenced go towards end goal
     if dvar == 1:
-     if grid[cursor[0]] > grid[cursor[1]]:  
-         path = 'down'
-     else: 
-         path = 'right'
+        if grid[cursor[0]] > grid[cursor[1]]:  
+            path = 'down'
+        else: 
+            path = 'right'
     else:
        #deciding direction for path 
 
-     if gvar == 1:
-         path = 'top'               
-     if gvar == 2:
-         path = 'right'                  
-     if gvar == 3:
-         path = 'down'               
-     if gvar == 4:
-         path = 'left'
+        if gvar == 1:
+            path = 'top'               
+        if gvar == 2:
+            path = 'right'                  
+        if gvar == 3:
+            path = 'down'               
+        if gvar == 4:
+            path = 'left'
    
     
     fillSpace(path)
