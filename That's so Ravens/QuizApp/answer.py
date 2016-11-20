@@ -1,9 +1,7 @@
-
-
 class AnswerText:
-    def __init__(self):
-        self.text = ''
-        self.correct = false
+    def __init__(self, text='', correct=False):
+        self.text = text
+        self.correct = correct
         
     def get_text(self):
         return self.text
@@ -16,11 +14,13 @@ class AnswerText:
         
     def set_correct(self, correct):
         self.correct = correct
+    
+    
         
 class AnswerImg:
     def __init__(self):
         self.image = ''
-        self.correct = false
+        self.correct = False
         
     def get_text(self):
         return self.text
