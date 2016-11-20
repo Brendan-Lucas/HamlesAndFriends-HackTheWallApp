@@ -107,26 +107,18 @@ while going:
                                              x = RodPos[0]
                                              y = RodPos[1]
                                              screen.fill(white)
-                                             def rodneyhitsblack(x,y):
+                                             def rodneyhits(x,y,color):
                                                             if 1 < x < 546 and 1 < y < 819:
                                                                            for i in (0,20):
-                                                                                          if screen.get_at((x-1, y+i))==black or screen.get_at((x+13, y+i))==black:
+                                                                                          if screen.get_at((x-1, y+i))==color or screen.get_at((x+13, y+i))==color:
                                                                                                          return True
                                                                            for i in (0,13): 
-                                                                                          if screen.get_at((x+i, y-1))==black or screen.get_at((x+i, y+20))==black:
+                                                                                          if screen.get_at((x+i, y-1))==color or screen.get_at((x+i, y+20))==color:
                                                                                                          return True
                                                             return False
                                                             
                                              
-                                             #def rodneyhitsblack(x,y):
-                                                            #if 1 < x < 546 and 1 < y < 819:
-                                                                           #for i in (0,20):
-                                                                                          #if screen.get_at((x-1, y+i))==gold or screen.get_at((x+13, y+i))==gold:
-                                                                                                         #return True
-                                                                           #for i in (0,13): 
-                                                                                          #if screen.get_at((x+i, y-1))==gold or screen.get_at((x+i, y+20))==gold:
-                                                                                                         #return True
-                                                            #return False                                             
+                                             
                                              
                                              
                                              for i in range(0, len(array)):
@@ -155,7 +147,7 @@ while going:
                                              
                                              
                                              
-                                             if rodneyhitsblack(x,y):
+                                             if rodneyhits(x,y,black):
                                                             alive = False
                                                             tempx = x
                                                             tempy = y
@@ -168,7 +160,10 @@ while going:
                                                                                                          clk = True
                                                             if lives == 0:
                                                                            going =False
-                                             #if rodneygetsgold(x,y):
+                                             
+                                             if rodneyhits(x,y,gold):
+                                                            alive = False
+                                                            going = False
                                                             
                                              
                                              screen.blit(rodney.image,[x,y])
