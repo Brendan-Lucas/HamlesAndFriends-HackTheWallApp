@@ -20,14 +20,17 @@ global grid
 
 
 grid = []
+
 for i in range (0,10):
     grid.append([])
     for j in range (0,10):
         grid[i].append(0)
-     
+    
 #instantiate and create the 25x25 grid with all 0
      
 cursor = [0,0]
+cursorholder = [0,0]
+
 grid[0][0] = 1
 
 #cursor for tracking path building
@@ -36,11 +39,13 @@ grid[0][0] = 1
 dvar = 0 #random gen from 1 to 5 to decide to go towards end goal
 gvar = 0 #random gen from 1 to 4 to decide to go different directions, cant be backwards
 
-win = False
+completed = False
 
 
 def topcheck():
-    if cursor[1] == 0 or cursor[0] ==len(grid) -1:
+    if cursor[1] == 0 or cursor[0] ==len(grid) -1 or cursor[0] == 0:
+        return 9
+    elif cursor[1] != 0 and grid[cursor[0]][cursor[1]-1] > 0:
         return 9
     else:
         return grid[cursor[0]][cursor[1]-1]
@@ -48,25 +53,29 @@ def topcheck():
 def rightcheck():
     if cursor[0] == len(grid) - 1:
         return 9
+    elif cursor[0] != len(grid) -1 and grid[cursor[0]+1][cursor[1]] > 0:
+        return 9    
     else:
         return grid[cursor[0] +1][cursor[1]]
     
 def downcheck():
     if cursor[1] == len(grid) - 1:
         return 9
+    elif cursor[1] != len(grid) -1 and grid[cursor[0]][cursor[1]+1] > 0:
+        return 9     
     else:
         return grid[cursor[0]][cursor[1]+1]
  
 def leftcheck():
     if cursor[0] == 0 or cursor[1] == len(grid) -1:
         return 9
+    elif cursor[0] != 0 and grid[cursor[0]-1][cursor[1]] > 0:
+            return 9    
     else:
         return grid[cursor[0] -1][cursor[1]]    
 
 def findMatch(direction):
-    print(direction)
-    print(cursor[0])
-    print(cursor[1])
+
     if direction == 'top':
          if grid[cursor[0]][cursor[1]]  == 2:
              return 2
@@ -108,10 +117,7 @@ def findMatch(direction):
     
    
 #method checks for already set blocks and bounds and puts them in
-def fillSpace(path):
-    print(path)
-    print(cursor[0])
-    print(cursor[1])    
+def fillSpace(path):   
     #change value of block to matching type
     if path == 'top':
      if topcheck() == 0:
@@ -131,7 +137,9 @@ def fillSpace(path):
          grid[cursor[0]-1][cursor[1]] = 4
          cursor[0] -= 1
      else:
-         print('no spaces trying to go top')        
+         print('no spaces trying to go top')
+         completed = True
+         print(completed)
      
       
       
@@ -154,6 +162,8 @@ def fillSpace(path):
               cursor[0] -= 1
          else:
              print ('no spaces trying to go right')
+             completed = True
+             print(completed)
                   
         
     elif path == 'down':
@@ -174,7 +184,9 @@ def fillSpace(path):
               grid[cursor[0]-1][cursor[1]] = 4
               cursor[0] -= 1
          else:
-             print ('no spaces trying to go down')              
+             print ('no spaces trying to go down')
+             completed = True
+             print(completed)
         
     elif path == 'left':
      if leftcheck() == 0:
@@ -194,11 +206,15 @@ def fillSpace(path):
          grid[cursor[0]+1][cursor[1]] = 3
          cursor[0] += 1
      else:
-         print ('no spaces trying to go left')         
+         print ('no spaces trying to go left')
+         completed = True
+         print(completed)
+    else:
+        completed = True
 
-while win != True:
+while completed != True:
     if cursor[0] == len(grid)-1 and cursor[1] == len(grid)-1:
-        win = True
+        completed = True
     dvar = random.randint(1,5)
     gvar = random.randint(1,4)
      
@@ -220,6 +236,9 @@ while win != True:
      if gvar == 4:
          path = 'left'
    
+    
     fillSpace(path)
+    
     for i in range (0,10):
         print(grid[9-i])
+   
