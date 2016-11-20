@@ -4,7 +4,7 @@
 import random
 import time
 
-def Fuckload():
+def tunnel():
     global grid
      
      #path going down/up left/right, and 4 corners sprites
