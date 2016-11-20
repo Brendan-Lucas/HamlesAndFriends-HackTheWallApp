@@ -14,12 +14,15 @@ pygame.display.set_caption("Quiz App")
 
 done = False
 
+
+
 clock = pygame.time.Clock()
-#greenButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_green.jpg").transform.scale(screen, (220, 132)) 
-#redButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_red.jpg").transform.scale(screen, (220, 132)) 
+greenButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_greenAdjust.jpg")
+greenButton.set_colokey(BLACK)
+redButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_redAdjust.jpg")
+redButton.set_colorkey(BLACK)
 whiteButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_silverAdjust.jpg")
 blueButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_purpleAdjust.jpg")
-
 
 def makebutton(displayFrame, left, top, width, height, Answer):
 
