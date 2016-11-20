@@ -29,8 +29,11 @@ class Quiz:
         done = False
         while not done: 
             for event in pygame.event.get():
-                done = event.type == pygame.QUIT #true or false value
-                
+                if event.type == pygame.QUIT:
+                    done=True #true or false value
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    print("will play sound\n")
+                    #click_sound.play()
                 
                 
                 self.screen.blit(zFrame_background, backgroundRect)
@@ -46,3 +49,6 @@ quiz = Quiz()
         
 quiz.init_screen()
     
+    
+#click_sound = pygame.mixer.Sound("laser5.ogg")
+#click_sound.play
