@@ -16,15 +16,15 @@ class Rodney(pygame.sprite.Sprite):
                               self.image.set_colorkey(white)
                               self.rect = self.image.get_rect()
                               
-array = [[3,0,0,0,0,0,0,0], [3,0,0,0,0,0,0,0], [7,2,5,0,8,2,2,5], [8,2,6,0,3,0,0,4], [3,0,0,0,3,0,0,4], [7,2,2,2,6,0,0,4], [0,0,0,0,0,0,0,4], [0,8,1,1,5,0,0,4], [10,6,0,0,7,1,1,6]]
+array = [[3,0,0,0,0,0,0,0,8,1,1,1,1,5,0,0], [3,0,0,0,0,0,0,0,3,8,1,1,5,3,0,0], [7,2,5,0,8,2,2,5,3,3,0,0,3,3,0,0], [8,2,6,0,3,0,0,4,7,6,0,0,3,7,1,5], [3,0,0,0,3,0,0,4,0,0,0,0,3,8,1,6], [7,2,2,2,6,0,0,4,8,1,1,1,6,7,5,0], [0,0,0,0,0,0,0,4,3,8,1,1,5,8,6,0], [0,8,1,1,5,0,0,4,7,6,0,0,3,7,1,5], [0,3,0,0,7,1,1,6,0,8,1,1,6,0,0,3], [0,7,5,0,0,0,0,0,0,3,0,8,1,5,0,3], [0,0,3,8,1,1,1,1,1,6,0,3,0,7,1,6], [0,0,7,6,0,0,0,0,0,10,1,6,0,0,0,0]]
                               
 pygame.init()
 
 black=(0,0,0)
 white=(255,255,255)
 gold =(255,215,0)
-width = 60
-height = 60
+width = 40
+height = 40
 size = [560,840] 
 screen = pygame.display.set_mode(size)
 
@@ -33,43 +33,43 @@ tile_list = pygame.sprite.Group()
 #Tile 1
 
 tileUp= Tile(white,width,height)
-pygame.draw.line(tileUp.image,black,[0,0],[0,height],10)
-pygame.draw.line(tileUp.image,black,[width-1,0],[width-1,height],10)
+pygame.draw.line(tileUp.image,black,[0,0],[0,height],5)
+pygame.draw.line(tileUp.image,black,[width-1,0],[width-1,height],5)
 tile_list.add(tileUp)
 
 
 #tile 2
 tileSide=Tile(white,width,height)
-pygame.draw.line(tileSide.image,black,[0,0],[width-1,0],10)
-pygame.draw.line(tileSide.image,black,[0,height],[width-1,height],10)
+pygame.draw.line(tileSide.image,black,[0,0],[width-1,0],5)
+pygame.draw.line(tileSide.image,black,[0,height],[width-1,height],5)
 tile_list.add(tileSide)
 
 
 #tile 3
 tileBotLeft= Tile(white,width,height)
-pygame.draw.line(tileBotLeft.image,black,[0,0],[0,height],10)
-pygame.draw.line(tileBotLeft.image,black,[0,height],[width-1,height],10)
+pygame.draw.line(tileBotLeft.image,black,[0,0],[0,height],5)
+pygame.draw.line(tileBotLeft.image,black,[0,height],[width-1,height],5)
 tile_list.add(tileBotLeft)
 
 
 #tile 4
 tileBotRight= Tile(white,width,height)
-pygame.draw.line(tileBotRight.image,black,[0,height],[width-1,height],10)
-pygame.draw.line(tileBotRight.image,black,[width-1,height],[width-1,0],10)
+pygame.draw.line(tileBotRight.image,black,[0,height],[width-1,height],5)
+pygame.draw.line(tileBotRight.image,black,[width-1,height],[width-1,0],5)
 tile_list.add(tileBotRight)
 
 
 #tile 5
 tileTopRight= Tile(white,width,height)
-pygame.draw.line(tileTopRight.image,black,[0,0],[width-1,0],10)
-pygame.draw.line(tileTopRight.image,black,[width-1,0],[width-1,height],10)
+pygame.draw.line(tileTopRight.image,black,[0,0],[width-1,0],5)
+pygame.draw.line(tileTopRight.image,black,[width-1,0],[width-1,height],5)
 tile_list.add(tileTopRight)
 
 
 #tile 6
 tileTopLeft= Tile(white,width,height)
-pygame.draw.line(tileTopLeft.image,black,[0,0],[width-1,0],10)
-pygame.draw.line(tileTopLeft.image,black,[0,0],[0,height],10)
+pygame.draw.line(tileTopLeft.image,black,[0,0],[width-1,0],5)
+pygame.draw.line(tileTopLeft.image,black,[0,0],[0,height],5)
 tile_list.add(tileTopLeft)
 
 
@@ -107,26 +107,18 @@ while going:
                                              x = RodPos[0]
                                              y = RodPos[1]
                                              screen.fill(white)
-                                             def rodneyhitsblack(x,y):
+                                             def rodneyhits(x,y,color):
                                                             if 1 < x < 546 and 1 < y < 819:
                                                                            for i in (0,20):
-                                                                                          if screen.get_at((x-1, y+i))==black or screen.get_at((x+13, y+i))==black:
+                                                                                          if screen.get_at((x-1, y+i))==color or screen.get_at((x+13, y+i))==color:
                                                                                                          return True
                                                                            for i in (0,13): 
-                                                                                          if screen.get_at((x+i, y-1))==black or screen.get_at((x+i, y+20))==black:
+                                                                                          if screen.get_at((x+i, y-1))==color or screen.get_at((x+i, y+20))==color:
                                                                                                          return True
                                                             return False
                                                             
                                              
-                                             #def rodneyhitsblack(x,y):
-                                                            #if 1 < x < 546 and 1 < y < 819:
-                                                                           #for i in (0,20):
-                                                                                          #if screen.get_at((x-1, y+i))==gold or screen.get_at((x+13, y+i))==gold:
-                                                                                                         #return True
-                                                                           #for i in (0,13): 
-                                                                                          #if screen.get_at((x+i, y-1))==gold or screen.get_at((x+i, y+20))==gold:
-                                                                                                         #return True
-                                                            #return False                                             
+                                             
                                              
                                              
                                              for i in range(0, len(array)):
@@ -155,7 +147,7 @@ while going:
                                              
                                              
                                              
-                                             if rodneyhitsblack(x,y):
+                                             if rodneyhits(x,y,black):
                                                             alive = False
                                                             tempx = x
                                                             tempy = y
@@ -168,7 +160,10 @@ while going:
                                                                                                          clk = True
                                                             if lives == 0:
                                                                            going =False
-                                             #if rodneygetsgold(x,y):
+                                             
+                                             if rodneyhits(x,y,gold):
+                                                            alive = False
+                                                            going = False
                                                             
                                              
                                              screen.blit(rodney.image,[x,y])
