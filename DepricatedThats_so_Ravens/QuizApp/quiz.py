@@ -14,8 +14,6 @@ BLUE     = (   0,   0, 255)
 class Quiz: 
     #TODO: add passing of money to quiz
     
-    
-    
     def __init__(self): 
         self.screen = '' 
         self.score = 0 
@@ -52,33 +50,27 @@ class Quiz:
         
         mouse = pygame.mouse.get_pos()
         answer = self.questions[self.q_count].get_answer_at_index(buttonNum)
-        coordinates_text=[left+15, top+15]
+        
         text = self.font.render(answer.get_text(), True, BLACK)   
         if not self.b_press:
             if left+width > mouse[0] > left and top < mouse[1] < top+height: 
                 rect = self.screen.blit(self.blueButton, [(left), (top)])       
-                self.screen.blit(text, coordinates_text)
+                self.screen.blit(text, [left, top])
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.b_press=True
-                    if answer.get_correct():
-                        self.cor_text = "Correct !"
-                        self.screen.blit(self.greenButton,[left, top])
-                        self.screen.blit(text, coordinates_text)
-                    else:
-                        self.cor_text = "WRONG!!"
-                        rect = self.screen.blit(self.redButton,[left, top])
-                        self.screen.blit(text, coordinates_text)                        
             else:
                 rect = self.screen.blit(self.whiteButton, [(left), (top)])
-                self.screen.blit(text, coordinates_text)
+                self.screen.blit(text, [left, top])
         
         else: 
             if answer.get_correct():
-                rect = self.screen.blit(self.greenButton, [left, top])
-                self.screen.blit(text, coordinates_text)
+                self.cor_text = "Correct !"
+                rect = self.screen.blit(self.greenButton,[left, top])
+                self.screen.blit(text, [left, top])
             else:
-                rect = self.screen.blit(self.redButton, [left, top])
-                self.screen.blit(text, coordinates_text)                           
+                self.cor_text = "WRONG!!"
+                rect = self.screen.blit(self.redButton,[left, top])
+                self.screen.blit(text, [left, top])                
                  
         
         
@@ -93,10 +85,9 @@ class Quiz:
         self.screen = pygame.display.set_mode(size)        
         this_font = pygame.font.SysFont('Calibri', 25, True, False)
         
-        timeout = False
-        back = False
+        
         done = False
-        while not (back or done or timeout): 
+        while not done: 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done=True #true or false value
@@ -112,15 +103,11 @@ class Quiz:
                 self.make_button(event, 290, 657, 220, 132, 3)                
                 if self.b_press: 
                     correct_text = this_font.render(self.cor_text, True, BLACK)
-                    self.screen.blit(correct_text, [250, 437])
+                    self.screen.blit(correct_text, [200, 500])
                 
                 pygame.display.flip()
-        if done:    
-            pygame.quit()    
-        elif back:
-            pygame.quit()
-        else: 
-            pygame.quit()
+            
+        pygame.quit()        
         
 
         
