@@ -127,6 +127,7 @@ class Quiz:
     
 
     
-    
+
+
 #click_sound = pygame.mixer.Sound("laser5.ogg")
 #click_sound.play
