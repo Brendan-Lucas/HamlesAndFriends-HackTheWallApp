@@ -57,7 +57,7 @@ class Quiz:
         radius = 20
         line_thick = 2
         #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
-        if (x_center-radius > mouse[0] > x_center+radius) and (y_center-radius < mouse[1] < y_center+radius): 
+        if (x_center-radius < mouse[0] < x_center+radius) and (y_center-radius < mouse[1] < y_center+radius): 
             print("mouse is in blue circle!!! ")
             circle = pygame.draw.circle(self.screen, BLUE, coordinates_button, radius, line_thick) 
             if event.type == pygame.MOUSEBUTTONDOWN: return back_pressed
