@@ -25,6 +25,7 @@ class Quad:
             else: 
                 if blockNum==1:
                     self.done=quiz = Quiz()        
+                    quiz.run_screen()
                     self.b_press=False
                     return 
                 elif blockNum==4: 
