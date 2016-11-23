@@ -48,8 +48,27 @@ class Quiz:
         self.screen.blit(printText, [10, 290])
     
     
-    def make_button(self, event, left, top, width, height, buttonNum):
+    def make_back(self, event):
+        back_pressed=True
+        mouse = pygame.mouse.get_pos()
+        x_center =30
+        y_center = 30
+        coordinates_button=(x_center, y_center) 
+        radius = 20
+        line_thick = 2
+        #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
+        if (x_center-radius < mouse[0] < x_center+radius) and (y_center-radius < mouse[1] < y_center+radius): 
+            print("mouse is in blue circle!!! ")
+            circle = pygame.draw.circle(self.screen, BLUE, coordinates_button, radius, line_thick) 
+            if event.type == pygame.MOUSEBUTTONDOWN: return back_pressed
+            else: return not back_pressed
+        else:
+            circle = pygame.draw.circle(self.screen, BLACK, coordinates_button, radius, line_thick)
+            return not back_pressed    
+                                 
+                 
         
+    def make_button(self, event, left, top, width, height, buttonNum):            
         mouse = pygame.mouse.get_pos()
         answer = self.questions[self.q_count].get_answer_at_index(buttonNum)
         coordinates_text=[left+15, top+15]
@@ -67,20 +86,18 @@ class Quiz:
                     else:
                         self.cor_text = "WRONG!!"
                         rect = self.screen.blit(self.redButton,[left, top])
-                        self.screen.blit(text, coordinates_text)                        
+                        self.screen.blit(text, coordinates_text)
             else:
-                rect = self.screen.blit(self.whiteButton, [(left), (top)])
-                self.screen.blit(text, coordinates_text)
-        
+                rect = self.screen.blit(self.whiteButton, [(left), (top)])       
+                self.screen.blit(text, coordinates_text)                
         else: 
             if answer.get_correct():
                 rect = self.screen.blit(self.greenButton, [left, top])
                 self.screen.blit(text, coordinates_text)
             else:
                 rect = self.screen.blit(self.redButton, [left, top])
-                self.screen.blit(text, coordinates_text)                           
-                 
-        
+                self.screen.blit(text, coordinates_text)          
+    
         
         
     def run_screen(self):
@@ -109,18 +126,19 @@ class Quiz:
                 self.make_button(event, 60, 520, 220, 132, 0)
                 self.make_button(event, 290, 520, 220, 132, 1)
                 self.make_button(event, 60, 657, 220, 132, 2)
-                self.make_button(event, 290, 657, 220, 132, 3)                
+                self.make_button(event, 290, 657, 220, 132, 3)
+                back = self.make_back(event)
                 if self.b_press: 
                     correct_text = this_font.render(self.cor_text, True, BLACK)
                     self.screen.blit(correct_text, [250, 437])
                 
                 pygame.display.flip()
         if done:    
-            pygame.quit()    
+            return done   
         elif back:
-            pygame.quit()
+            return done
         else: 
-            pygame.quit()
+            return done
         
 
         

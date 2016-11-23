@@ -149,9 +149,13 @@ def maze():
                     lives -= 1  
                     
                     clk = False
-                    while clk == False:
-                        for click in pygame.event.get():
-                            if click.type == pygame.MOUSEBUTTONDOWN:
+                    while not clk:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                clk = True
+                                done = True
+                                break
+                            elif event.type == pygame.MOUSEBUTTONDOWN:
                                 clk = True
                                 if lives == 0:
                                     going =False
@@ -162,9 +166,9 @@ def maze():
                                
             screen.blit(rodney.image,[x,y])
             pygame.display.flip()
-    if not going:
-        pygame.mouse.set_visible(True)
+    if done:
         return done
-    elif done: 
+    elif not going: 
+        pygame.mouse.set_visible(True)
         return done
                                        

@@ -24,8 +24,8 @@ class Quad:
                         self.b_press=True
             else: 
                 if blockNum==1:
-                    self.done=quiz = Quiz()        
-                    quiz.run_screen()
+                    quiz = Quiz()        
+                    self.done=quiz.run_screen()
                     self.b_press=False
                     return 
                 elif blockNum==4: 
@@ -59,5 +59,4 @@ class Quad:
                 
                 pygame.quit()                                                           
 
-
-run_app() 
+run_app()
