@@ -27,6 +27,7 @@ class Quiz:
         
         self.font = pygame.font.SysFont('Calibri', 18, True, False)
         self.clock = pygame.time.Clock()
+        self.background = pygame.image.load("quizAssets\ImagesForQuizApp\QuizBackgroundAdjust.jpg")
         self.greenButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_greenAdjust.jpg")
         self.greenButton.set_colorkey(BLACK)
         self.redButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_redAdjust.jpg")
@@ -36,18 +37,22 @@ class Quiz:
         self.init_questions()
         
     def init_questions(self):  #get array of questions 
-        arr = []
         (Qarr, Aarr)  = parse.parsing() 
         for i in range(0,5):
             self.questions.append(Question().init_question(Qarr[i], Aarr[i]))
         
     def make_question(self):
-        font = pygame.font.SysFont('Calibri', 35, True, False)
-        text = self.questions[self.q_count].get_question()
+        font = pygame.font.SysFont('Calibri', 35, True, False) 
+        text = self.questions[self.q_count].get_question() if self.q_count < len(self.questions) else  "Finished, Hope you passed."
         printText = font.render(text, True, BLACK)
         self.screen.blit(printText, [10, 290])
     
-    
+    def make_score(self):
+        score_coordinates = [475, 30]
+        temp_text="Score: "+str(self.score)
+        score_text = self.font.render(temp_text, True, BLACK)
+        self.screen.blit(score_text, score_coordinates)
+        
     def make_back(self, event):
         back_pressed=True
         mouse = pygame.mouse.get_pos()
@@ -58,7 +63,6 @@ class Quiz:
         line_thick = 2
         #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
         if (x_center-radius < mouse[0] < x_center+radius) and (y_center-radius < mouse[1] < y_center+radius): 
-            print("mouse is in blue circle!!! ")
             circle = pygame.draw.circle(self.screen, BLUE, coordinates_button, radius, line_thick) 
             if event.type == pygame.MOUSEBUTTONDOWN: return back_pressed
             else: return not back_pressed
@@ -70,7 +74,7 @@ class Quiz:
         
     def make_button(self, event, left, top, width, height, buttonNum):            
         mouse = pygame.mouse.get_pos()
-        answer = self.questions[self.q_count].get_answer_at_index(buttonNum)
+        answer = self.questions[self.q_count].get_answer_at_index(buttonNum) 
         coordinates_text=[left+15, top+15]
         text = self.font.render(answer.get_text(), True, BLACK)   
         if not self.b_press:
@@ -81,6 +85,7 @@ class Quiz:
                     self.b_press=True
                     if answer.get_correct():
                         self.cor_text = "Correct !"
+                        self.score+=1
                         self.screen.blit(self.greenButton,[left, top])
                         self.screen.blit(text, coordinates_text)
                     else:
@@ -98,17 +103,25 @@ class Quiz:
                 rect = self.screen.blit(self.redButton, [left, top])
                 self.screen.blit(text, coordinates_text)          
     
-        
+    def fresh_screen(self):
+        backgroundRect=self.background.get_rect()
+        self.screen.blit(self.background, self.background.get_rect())        
+        self.make_score() 
+        self.make_question()
         
     def run_screen(self):
         
-        pygame.display.set_caption("Quiz App Launching")
+        pygame.display.set_caption("Try and pass ECOR 1010, In Mcrae We Trust")
         
-        zFrame_background = pygame.image.load("quizAssets\ImagesForQuizApp\QuizBackgroundAdjust.jpg")
-        backgroundRect=zFrame_background.get_rect()
-        size = (width, length) = zFrame_background.get_size()
-        self.screen = pygame.display.set_mode(size)        
+        size = (width, length) = self.background.get_size()
+        self.screen = pygame.display.set_mode(size) 
+        
+        self.fresh_screen()
+        
         this_font = pygame.font.SysFont('Calibri', 25, True, False)
+        
+        
+               
         
         timeout = False
         back = False
@@ -117,21 +130,25 @@ class Quiz:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done=True #true or false value
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    print("will play sound\n")
+                    break;
+                #elif event.type == pygame.MOUSEBUTTONDOWN:
                     #click_sound.play()
                 
-                self.screen.blit(zFrame_background, backgroundRect) 
-                self.make_question()
-                self.make_button(event, 60, 520, 220, 132, 0)
-                self.make_button(event, 290, 520, 220, 132, 1)
-                self.make_button(event, 60, 657, 220, 132, 2)
-                self.make_button(event, 290, 657, 220, 132, 3)
+                if self.q_count<len(self.questions):
+                    self.make_button(event, 60, 520, 220, 132, 0)
+                    self.make_button(event, 290, 520, 220, 132, 1)
+                    self.make_button(event, 60, 657, 220, 132, 2)
+                    self.make_button(event, 290, 657, 220, 132, 3)
                 back = self.make_back(event)
                 if self.b_press: 
+                    self.make_score()
+                    #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen
                     correct_text = this_font.render(self.cor_text, True, BLACK)
                     self.screen.blit(correct_text, [250, 437])
-                
+                    self.q_count+=1
+                    self.fresh_screen()
+                    self.b_press = False
+                #after time passed, want to go to bulrb screen, contians image top left and info below
                 pygame.display.flip()
         if done:    
             return done   

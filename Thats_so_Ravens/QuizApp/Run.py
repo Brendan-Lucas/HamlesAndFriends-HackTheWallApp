@@ -1,12 +1,11 @@
 import pygame
 from quiz import Quiz
 import maze as mz
-
-
-        
+  
 def run_app():
     GameStarter = Quad()
     GameStarter.run_screen()        
+
 
 class Quad:
         
@@ -14,6 +13,8 @@ class Quad:
                 self.block =0
                 self.b_press=False
                 self.done=False
+                self.quiz = Quiz()
+                
 
         def make_button(self, event, left, top, width, height, blockNum):     
             mouse = pygame.mouse.get_pos()
@@ -23,40 +24,40 @@ class Quad:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         self.b_press=True
             else: 
-                if blockNum==1:
-                    quiz = Quiz()        
-                    self.done=quiz.run_screen()
+                if blockNum==1:        
+                    self.done=self.quiz.run_screen()
                     self.b_press=False
+                    pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return 
                 elif blockNum==4: 
                     self.done=mz.maze()
                     self.b_press=False
+                    pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return 
 
 
-
         def run_screen(self): 
-                pygame.display.set_caption("Welcome To Mackenzie Quad")
-                                                
-                zFrame_background = pygame.image.load("QuadAdjust.jpg")
-                backgroundRect=zFrame_background.get_rect()
-                size = (width, length) = zFrame_background.get_size()
-                self.screen = pygame.display.set_mode(size)                                   
-                                                
-                
-                while not self.done: 
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            self.done=True #true or false value
-                        elif event.type == pygame.MOUSEBUTTONDOWN:
-                            print("wil play sound")
-                            #click_sound.play()
-                                                        
-                    self.screen.blit(zFrame_background, backgroundRect) 
-                    self.make_button(event, 460, 0, 100, 840, 1)
-                    self.make_button(event, 0, 480, 71, 375, 4)                            
-                    pygame.display.flip()
-                
-                pygame.quit()                                                           
+            pygame.display.set_caption("Welcome To Mackenzie Quad")
+                                            
+            zFrame_background = pygame.image.load("QuadAdjust.jpg")
+            backgroundRect=zFrame_background.get_rect()
+            size = (width, length) = zFrame_background.get_size()
+            self.screen = pygame.display.set_mode(size)                                   
+                                            
+            
+            while not self.done: 
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.done=True #true or false value
+                    #elif event.type == pygame.MOUSEBUTTONDOWN:
+                       # print("wil play sound")
+                        #click_sound.play()
+                                                    
+                self.screen.blit(zFrame_background, backgroundRect) 
+                self.make_button(event, 460, 0, 100, 840, 1)
+                self.make_button(event, 0, 480, 71, 375, 4)                            
+                pygame.display.flip()
+            
+            pygame.quit()                                                           
 
 run_app()
