@@ -2,6 +2,9 @@ import pygame
 from tunnels import tunnel
 
 def maze():
+    
+    pygame.display.set_caption("Now try to find your lab")
+    
     class Tile(pygame.sprite.Sprite):
         def __init__(self, color, width, height):
             pygame.sprite.Sprite.__init__(self)

@@ -102,7 +102,7 @@ class Quiz:
         
     def run_screen(self):
         
-        pygame.display.set_caption("Quiz App Launching")
+        pygame.display.set_caption("Try and pass ECOR 1010, In Mcrae We Trust")
         
         zFrame_background = pygame.image.load("quizAssets\ImagesForQuizApp\QuizBackgroundAdjust.jpg")
         backgroundRect=zFrame_background.get_rect()
