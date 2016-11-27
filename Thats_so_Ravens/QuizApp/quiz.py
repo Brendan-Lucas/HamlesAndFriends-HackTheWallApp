@@ -46,6 +46,14 @@ class Quiz:
         text = self.questions[self.q_count].get_question() if self.q_count < len(self.questions) else  "Finished, Hope you passed."
         printText = font.render(text, True, BLACK)
         self.screen.blit(printText, [10, 290])
+        
+    def make_answers(self, event):
+        font = pygame.font.SysFont('Calibri', 35, True, False) 
+        self.make_button(event, 60, 520, 220, 132, 0)
+        self.make_button(event, 290, 520, 220, 132, 1)
+        self.make_button(event, 60, 657, 220, 132, 2)
+        self.make_button(event, 290, 657, 220, 132, 3)        
+        
     
     def make_score(self):
         score_coordinates = [475, 30]
@@ -103,11 +111,13 @@ class Quiz:
                 rect = self.screen.blit(self.redButton, [left, top])
                 self.screen.blit(text, coordinates_text)          
     
-    def fresh_screen(self):
+    def fresh_screen(self, event=False):
         backgroundRect=self.background.get_rect()
         self.screen.blit(self.background, self.background.get_rect())        
         self.make_score() 
         self.make_question()
+        if event != False:
+            self.make_answers(event)
         
     def run_screen(self):
         
@@ -135,21 +145,21 @@ class Quiz:
                     #click_sound.play()
                 
                 if self.q_count<len(self.questions):
-                    self.make_button(event, 60, 520, 220, 132, 0)
-                    self.make_button(event, 290, 520, 220, 132, 1)
-                    self.make_button(event, 60, 657, 220, 132, 2)
-                    self.make_button(event, 290, 657, 220, 132, 3)
+                    self.make_answers(event)
                 back = self.make_back(event)
                 if self.b_press: 
                     self.make_score()
-                    #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen
+                    #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen the clock wait is pygame.time.wait(#of milliseconds)
+                    self.fresh_screen(event)
+                    self.b_press = False
                     correct_text = this_font.render(self.cor_text, True, BLACK)
-                    self.screen.blit(correct_text, [250, 437])
+                    self.screen.blit(correct_text, [250, 437])                    
+                    pygame.display.flip()
+                    pygame.time.wait(3000)
                     self.q_count+=1
                     self.fresh_screen()
-                    self.b_press = False
                 #after time passed, want to go to bulrb screen, contians image top left and info below
-                pygame.display.flip()
+                pygame.display.flip()	
         if done:    
             return done   
         elif back:
