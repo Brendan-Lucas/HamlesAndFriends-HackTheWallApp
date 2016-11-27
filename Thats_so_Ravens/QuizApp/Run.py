@@ -49,8 +49,8 @@ class Quad:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.done=True #true or false value
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        print("wil play sound")
+                    #elif event.type == pygame.MOUSEBUTTONDOWN:
+                       # print("wil play sound")
                         #click_sound.play()
                                                     
                 self.screen.blit(zFrame_background, backgroundRect) 

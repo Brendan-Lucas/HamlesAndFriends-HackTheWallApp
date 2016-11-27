@@ -42,8 +42,8 @@ class Quiz:
             self.questions.append(Question().init_question(Qarr[i], Aarr[i]))
         
     def make_question(self):
-        font = pygame.font.SysFont('Calibri', 35, True, False)
-        text = self.questions[self.q_count].get_question()
+        font = pygame.font.SysFont('Calibri', 35, True, False) 
+        text = self.questions[self.q_count].get_question() if self.q_count < len(self.questions) else  "Finished, Hope you passed."
         printText = font.render(text, True, BLACK)
         self.screen.blit(printText, [10, 290])
     
@@ -74,7 +74,7 @@ class Quiz:
         
     def make_button(self, event, left, top, width, height, buttonNum):            
         mouse = pygame.mouse.get_pos()
-        answer = self.questions[self.q_count].get_answer_at_index(buttonNum)
+        answer = self.questions[self.q_count].get_answer_at_index(buttonNum) 
         coordinates_text=[left+15, top+15]
         text = self.font.render(answer.get_text(), True, BLACK)   
         if not self.b_press:
@@ -131,14 +131,14 @@ class Quiz:
                 if event.type == pygame.QUIT:
                     done=True #true or false value
                     break;
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    print("will play sound\n")
+                #elif event.type == pygame.MOUSEBUTTONDOWN:
                     #click_sound.play()
                 
-                self.make_button(event, 60, 520, 220, 132, 0)
-                self.make_button(event, 290, 520, 220, 132, 1)
-                self.make_button(event, 60, 657, 220, 132, 2)
-                self.make_button(event, 290, 657, 220, 132, 3)
+                if self.q_count<len(self.questions):
+                    self.make_button(event, 60, 520, 220, 132, 0)
+                    self.make_button(event, 290, 520, 220, 132, 1)
+                    self.make_button(event, 60, 657, 220, 132, 2)
+                    self.make_button(event, 290, 657, 220, 132, 3)
                 back = self.make_back(event)
                 if self.b_press: 
                     self.make_score()
