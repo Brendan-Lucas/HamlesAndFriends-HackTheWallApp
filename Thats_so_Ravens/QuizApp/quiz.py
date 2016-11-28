@@ -16,8 +16,8 @@ class Quiz:
     
     
     
-    def __init__(self): 
-        self.screen = '' 
+    def __init__(self, size): 
+        self.screen = pygame.display.set_mode(size) 
         self.score = 0 
         self.q_count = 0
         self.b_press = False
@@ -27,13 +27,15 @@ class Quiz:
         
         self.font = pygame.font.SysFont('Calibri', 18, True, False)
         self.clock = pygame.time.Clock()
-        self.background = pygame.image.load("quizAssets\ImagesForQuizApp\QuizBackgroundAdjust.jpg")
-        self.greenButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_greenAdjust.jpg")
-        self.greenButton.set_colorkey(BLACK)
-        self.redButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_redAdjust.jpg")
-        self.redButton.set_colorkey(BLACK)
-        self.whiteButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_silverAdjust.jpg")
-        self.blueButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_purpleAdjust.jpg")       
+        self.background = pygame.transform.scale(pygame.image.load("quizAssets\ImagesForQuizApp\QuizBackgroundAdjust.jpg").convert(), self.screen.get_size())
+        self.greenButton = pygame.transform.scale(pygame.image.load("quizAssets/ImagesForQuizApp/green_button_free.png"), (220, 132))
+        self.greenButton.set_colorkey(WHITE)
+        self.redButton = pygame.transform.scale(pygame.image.load("quizAssets/ImagesForQuizApp/red_button_free.png"), (220, 132))
+        self.redButton.set_colorkey(WHITE)
+        self.whiteButton = pygame.transform.scale(pygame.image.load("quizAssets/ImagesForQuizApp/blue_button_free.png"), (220, 132))
+        self.whiteButton.set_colorkey(WHITE)
+        self.blueButton = pygame.transform.scale(pygame.image.load("quizAssets/ImagesForQuizApp/purple_button_free.png"), (220, 132))   
+        self.blueButton.set_colorkey(WHITE)
         self.init_questions()
         
     def init_questions(self):  #get array of questions 
@@ -120,18 +122,12 @@ class Quiz:
             self.make_answers(event)
         
     def run_screen(self):
-        
+
         pygame.display.set_caption("Try and pass ECOR 1010, In Mcrae We Trust")
-        
-        size = (width, length) = self.background.get_size()
-        self.screen = pygame.display.set_mode(size) 
         
         self.fresh_screen()
         
-        this_font = pygame.font.SysFont('Calibri', 25, True, False)
-        
-        
-               
+        this_font = pygame.font.SysFont('Calibri', 25, True, False)      
         
         timeout = False
         back = False

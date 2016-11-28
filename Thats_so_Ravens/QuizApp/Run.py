@@ -3,17 +3,18 @@ from quiz import Quiz
 import maze as mz
   
 def run_app():
-    GameStarter = Quad()
+    GameStarter = Quad((540, 860))
     GameStarter.run_screen()        
 
 
 class Quad:
         
-        def __init__(self):
+        def __init__(self, size):
                 self.block =0
                 self.b_press=False
                 self.done=False
-                self.quiz = Quiz()
+                self.quiz = Quiz(size)
+                self.screen = pygame.display.set_mode(size)
                 
 
         def make_button(self, event, left, top, width, height, blockNum):     
@@ -39,11 +40,9 @@ class Quad:
         def run_screen(self): 
             pygame.display.set_caption("Welcome To Mackenzie Quad")
                                             
-            zFrame_background = pygame.image.load("QuadAdjust.jpg")
+            zFrame_background = pygame.transform.scale(pygame.image.load("QuadAdjust.jpg").convert(), self.screen.get_size())
             backgroundRect=zFrame_background.get_rect()
-            size = (width, length) = zFrame_background.get_size()
-            self.screen = pygame.display.set_mode(size)                                   
-                                            
+                                                                           
             
             while not self.done: 
                 for event in pygame.event.get():
