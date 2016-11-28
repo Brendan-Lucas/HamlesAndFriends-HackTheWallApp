@@ -1,0 +1,31 @@
+Quizz
+
+Q1) Who is the department chair of SCE
+A1c)Yvan Labiche
+A2)Gabriel Wainer
+A3)Donald Bailey
+A4)Glen McRae
+
+Q2)How much does a Muffin & Coffee cost at Leo's
+A1c)1.75
+A2)1.50
+A3)2.00
+A4)1.35
+
+Q3)What Proffesor worked on Java
+A1c)Donald Bailey
+A2)Tom Ray
+A3)Cheryl Schramm
+A4)Ian Marsland
+
+Q4)Wen was SCE created
+A1c)1945
+A2)1992
+A3)1897
+A4)1918
+
+Q5)What building number is Mackenzie
+A1c)10
+A2)3
+A3)26
+A4)18
