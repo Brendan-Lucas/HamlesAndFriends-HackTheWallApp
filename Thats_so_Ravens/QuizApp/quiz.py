@@ -16,8 +16,8 @@ class Quiz:
     
     
     
-    def __init__(self): 
-        self.screen = '' 
+    def __init__(self, size): 
+        self.screen = pygame.display.set_mode(size) 
         self.score = 0 
         self.q_count = 0
         self.b_press = False
@@ -27,19 +27,31 @@ class Quiz:
         
         self.font = pygame.font.SysFont('Calibri', 18, True, False)
         self.clock = pygame.time.Clock()
-        self.background = pygame.image.load("quizAssets\ImagesForQuizApp\QuizBackgroundAdjust.jpg")
-        self.greenButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_greenAdjust.jpg")
-        self.greenButton.set_colorkey(BLACK)
-        self.redButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_redAdjust.jpg")
-        self.redButton.set_colorkey(BLACK)
-        self.whiteButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_silverAdjust.jpg")
-        self.blueButton = pygame.image.load("quizAssets/ImagesForQuizApp/Button_purpleAdjust.jpg")       
+        self.background = self.init_and_resize_image('QuizBackgroundAdjust.jpg', self.screen.get_size())
+        self.greenButton = self.init_and_resize_image('green_button_free.png', (220,132))
+        self.redButton = self.init_and_resize_image('red_button_free.png', (220,132))
+        self.whiteButton = self.init_and_resize_image('blue_button_free.png', (220,132))
+        self.blueButton = self.init_and_resize_image('purple_button_free.png', (220,132))  
+        self.init_colorkeys(WHITE)
+        
         self.init_questions()
         
+        
+##### INIT HELPERS        
+    def init_colorkeys(self, color):
+        self.greenButton.set_colorkey(color)        
+        self.redButton.set_colorkey(color)
+        self.whiteButton.set_colorkey(color)        
+        self.blueButton.set_colorkey(color)        
+        
+    def init_and_resize_image(self, filename, size):
+        return pygame.transform.scale(pygame.image.load("quizAssets/ImagesForQuizApp/"+filename), size)
+    
     def init_questions(self):  #get array of questions 
         (Qarr, Aarr)  = parse.parsing() 
         for i in range(0,5):
             self.questions.append(Question().init_question(Qarr[i], Aarr[i]))
+############## End of INIT HELPERS
         
     def make_question(self):
         font = pygame.font.SysFont('Calibri', 35, True, False) 
@@ -120,18 +132,12 @@ class Quiz:
             self.make_answers(event)
         
     def run_screen(self):
-        
+
         pygame.display.set_caption("Try and pass ECOR 1010, In Mcrae We Trust")
-        
-        size = (width, length) = self.background.get_size()
-        self.screen = pygame.display.set_mode(size) 
         
         self.fresh_screen()
         
-        this_font = pygame.font.SysFont('Calibri', 25, True, False)
-        
-        
-               
+        this_font = pygame.font.SysFont('Calibri', 25, True, False)      
         
         timeout = False
         back = False
