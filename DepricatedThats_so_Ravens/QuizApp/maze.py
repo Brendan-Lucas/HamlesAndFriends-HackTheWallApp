@@ -1,5 +1,7 @@
 import pygame
 from tunnels import tunnel
+def maze():
+
 
 def maze():
                class Tile(pygame.sprite.Sprite):
@@ -8,6 +10,7 @@ def maze():
                                              self.image = pygame.Surface([width,height])
                                              self.image.fill(color)
                                              self.rect = self.image.get_rect()
+
                               
                               
                class Rodney(pygame.sprite.Sprite):
