@@ -1,4 +1,4 @@
-
+import collections
 import pygame
 import parsing as parse
 from pygame import * 
@@ -25,7 +25,8 @@ class Quiz:
         self.file=" hamlesFile "
         self.cor_text = ''
         
-        self.font = pygame.font.SysFont('Calibri', 18, True, False)
+        self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
+        self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
         self.background = self.init_and_resize_image('QuizBackgroundAdjust.jpg', self.screen.get_size())
         self.greenButton = self.init_and_resize_image('green_button_free.png', (220,132))
@@ -54,13 +55,24 @@ class Quiz:
 ############## End of INIT HELPERS
         
     def make_question(self):
-        font = pygame.font.SysFont('Calibri', 35, True, False) 
+        def split_question_print_text(text, arr):
+            if(len(text)>25 and text.find(' ', 21)!=-1):
+                num = text.find(' ', 25) if 0<text.find(' ', 25)<=26 else text.find(' ', 21)
+                arr.append(self.calibri_35.render(text[:num],True,BLACK))
+                return split_question_print_text(text[num:], arr)
+            else: 
+                arr.append(self.calibri_35.render(text,True,BLACK))
+                return arr
+                 
+        base_q_coordinates = [X, Y] = [60, 290]
+        augment_coordinates = [Xa, Ya] = [0, 32]       
         text = self.questions[self.q_count].get_question() if self.q_count < len(self.questions) else  "Finished, Hope you passed."
-        printText = font.render(text, True, BLACK)
-        self.screen.blit(printText, [10, 290])
+        print_statement = split_question_print_text(text, [])
+        for i in range(0,len(print_statement)): 
+            self.screen.blit(print_statement[i], [X, Y + Ya*i])
+        
         
     def make_answers(self, event):
-        font = pygame.font.SysFont('Calibri', 35, True, False) 
         self.make_button(event, 60, 520, 220, 132, 0)
         self.make_button(event, 290, 520, 220, 132, 1)
         self.make_button(event, 60, 657, 220, 132, 2)
@@ -70,8 +82,9 @@ class Quiz:
     def make_score(self):
         score_coordinates = [475, 30]
         temp_text="Score: "+str(self.score)
-        score_text = self.font.render(temp_text, True, BLACK)
+        score_text = self.calibri_18.render(temp_text, True, BLACK)
         self.screen.blit(score_text, score_coordinates)
+       
         
     def make_back(self, event):
         back_pressed=True
@@ -96,7 +109,7 @@ class Quiz:
         mouse = pygame.mouse.get_pos()
         answer = self.questions[self.q_count].get_answer_at_index(buttonNum) 
         coordinates_text=[left+15, top+15]
-        text = self.font.render(answer.get_text(), True, BLACK)   
+        text = self.calibri_18.render(answer.get_text(), True, BLACK)   
         if not self.b_press:
             if left+width > mouse[0] > left and top < mouse[1] < top+height: 
                 rect = self.screen.blit(self.blueButton, [(left), (top)])       
@@ -106,12 +119,8 @@ class Quiz:
                     if answer.get_correct():
                         self.cor_text = "Correct !"
                         self.score+=1
-                        self.screen.blit(self.greenButton,[left, top])
-                        self.screen.blit(text, coordinates_text)
                     else:
                         self.cor_text = "WRONG!!"
-                        rect = self.screen.blit(self.redButton,[left, top])
-                        self.screen.blit(text, coordinates_text)
             else:
                 rect = self.screen.blit(self.whiteButton, [(left), (top)])       
                 self.screen.blit(text, coordinates_text)                
@@ -123,12 +132,13 @@ class Quiz:
                 rect = self.screen.blit(self.redButton, [left, top])
                 self.screen.blit(text, coordinates_text)          
     
+    
     def fresh_screen(self, event=False):
         backgroundRect=self.background.get_rect()
         self.screen.blit(self.background, self.background.get_rect())        
         self.make_score() 
         self.make_question()
-        if event != False:
+        if event:
             self.make_answers(event)
         
     def run_screen(self):
@@ -154,13 +164,12 @@ class Quiz:
                     self.make_answers(event)
                 back = self.make_back(event)
                 if self.b_press: 
-                    self.make_score()
-                    #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen the clock wait is pygame.time.wait(#of milliseconds)
-                    self.fresh_screen(event)
+                    self.fresh_screen(event) #setsScoreToNewValue
+                    #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen the clock wait is pygame.time.wait(#of milliseconds
                     self.b_press = False
                     correct_text = this_font.render(self.cor_text, True, BLACK)
                     self.screen.blit(correct_text, [250, 437])                    
-                    pygame.display.flip()
+                    pygame.display.flip()##wont be needed after clock
                     pygame.time.wait(3000)
                     self.q_count+=1
                     self.fresh_screen()
@@ -173,12 +182,6 @@ class Quiz:
         else: 
             return done
         
-
-        
-    
-
-    
-
 
 #click_sound = pygame.mixer.Sound("laser5.ogg")
 #click_sound.play
