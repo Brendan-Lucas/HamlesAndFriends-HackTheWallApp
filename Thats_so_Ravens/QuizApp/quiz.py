@@ -30,7 +30,7 @@ class Quiz:
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
-        self.background = self.init_and_resize_image('QuizBackgroundAdjust.jpg', self.screen.get_size())
+        self.background = self.init_and_resize_image('interim-background.png', self.screen.get_size())
         self.greenButton = self.init_and_resize_image('green_button_free.png', (self.normalize(self.normalize(220, 'x'), 'x'),self.normalize(132, 'y')))
         self.redButton = self.init_and_resize_image('red_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))
         self.whiteButton = self.init_and_resize_image('blue_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))
