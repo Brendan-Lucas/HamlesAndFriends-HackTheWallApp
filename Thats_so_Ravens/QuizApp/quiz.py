@@ -17,6 +17,7 @@ class Quiz:
     
     
     def __init__(self, size): 
+        self.size = size
         self.screen = pygame.display.set_mode(size) 
         self.score = 0 
         self.q_count = 0
@@ -30,10 +31,10 @@ class Quiz:
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
         self.background = self.init_and_resize_image('QuizBackgroundAdjust.jpg', self.screen.get_size())
-        self.greenButton = self.init_and_resize_image('green_button_free.png', (220,132))
-        self.redButton = self.init_and_resize_image('red_button_free.png', (220,132))
-        self.whiteButton = self.init_and_resize_image('blue_button_free.png', (220,132))
-        self.blueButton = self.init_and_resize_image('purple_button_free.png', (220,132))  
+        self.greenButton = self.init_and_resize_image('green_button_free.png', (self.normalize(self.normalize(220, 'x'), 'x'),self.normalize(132, 'y')))
+        self.redButton = self.init_and_resize_image('red_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))
+        self.whiteButton = self.init_and_resize_image('blue_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))
+        self.blueButton = self.init_and_resize_image('purple_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))  
         self.init_colorkeys(WHITE)
         
         self.init_questions()
@@ -54,6 +55,13 @@ class Quiz:
         for i in range(0,5):
             self.questions.append(Question().init_question(Qarr[i], Aarr[i]))
 ############## End of INIT HELPERS
+
+    def normalize(self, coordinate, x_or_y):
+        if x_or_y == 'x':
+            number = self.size[0]*(coordinate/560.0)
+        else:
+            number = self.size[1]*(coordinate/840.0)
+        return int(number)
         
     def make_question(self):
         def split_question_print_text(text, arr):
@@ -74,14 +82,14 @@ class Quiz:
         
         
     def make_answers(self, event):
-        self.make_button(event, 60, 520, 220, 132, 0)
-        self.make_button(event, 290, 520, 220, 132, 1)
-        self.make_button(event, 60, 657, 220, 132, 2)
-        self.make_button(event, 290, 657, 220, 132, 3)        
-        
+        self.make_button(event, self.normalize(60, 'x'), self.normalize(520, 'y'), self.normalize(220, 'x'), self.normalize(132, 'y'), 0)
+        self.make_button(event, self.normalize(290, 'x'), self.normalize(520, 'y'), self.normalize(220, 'x'), self.normalize(132, 'y'), 1)
+        self.make_button(event, self.normalize(60, 'x'), self.normalize(657, 'y'), self.normalize(220, 'x'), self.normalize(132, 'y'), 2)
+        self.make_button(event, self.normalize(290, 'x'), self.normalize(657, 'y'), self.normalize(220, 'x'), self.normalize(132, 'y'), 3)        
+
     
     def make_score(self):
-        score_coordinates = [475, 30]
+        score_coordinates = [self.normalize(475, 'x'), self.normalize(30, 'y')]
         temp_text="Score: "+str(self.score)
         score_text = self.calibri_18.render(temp_text, True, BLACK)
         self.screen.blit(score_text, score_coordinates)
@@ -90,8 +98,8 @@ class Quiz:
     def make_back(self, event):
         back_pressed=True
         mouse = pygame.mouse.get_pos()
-        x_center =30
-        y_center = 30
+        x_center = self.normalize(30, 'x')
+        y_center = self.normalize(30, 'y')
         coordinates_button=(x_center, y_center) 
         radius = 20
         line_thick = 2
@@ -109,7 +117,7 @@ class Quiz:
     def make_button(self, event, left, top, width, height, buttonNum):            
         mouse = pygame.mouse.get_pos()
         answer = self.questions[self.q_count].get_answer_at_index(buttonNum) 
-        coordinates_text=[left+15, top+15]
+        coordinates_text=[left+self.normalize(15, 'x'), top+self.normalize(15, 'y')]
         text = self.calibri_18.render(answer.get_text(), True, BLACK)   
         if not self.b_press:
             if left+width > mouse[0] > left and top < mouse[1] < top+height: 
@@ -119,11 +127,11 @@ class Quiz:
                     self.b_press=True
                     if answer.get_correct():
                         # self.cor_text = "Correct !"
-                        self.cor_img = self.init_and_resize_image('checkmark.png', (300, 100))
+                        self.cor_img = self.init_and_resize_image('checkmark.png', (self.normalize(300, 'x'), self.normalize(100, 'y')))
                         self.score+=1
                     else:
                         # self.cor_text = "WRONG!!"
-                        self.cor_img = self.init_and_resize_image('wrong.png', (300, 100))
+                        self.cor_img = self.init_and_resize_image('wrong.png', (self.normalize(300, 'x'), self.normalize(100, 'y')))
                         rect = self.screen.blit(self.redButton,[left, top])
                         self.screen.blit(text, coordinates_text)
             else:
@@ -173,8 +181,8 @@ class Quiz:
                     #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen the clock wait is pygame.time.wait(#of milliseconds
                     self.b_press = False
                     #correct_text = this_font.render(self.cor_text, True, BLACK)
-                    self.screen.blit(self.cor_img, [130, 390])                    
-                    pygame.display.flip()
+                    self.screen.blit(self.cor_img, [self.normalize(130, 'x'), self.normalize(390, 'y')])                    
+                    pygame.display.flip()##wont be needed after clock
                     pygame.time.wait(3000)
                     self.q_count+=1
                     self.fresh_screen()
@@ -186,7 +194,7 @@ class Quiz:
             return done
         else: 
             return done
-        
 
 #click_sound = pygame.mixer.Sound("laser5.ogg")
 #click_sound.play
+
