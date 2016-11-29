@@ -30,13 +30,16 @@ class Quiz:
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
-        self.background = self.init_and_resize_image('QuizBackgroundAdjust.jpg', self.screen.get_size())
+        self.background = self.init_and_resize_image('interim-background.png', self.screen.get_size())
         self.greenButton = self.init_and_resize_image('green_button_free.png', (self.normalize(self.normalize(220, 'x'), 'x'),self.normalize(132, 'y')))
         self.redButton = self.init_and_resize_image('red_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))
         self.whiteButton = self.init_and_resize_image('blue_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))
         self.blueButton = self.init_and_resize_image('purple_button_free.png', (self.normalize(220, 'x'),self.normalize(132, 'y')))  
         self.init_colorkeys(WHITE)
-        
+
+        self.backButtonBlue = self.init_and_resize_image('back_button_blue.png', (self.normalize(40, 'x'), self.normalize(40, 'x')))
+        self.backButtonBlack = self.init_and_resize_image('back_button_black.png', (self.normalize(40, 'x'), self.normalize(40, 'x')))
+
         self.init_questions()
         
         
@@ -93,24 +96,23 @@ class Quiz:
         temp_text="Score: "+str(self.score)
         score_text = self.calibri_18.render(temp_text, True, BLACK)
         self.screen.blit(score_text, score_coordinates)
-       
-        
+            
     def make_back(self, event):
         back_pressed=True
         mouse = pygame.mouse.get_pos()
         x_center = self.normalize(30, 'x')
         y_center = self.normalize(30, 'y')
-        coordinates_button=(x_center, y_center) 
-        radius = 20
-        line_thick = 2
+        side = 40
+        coordinates_button=(x_center-(side/2), y_center-(side/2)) 
         #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
-        if (x_center-radius < mouse[0] < x_center+radius) and (y_center-radius < mouse[1] < y_center+radius): 
-            circle = pygame.draw.circle(self.screen, BLUE, coordinates_button, radius, line_thick) 
+        if (x_center-(side/2) < mouse[0] < x_center+(side/2)) and (y_center-(side/2) < mouse[1] < y_center+(side/2)): 
+            self.screen.blit(self.backButtonBlue, coordinates_button)
             if event.type == pygame.MOUSEBUTTONDOWN: return back_pressed
             else: return not back_pressed
         else:
-            circle = pygame.draw.circle(self.screen, BLACK, coordinates_button, radius, line_thick)
+            self.screen.blit(self.backButtonBlack, coordinates_button)
             return not back_pressed    
+
                                  
                  
         
