@@ -3,7 +3,7 @@ from quiz import Quiz
 import maze as mz
   
 def run_app():
-    GameStarter = Quad((540, 860))
+    GameStarter = Quad((560, 840))
     GameStarter.run_screen()        
 
 
@@ -53,8 +53,8 @@ class Quad:
                         #click_sound.play()
                                                     
                 self.screen.blit(zFrame_background, backgroundRect) 
-                self.make_button(event, 460, 0, 100, 840, 1)
-                self.make_button(event, 0, 480, 71, 375, 4)                            
+                self.make_button(event, self.quiz.normalize(460, 'x'), self.quiz.normalize(0, 'y'), self.quiz.normalize(100, 'x'), self.quiz.normalize(840, 'y'), 1)
+                self.make_button(event, self.quiz.normalize(0, 'x'), self.quiz.normalize(480, 'y'), self.quiz.normalize(71, 'x'), self.quiz.normalize(375, 'y'), 4)                            
                 pygame.display.flip()
             
             pygame.quit()                                                           
