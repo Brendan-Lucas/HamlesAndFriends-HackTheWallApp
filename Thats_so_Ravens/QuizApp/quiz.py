@@ -24,6 +24,7 @@ class Quiz:
         self.questions = []
         self.file=" hamlesFile "
         self.cor_text = ''
+        self.cor_img = ''
         
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
@@ -117,10 +118,14 @@ class Quiz:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.b_press=True
                     if answer.get_correct():
-                        self.cor_text = "Correct !"
+                        # self.cor_text = "Correct !"
+                        self.cor_img = self.init_and_resize_image('checkmark.png', (300, 100))
                         self.score+=1
                     else:
-                        self.cor_text = "WRONG!!"
+                        # self.cor_text = "WRONG!!"
+                        self.cor_img = self.init_and_resize_image('wrong.png', (300, 100))
+                        rect = self.screen.blit(self.redButton,[left, top])
+                        self.screen.blit(text, coordinates_text)
             else:
                 rect = self.screen.blit(self.whiteButton, [(left), (top)])       
                 self.screen.blit(text, coordinates_text)                
@@ -167,9 +172,9 @@ class Quiz:
                     self.fresh_screen(event) #setsScoreToNewValue
                     #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen the clock wait is pygame.time.wait(#of milliseconds
                     self.b_press = False
-                    correct_text = this_font.render(self.cor_text, True, BLACK)
-                    self.screen.blit(correct_text, [250, 437])                    
-                    pygame.display.flip()##wont be needed after clock
+                    #correct_text = this_font.render(self.cor_text, True, BLACK)
+                    self.screen.blit(self.cor_img, [130, 390])                    
+                    pygame.display.flip()
                     pygame.time.wait(3000)
                     self.q_count+=1
                     self.fresh_screen()
