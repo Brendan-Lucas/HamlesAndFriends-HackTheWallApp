@@ -104,8 +104,7 @@ class Wall(pygame.sprite.Sprite):
 		self.mask = pygame.mask.from_surface(self.image, 20)
 		self.next = ''
 		self.prev = ''
-
-
+		
 	def move(self, x, y):
 		self.rect.move(x, y)
 
@@ -166,5 +165,4 @@ while going:
 			maze.player.kill()
 			if maze.player.is_dead():
 				print 'You are dead'
-
 		pygame.display.flip()
