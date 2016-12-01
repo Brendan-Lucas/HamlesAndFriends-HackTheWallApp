@@ -105,6 +105,7 @@ class Wall(pygame.sprite.Sprite):
 		self.next = ''
 		self.prev = ''
 
+
 	def move(self, x, y):
 		self.rect.move(x, y)
 
