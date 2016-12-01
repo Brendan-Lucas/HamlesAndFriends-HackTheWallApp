@@ -165,4 +165,5 @@ while going:
 			maze.player.kill()
 			if maze.player.is_dead():
 				print 'You are dead'
+
 		pygame.display.flip()
