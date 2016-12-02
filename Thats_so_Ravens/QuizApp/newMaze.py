@@ -45,26 +45,28 @@ class Maze():
 		if pygame.sprite.collide_mask(self.player, wall):
 			return True
 	
-	def collisions(self, wall):
-		while self.player.rect.colliderect(self.wall.rect): 
-			if self.collision(wall):
-				return True
-		if wall.next:
-			self.collisions(wall.next)
-		return
+	#def collisions(self, wall):
+		#while self.player.rect.colliderect(self.wall.rect): 
+			#if self.collision(wall):
+				#return True
+		#if wall.next:
+			#self.collisions(wall.next)
+		#return
 	
 	def collisions(self, wall):
-		if wall.rect.colliderect(self.player.rect):
+		if self.player.rect.colliderect(wall.rect):
 			if self.collision(wall):
-				return True 
-			return
-		elif wall.next and wall.rect.colliderect(self.player.rect):
+				print 'mysquare'
+				return True
+		elif wall.next and self.player.rect.colliderect(wall.next.rect):
 			self.player.wall = wall.next
 			self.collision(wall.next)
+			print 'nextsquare'
 			return
-		elif wall.prev and swall.rect.colliderect(self.player.rect):
+		elif wall.prev and self.player.rect.colliderect(wall.prev.rect):
 			self.player.wall = wall.prev
 			self.collision(wall.prev)
+			print 'prevsquare'
 			return
 		
 	def make_tile_from_array_location(self, x, y, number, prev):
