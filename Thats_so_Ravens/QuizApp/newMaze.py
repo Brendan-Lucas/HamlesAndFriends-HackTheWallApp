@@ -1,4 +1,5 @@
 import pygame
+from labyrinth import Labyrinth
 pygame.init()
 
 BLACK    = (   0,   0,   0)
@@ -18,7 +19,9 @@ class Maze():
 		self.floorImage = []
 		self.wallImage = []
 		self.queue = []
-		self.array = [[7,5,0,0],[0,-1,0,0],[-6,-4,0,0],[8,0,0,0]]
+		lab = Labyrinth()
+		lab.make_labyrinth()
+		self.array = lab.get_grid()
 		self.load_wall_images()
 
 	def make_tile(self, coordinates, backImage, frontImage):
@@ -29,7 +32,7 @@ class Maze():
 
 	def load_wall_images(self):
 		for i in range (0,9):
-			self.wallImage.append(pygame.image.load('mazeAssets/walls/Lines' + str(i) + '.png'))
+			self.wallImage.append((pygame.transform.rotate(pygame.image.load('mazeAssets/walls/Lines' + str(i) + '.png'), -90)))
 			self.floorImage.append(pygame.image.load('mazeAssets/orange.png'))
 
 	def draw_tiles(self):
@@ -44,6 +47,10 @@ class Maze():
 	def collision(self, wall):
 		if pygame.sprite.collide_mask(self.player, wall):
 			return True
+	def depricollision(self):
+		for wall in self.walls:
+			if pygame.sprite.collide_mask(self.player, wall):
+				return True			
 	
 	#def collisions(self, wall):
 		#while self.player.rect.colliderect(self.wall.rect): 
@@ -90,13 +97,13 @@ class Maze():
 			number = self.array[y][x]
 			self.queue.append([number, x, y])
 			if number in (1, -3, 4):
-				y -= 1
+				x -= 1
 			elif number in (2, 3, 6, 7):
-				x += 1
-			elif number in (-1, 5, -6):
 				y += 1
+			elif number in (-1, 5, -6):
+				x += 1
 			elif number in (-2, -4, -5):
-				x-= 1
+				y-= 1
 
 class Wall(pygame.sprite.Sprite):
 	def __init__(self, coordinates, image):
@@ -160,10 +167,10 @@ while going:
 		maze.draw_rodney()		
 		if event.type == pygame.QUIT:
 			going = False
-		if maze.collisions(maze.player.wall) == 'done':
-			going = False
-			print'You win'
-		elif maze.collisions(maze.player.wall):
+		#if maze.depricollisions(maze.player.wall) == 'done':
+			#going = False
+			#print'You win'
+		elif maze.depricollision():
 			maze.player.kill()
 			if maze.player.is_dead():
 				print 'You are dead'
