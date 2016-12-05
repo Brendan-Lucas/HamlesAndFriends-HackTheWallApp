@@ -22,23 +22,23 @@ def init_dictofdict(self):
     rightLoad = {'bottom': -6, 'left': 2, 'top':-3}
     load = {'top': topLoad, 'bottom': bottomLoad, 'left': leftLoad, 'right': rightLoad}
     
-def grid_value(self, setter = False, cursor = False):
-    if not cursor:
-        cursor = self.cursor
-    if not value:
-        return self.grid[cursor[0]][cursor[1]]
-    else:
-        self.grid[cursor[0]][cursor[1]] = value
-    
-def get_feed(self, number):
-    for direction in ['top', 'bottom', 'left', 'right']:
-        if number in load[direction]:
-            return direction
-        
-def get_prev_feed(self):
-    self.get_feed()
-
-def find_tile_in_dict(self, feed):
+# def grid_value(self, setter = False, cursor = False):
+#     if not cursor:
+#         cursor = self.cursor
+#     if not value:
+#         return self.grid[cursor[0]][cursor[1]]
+#     else:
+#         self.grid[cursor[0]][cursor[1]] = value
+#
+# def get_feed(self, number):
+#     for direction in ['top', 'bottom', 'left', 'right']:
+#         if number in load[direction]:
+#             return direction
+#
+# def get_prev_feed(self):
+#     self.get_feed()
+#
+# def find_tile_in_dict(self, feed):
     
     
 
