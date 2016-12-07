@@ -141,6 +141,7 @@ class Maze():
                         break
                     if self.collision() == 'dead':
                         done = True
+                        break
                     pygame.display.flip()
         pygame.mouse.set_visible(True)
         if done:
