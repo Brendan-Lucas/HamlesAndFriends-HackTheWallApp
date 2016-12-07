@@ -114,32 +114,32 @@ class Maze():
         timeout = False
         back = False
         done = False
-        maze.draw_tiles()
+        self.draw_tiles()
 
-        maze.player.alive = True
+        self.player.alive = True
         pygame.mouse.set_visible(False)
         while not (back or done or timeout):
             # while not maze.player.is_dead() and maze.player.alive:
-            maze.clock.tick(60)
-            maze.player.alive = True
-            if not maze.player.is_dead():
+            self.clock.tick(60)
+            self.player.alive = True
+            if not self.player.is_dead():
                 pygame.time.wait(1000)
                 pygame.mouse.set_pos(self.tile_size/2, self.tile_size/4)
-            while not (maze.player.is_dead() or done) and maze.player.alive:
+            while not (self.player.is_dead() or done) and self.player.alive:
                 for event in pygame.event.get():
                     mouse_position = pygame.mouse.get_pos()
-                    maze.player.move(mouse_position[0], mouse_position[1])
-                    maze.screen.blit(maze.background, maze.background.get_rect())
-                    maze.draw_rodney()
-                    if maze.player.rect.x / self.tile_size == (len(maze.floors) - 1) and maze.player.rect.y / self.tile_size == (len(maze.floors[0]) - 1):
+                    self.player.move(mouse_position[0], mouse_position[1])
+                    self.screen.blit(self.background, self.background.get_rect())
+                    self.draw_rodney()
+                    if self.player.rect.x / self.tile_size == (len(self.floors) - 1) and self.player.rect.y / self.tile_size == (len(self.floors[0]) - 1):
                         done = True
-                    if maze.player.rect.x / self.tile_size == 0 and maze.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.player.rect.x / self.tile_size == 0 and self.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
                         done = True
                         break
                     if event.type == pygame.QUIT:
                         done = True
                         break
-                    if maze.collision() == 'dead':
+                    if self.collision() == 'dead':
                         done = True
                     pygame.display.flip()
         pygame.mouse.set_visible(True)
@@ -199,6 +199,6 @@ class Player(pygame.sprite.Sprite):
             return False
 
 
-maze = Maze((560, 840), (10,15))
-maze.run_screen()
+# maze = Maze((560, 840), (10,15))
+# maze.run_screen()
 

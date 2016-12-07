@@ -1,6 +1,6 @@
 import pygame
 from quiz import Quiz
-import maze as mz
+from maze import Maze
   
 def run_app():
     GameStarter = Quad((560, 840))
@@ -10,9 +10,10 @@ def run_app():
 class Quad:
         
         def __init__(self, size):
-                self.block =0
-                self.b_press=False
-                self.done=False
+                self.block = 0
+                self.b_press = False
+                self.done = False
+                self.maze = Maze((560, 840), (10,15))
                 self.quiz = Quiz(size)
                 self.screen = pygame.display.set_mode(size)
                 
@@ -31,7 +32,7 @@ class Quad:
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return 
                 elif blockNum==4: 
-                    self.done=mz.maze()
+                    self.done=self.maze.run_screen()
                     self.b_press=False
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return 
