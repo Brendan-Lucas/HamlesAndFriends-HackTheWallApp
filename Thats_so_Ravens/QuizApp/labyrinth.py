@@ -44,13 +44,20 @@ def init_dictofdict(self):
 
 
 class Labyrinth():
-    def __init__(self):
+    def __init__(self, dimensions):
+        self.dimensions = dimensions
         self.grid = []
         self.cursor = [1,0]
         self.cursorStack = [[0,0]]
         self.done = False
         
-        self.init_grid(12, 20)
+        self.init_grid(self.dimensions[0], self.dimensions[1])
+
+    def remove_nines(self):
+        for x in range(0, len(self.grid)):
+            for y in range(0, len(self.grid[0])):
+                if self.grid[x][y] == 9:
+                    self.grid[x][y] = 0
         
     def make_labyrinth(self):  
         while not self.done:
@@ -58,6 +65,7 @@ class Labyrinth():
                 self.pop()
             else:
                 self.fill(self.check())
+        self.remove_nines()
                 
     def pop(self):
         self.grid[self.cursor[0]][self.cursor[1]] = 9
