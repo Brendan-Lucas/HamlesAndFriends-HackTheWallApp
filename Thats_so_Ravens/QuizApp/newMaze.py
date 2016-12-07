@@ -32,12 +32,19 @@ class Maze():
         self.clock = pygame.time.Clock()
         self.floorImage = []
         self.wallImage = []
+
+        self.tile_setup(dimensions)
+
+    def get_grid_from_labyrinth(self, dimensions):
         lab = Labyrinth(dimensions)
         lab.make_labyrinth()
-        self.array = lab.get_grid()
+        return lab.get_grid()
+
+    def tile_setup(self, dimensions):
+        array = self.get_grid_from_labyrinth(dimensions)
         self.load_wall_images()
-        self.init_floors_and_walls()
-        self.two_d_tiles()
+        self.init_floors_and_walls(array)
+        self.two_d_tiles(array)
 
 
     def collision(self):
@@ -60,18 +67,18 @@ class Maze():
                     if self.player.is_dead():
                         return 'dead'
 
-    def init_floors_and_walls(self):
-        for i in range(0, len(self.array)):
+    def init_floors_and_walls(self, array):
+        for i in range(0, len(array)):
             self.walls.append([])
             self.floors.append([])
-            for j in range(0, len(self.array[0])):
+            for j in range(0, len(array[0])):
                 self.walls[i].append(0)
                 self.floors[i].append(0)
 
-    def two_d_tiles(self):
-        for x in range(0, len(self.array)):
-            for y in range(0, len(self.array[0])):
-                number = self.array[x][y]
+    def two_d_tiles(self, array):
+        for x in range(0, len(array)):
+            for y in range(0, len(array[0])):
+                number = array[x][y]
                 tile = self.make_wall_from_array_location(x, y, number)
                 self.walls[x][y] = tile[0]
                 self.floors[x][y] = tile[1]
@@ -113,12 +120,12 @@ class Maze():
         pygame.mouse.set_visible(False)
         while not (back or done or timeout):
             # while not maze.player.is_dead() and maze.player.alive:
-            maze.clock.tick(30)
+            maze.clock.tick(60)
             maze.player.alive = True
             if not maze.player.is_dead():
                 pygame.time.wait(1000)
                 pygame.mouse.set_pos(self.tile_size/2, self.tile_size/4)
-            while not maze.player.is_dead() and maze.player.alive:
+            while not (maze.player.is_dead() or done) and maze.player.alive:
                 for event in pygame.event.get():
                     mouse_position = pygame.mouse.get_pos()
                     maze.player.move(mouse_position[0], mouse_position[1])
@@ -126,8 +133,12 @@ class Maze():
                     maze.draw_rodney()
                     if maze.player.rect.x / self.tile_size == (len(maze.floors) - 1) and maze.player.rect.y / self.tile_size == (len(maze.floors[0]) - 1):
                         done = True
+                    if maze.player.rect.x / self.tile_size == 0 and maze.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
+                        done = True
+                        break
                     if event.type == pygame.QUIT:
                         done = True
+                        break
                     if maze.collision() == 'dead':
                         done = True
                     pygame.display.flip()
