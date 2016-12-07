@@ -1,6 +1,8 @@
 import pygame
-import threading
 from labyrinth import Labyrinth
+from player import Player
+from wall import Wall
+from floor import Floor
 pygame.init()
 
 BLACK = (0,   0,   0)
@@ -153,51 +155,6 @@ class Maze():
 
 
 
-class Wall(pygame.sprite.Sprite):
-    def __init__(self, coordinates, image, tile_size):
-        pygame.sprite.Sprite.__init__(self)
-        self.tile_size = tile_size
-        self.image = pygame.transform.scale(image, (self.tile_size, self.tile_size))
-        self.rect = self.image.get_rect().move(coordinates)
-        self.mask = pygame.mask.from_surface(self.image, 20)
-
-    def move(self, x, y):
-        self.rect.move(x, y)
-
-
-class Floor():
-    def __init__(self, coordinates, image, tile_size):
-        self.tile_size = tile_size
-        self.image = pygame.transform.scale(image, (self.tile_size,self.tile_size))
-        self.rect = self.image.get_rect().move(coordinates)
-    
-    def move(self, x, y):
-        self.rect.move(x,y)
-
-
-class Player(pygame.sprite.Sprite):
-    def __init__(self, size):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(pygame.image.load('mazeAssets/RodneytheRaven.png'), (size, size))
-        self.lives = 3
-        self.rect = self.image.get_rect()
-        self.mask = pygame.mask.from_surface(self.image, 20)
-        self.alive = True
-
-    def move(self, x, y):
-        self.rect.x = x
-        self.rect.y = y
-
-    def kill(self):
-        self.lives -= 1
-        self.alive = False
-
-    def is_dead(self):
-        if self.lives == 0:
-            self.done = True
-            return True
-        else:
-            return False
 
 
 # maze = Maze((560, 840), (10,15))
