@@ -1,6 +1,6 @@
 import pygame
-from quiz import Quiz
-from maze import Maze
+from QuizApp.quiz import Quiz
+from MazeApp.maze import Maze
   
 def run_app():
     GameStarter = Quad((560, 840))
@@ -42,7 +42,7 @@ class Quad:
             pygame.display.set_caption("Welcome To Mackenzie Quad")
             pygame.mouse.set_pos(self.screen.get_rect().center)
                                             
-            zFrame_background = pygame.transform.scale(pygame.image.load("QuadAdjust.jpg").convert(), self.screen.get_size())
+            zFrame_background = pygame.transform.scale(pygame.image.load("QuizApp/QuadAdjust.jpg").convert(), self.screen.get_size())
             backgroundRect=zFrame_background.get_rect()
                                                                            
             
