@@ -60,7 +60,7 @@ screen.fill(white)
 pygame.display.flip()
 timer = Timer('quizAssets/ImagesForQuizApp/Button_purple.png', screen, 100, 100)
 going = True
-thread.start_new_thread(timer.runTimer, (20, 0))
+thread.start_new_thread(timer.runTimer, (0, 10))
 thread.start_new_thread(timer.synchronizedPrintTime, ())
 while going:
     for event in pygame.event.get():
