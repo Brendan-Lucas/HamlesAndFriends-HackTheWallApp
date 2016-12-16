@@ -21,7 +21,8 @@ class Timer:
         
         
     def runTimer(self, startTime, endTime):
-        self.startTime = startTime   
+        self.startTime = startTime
+        self.endTime = endTime
         self.currentTime = self.startTime
         self.running = True
         while self.currentTime != self.endTime and self.running:
@@ -42,7 +43,7 @@ class Timer:
         fontValue += str(self.currentTime)
         timeValue = self.font.render(fontValue, True, black) 
         self.display.fill(white)
-        self.display.blit(timeValue,self.centerPos)
+        self.display.blit(timeValue, self.centerPos)
         # self.display.blit(self.clockFace,self.centerPos)
     
     def synchronizedPrintTime(self):
@@ -51,26 +52,27 @@ class Timer:
             self.printTime()    #the internet often overcomplicates the ideas. 
             self.lock.release()
     
-black=(0,0,0)
-white=(255,255,255)
+def TestRunning():
+    black=(0,0,0)
+    white=(255,255,255)
 
-size = [560,840] 
-screen = pygame.display.set_mode(size)
-screen.fill(white)
-pygame.display.flip()
-timer = Timer('quizAssets/ImagesForQuizApp/Button_purple.png', screen, 100, 100)
-going = True
-thread.start_new_thread(timer.runTimer, (20, 0))
-thread.start_new_thread(timer.synchronizedPrintTime, ())
-while going:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            going = False
-            timer.running = False
+    size = [560,840]
+    screen = pygame.display.set_mode(size)
+    screen.fill(white)
     pygame.display.flip()
+    timer = Timer('quizAssets/ImagesForQuizApp/Button_purple.png', screen, 100, 100)
+    going = True
+    thread.start_new_thread(timer.runTimer, (20, 0))
+    thread.start_new_thread(timer.synchronizedPrintTime, ())
+    while going:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                going = False
+                timer.running = False
+        pygame.display.flip()
 
-timer.lock.acquire()
-pygame.quit()
+    timer.lock.acquire()
+    pygame.quit()
     
 ###PLS note ask me to explain locking if you need to, The internet overcomplicates the the idea. 
     
