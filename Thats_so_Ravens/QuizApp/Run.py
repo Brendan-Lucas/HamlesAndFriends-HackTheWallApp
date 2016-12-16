@@ -44,8 +44,7 @@ class Quad:
                                             
             zFrame_background = pygame.transform.scale(pygame.image.load("QuadAdjust.jpg").convert(), self.screen.get_size())
             backgroundRect=zFrame_background.get_rect()
-                                                                           
-            
+
             while not self.done: 
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:

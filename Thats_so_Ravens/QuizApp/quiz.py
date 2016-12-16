@@ -1,5 +1,7 @@
 import collections
 import pygame
+import time
+import thread
 from timer import Timer
 import parsing as parse
 from pygame import * 
@@ -17,9 +19,9 @@ class Quiz:
     
     
     
-    def __init__(self, size): 
+    def __init__(self, size):
         self.size = size
-        self.screen = pygame.display.set_mode(size) 
+        self.screen = pygame.display.set_mode(size)
         self.score = 0 
         self.q_count = 0
         self.b_press = False
@@ -28,7 +30,9 @@ class Quiz:
         self.cor_text = ''
         self.cor_img = ''
         self.timeout=False
-        self.timer = Timer(self.screen, self.normalize(410, 'x'), self.normalize(470, 'y'))
+        self.timer = Timer(self.screen, self.normalize(410, 'x'), self.normalize(470, 'y'), 'quizAssets/ImagesForQuizApp/TimerBackground.png')
+        self.timer2 = Timer(self.screen, self.normalize(410, 'x'), self.normalize(470, 'y'), 'quizAssets/ImagesForQuizApp/TimerBackground.png')
+        #self.timeoutTimer = Timer(self.screen)
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
@@ -155,17 +159,16 @@ class Quiz:
         self.screen.blit(self.background, self.background.get_rect())        
         self.make_score() 
         self.make_question()
+        self.timer.runTimer(30, 0)
         if event:
             self.make_answers(event)
         
     def run_screen(self):
-
         pygame.display.set_caption("Try and pass ECOR 1010, In Mcrae We Trust")
-        
+
         self.fresh_screen()
-        
-        this_font = pygame.font.SysFont('Calibri', 25, True, False)      
-        
+        switch_q = False
+        this_font = pygame.font.SysFont('Calibri', 25, True, False)
         self.timeout = False
         back = False
         done = False
@@ -177,23 +180,28 @@ class Quiz:
                     break;
                 #elif event.type == pygame.MOUSEBUTTONDOWN:
                     #click_sound.play()
-                
-                if self.q_count<len(self.questions):
-                    self.make_answers(event)
                 back = self.make_back(event)
-                if self.b_press: 
-                    self.fresh_screen(event) #setsScoreToNewValue
-                    #trigger the clock to wait for like 1 seccond to proccess information that will be presented to screen the clock wait is pygame.time.wait(#of milliseconds
+                if self.q_count<len(self.questions) and not self.timer2.running:
+                    self.make_answers(event)
+                if self.b_press and not switch_q:
+                    self.timer.stop()
+                    self.make_score()
+                    self.make_answers(event) #setsScoreToNewValue
+                    self.screen.blit(self.cor_img, [self.normalize(130, 'x'), self.normalize(390, 'y')])
+                    pygame.display.flip()
+                    self.timer2.runTimer(3, 0)
+                    switch_q = True
+                    print(self.timer2.running)
+                if switch_q and not self.timer2.running:
+                    self.q_count += 1
                     self.b_press = False
-                    #correct_text = this_font.render(self.cor_text, True, BLACK)
-                    self.screen.blit(self.cor_img, [self.normalize(130, 'x'), self.normalize(390, 'y')])                    
-                    pygame.display.flip()##wont be needed after clock
-                    pygame.time.wait(3000)
-                    self.q_count+=1
-                    self.timer.runTimer(30,0)
+                    switch_q = False
                     self.fresh_screen()
+
                 #after time passed, want to go to bulrb screen, contians image top left and info below
-                pygame.display.flip()	
+                pygame.display.flip()
+                #if not self.timeoutTimer.running(): self.timeout = False
+
         if done:    
             return done   
         elif back:
