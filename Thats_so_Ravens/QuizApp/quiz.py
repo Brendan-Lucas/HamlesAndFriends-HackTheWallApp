@@ -1,5 +1,6 @@
 import collections
 import pygame
+from timer import Timer
 import parsing as parse
 from pygame import * 
 from question import Question
@@ -26,7 +27,8 @@ class Quiz:
         self.file=" hamlesFile "
         self.cor_text = ''
         self.cor_img = ''
-        
+        self.timeout=False
+        self.timer = Timer(self.screen, self.normalize(410, 'x'), self.normalize(470, 'y'))
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
@@ -164,10 +166,11 @@ class Quiz:
         
         this_font = pygame.font.SysFont('Calibri', 25, True, False)      
         
-        timeout = False
+        self.timeout = False
         back = False
         done = False
-        while not (back or done or timeout): 
+        self.timer.runTimer(30, 0)
+        while not (back or done or self.timeout):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done=True #true or false value
@@ -187,6 +190,7 @@ class Quiz:
                     pygame.display.flip()##wont be needed after clock
                     pygame.time.wait(3000)
                     self.q_count+=1
+                    self.timer.runTimer(30,0)
                     self.fresh_screen()
                 #after time passed, want to go to bulrb screen, contians image top left and info below
                 pygame.display.flip()	
