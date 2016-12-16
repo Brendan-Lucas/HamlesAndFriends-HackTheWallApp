@@ -25,12 +25,12 @@ class Timer:
         self.running = False
 
 
-    def timerCount(self, startTime, endTime):
+    def timerCount(self, startTime, endTime=0):
         self.startTime = startTime
         self.endTime = endTime
         self.currentTime = self.startTime
         self.running = True
-        while self.currentTime != self.endTime and self.running:
+        while self.currentTime >= self.endTime and self.running:
             self.lock.acquire()
             time.sleep(1)
             if self.startTime < self.endTime:
