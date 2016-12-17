@@ -159,7 +159,6 @@ class Quiz:
         self.screen.blit(self.background, self.background.get_rect())        
         self.make_score() 
         self.make_question()
-        self.timer.runTimer(30, 0)
         if event:
             self.make_answers(event)
         
@@ -172,7 +171,7 @@ class Quiz:
         self.timeout = False
         back = False
         done = False
-        self.timer.runTimer(30, 0)
+        self.timer.runAndPrintTimer(30, 0)
         while not (back or done or self.timeout):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -185,8 +184,7 @@ class Quiz:
                     self.make_answers(event)
                 if self.b_press and not switch_q:
                     self.timer.stop()
-                    self.make_score()
-                    self.make_answers(event) #setsScoreToNewValue
+                    self.fresh_screen(event) #setsScoreToNewValue
                     self.screen.blit(self.cor_img, [self.normalize(130, 'x'), self.normalize(390, 'y')])
                     pygame.display.flip()
                     self.timer2.runTimer(3, 0)
@@ -197,6 +195,7 @@ class Quiz:
                     self.b_press = False
                     switch_q = False
                     self.fresh_screen()
+                    self.timer.runAndPrintTimer(30, 0)
 
                 #after time passed, want to go to bulrb screen, contians image top left and info below
                 pygame.display.flip()

@@ -25,6 +25,7 @@ class Timer:
         self.running = False
 
 
+
     def timerCount(self, startTime, endTime=0):
         self.startTime = startTime
         self.endTime = endTime
@@ -58,6 +59,10 @@ class Timer:
             pygame.display.flip()
 
     def runTimer(self, start, end):
+        self.running = True
+        thread.start_new_thread(self.timerCount, (start, end))
+
+    def runAndPrintTimer(self, start, end):
         self.running = True
         thread.start_new_thread(self.timerCount, (start, end))
         thread.start_new_thread(self.synchronizedPrintTime, ())
