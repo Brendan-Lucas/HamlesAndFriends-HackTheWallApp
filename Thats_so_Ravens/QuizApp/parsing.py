@@ -1,6 +1,6 @@
 import csv
 def parsing():
-    f = open('quizAssets/quizz.csv')
+    f = open('QuizApp/quizAssets/quizz.csv')
     quiz = csv.reader(f)
     Questions = []
     Answers = []
@@ -12,7 +12,7 @@ def parsing():
 
 
 def blurb(questionNum):
-    reader = csv.reader('Answers.scv')
+    reader = csv.reader('QuizApp/quizAssets/Answers.scv')
     blurbs = []
     for rows in reader:
         blurbs.append(row)
