@@ -52,15 +52,15 @@ class Timer:
             self.printTime()
             self.lock.release()
 
-<<<<<<< HEAD
-
-def TestRunning():
-    black=(0,0,0)
-    white=(255,255,255)
-    size = [560,840]
-    screen = pygame.display.set_mode(size)
-    screen.fill(white)
-=======
+# <<<<<<< HEAD
+#
+# def TestRunning():
+#     black=(0,0,0)
+#     white=(255,255,255)
+#     size = [560,840]
+#     screen = pygame.display.set_mode(size)
+#     screen.fill(white)
+# =======
 size = [560,840] 
 screen = pygame.display.set_mode(size)
 screen.fill(white)
@@ -74,7 +74,7 @@ while going:
         if event.type == pygame.QUIT:
             going = False
             timer.running = False
->>>>>>> 5f9fc3a0c4bfc1658d5063fe205ca499a5639c5a
+# >>>>>>> 5f9fc3a0c4bfc1658d5063fe205ca499a5639c5a
     pygame.display.flip()
     timer = Timer('quizAssets/ImagesForQuizApp/Button_purple.png', screen, 100, 100)
     going = True

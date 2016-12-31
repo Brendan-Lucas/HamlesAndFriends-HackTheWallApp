@@ -110,6 +110,19 @@ class Maze():
         wall = Wall(coordinates, frontImage, self.tile_size)
         return [wall, floor]
 
+    def move_player(self, limit):
+        (x, y) = pygame.mouse.get_pos()
+        # this limits the movement of the cursor to that of 1 pixel per frame
+        if self.player.rect.x - x < (-1)(limit):
+            x -= self.player.rect.x
+        elif self.player.rect.x - x > limit:
+            x += self.player.rect.x
+        if self.player.rect.y - y < (-1)(limit):
+            y -= self.player.rect.y
+        elif self.player.rect.y - y > limit:
+            y += self.player.rect.y
+        self.player.move(x, y)
+
     def run_screen(self):
         pygame.display.set_caption("Try and find your way to Architecture 5001 before your lab starts")
 
@@ -129,8 +142,7 @@ class Maze():
                 pygame.mouse.set_pos(self.tile_size/2, self.tile_size/4)
             while not (self.player.is_dead() or done) and self.player.alive:
                 for event in pygame.event.get():
-                    mouse_position = pygame.mouse.get_pos()
-                    self.player.move(mouse_position[0], mouse_position[1])
+                    self.move_player(1)
                     self.screen.blit(self.background, self.background.get_rect())
                     self.draw_rodney()
                     if self.player.rect.x / self.tile_size == (len(self.floors) - 1) and self.player.rect.y / self.tile_size == (len(self.floors[0]) - 1):
