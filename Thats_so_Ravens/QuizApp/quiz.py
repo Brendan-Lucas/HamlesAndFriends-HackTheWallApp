@@ -51,8 +51,8 @@ class Quiz:
         self.blueButton.set_colorkey(color)        
         
     def init_and_resize_image(self, filename, size):
-        return pygame.transform.scale(pygame.image.load("quizAssets/ImagesForQuizApp/"+filename), size)
-    
+        return pygame.transform.scale(pygame.image.load("QuizApp/quizAssets/ImagesForQuizApp/"+filename), size)
+
     def init_questions(self):  #get array of questions 
         (Qarr, Aarr)  = parse.parsing() 
         for i in range(0,5):
