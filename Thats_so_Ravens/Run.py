@@ -1,6 +1,7 @@
+import Helpers as helpers
 import pygame
-from quiz import Quiz
-from maze import Maze
+from QuizApp.quiz import Quiz
+from MazeApp.maze import Maze
   
 def run_app():
     GameStarter = Quad((560, 840))
@@ -42,7 +43,7 @@ class Quad:
             pygame.display.set_caption("Welcome To Mackenzie Quad")
             pygame.mouse.set_pos(self.screen.get_rect().center)
                                             
-            zFrame_background = pygame.transform.scale(pygame.image.load("QuadAdjust.jpg").convert(), self.screen.get_size())
+            zFrame_background = pygame.transform.scale(pygame.image.load("QuizApp/QuadAdjust.jpg").convert(), self.screen.get_size())
             backgroundRect=zFrame_background.get_rect()
                                                                            
             
@@ -55,8 +56,8 @@ class Quad:
                         #click_sound.play()
                                                     
                 self.screen.blit(zFrame_background, backgroundRect) 
-                self.make_button(event, self.quiz.normalize(460, 'x'), self.quiz.normalize(0, 'y'), self.quiz.normalize(100, 'x'), self.quiz.normalize(840, 'y'), 1)
-                self.make_button(event, self.quiz.normalize(0, 'x'), self.quiz.normalize(480, 'y'), self.quiz.normalize(71, 'x'), self.quiz.normalize(375, 'y'), 4)                            
+                self.make_button(event, helpers.normalize(self.quiz.size, 460, 'x'), helpers.normalize(self.quiz.size,0, 'y'), helpers.normalize(self.quiz.size,100, 'x'), helpers.normalize(self.quiz.size,840, 'y'), 1)
+                self.make_button(event, helpers.normalize(self.quiz.size,0, 'x'), helpers.normalize(self.quiz.size,480, 'y'), helpers.normalize(self.quiz.size,71, 'x'), helpers.normalize(self.quiz.size,375, 'y'), 4)
                 pygame.display.flip()
             
             pygame.quit()                                                           

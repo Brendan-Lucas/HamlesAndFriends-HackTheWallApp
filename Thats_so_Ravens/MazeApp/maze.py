@@ -30,7 +30,7 @@ class Maze():
         self.walls = []
         self.floors = []
         self.screen = pygame.display.set_mode(size)
-        self.background = pygame.transform.scale(pygame.image.load('mazeAssets/white.png'), (self.screen.get_size()[0], self.screen.get_size()[1]))
+        self.background = pygame.transform.scale(pygame.image.load('MazeApp/mazeAssets/white.png'), (self.screen.get_size()[0], self.screen.get_size()[1]))
         self.clock = pygame.time.Clock()
         self.floorImage = []
         self.wallImage = []
@@ -87,8 +87,8 @@ class Maze():
 
     def load_wall_images(self):
         for i in range(0, 9):
-            self.wallImage.append(pygame.image.load('mazeAssets/walls/Lines' + str(i) + '.png'))
-            self.floorImage.append(pygame.image.load('mazeAssets/floors/Floor' + str(i) + '.png'))
+            self.wallImage.append(pygame.image.load('MazeApp/mazeAssets/walls/Lines' + str(i) + '.png'))
+            self.floorImage.append(pygame.image.load('MazeApp/mazeAssets/floors/Floor' + str(i) + '.png'))
 
     def draw_tiles(self):
         for x in range(0, len(self.floors)):
