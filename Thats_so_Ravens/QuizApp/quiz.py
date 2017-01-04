@@ -134,11 +134,9 @@ class Quiz:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.b_press=True
                     if answer.get_correct():
-                        # self.cor_text = "Correct !"
                         self.cor_img = self.init_and_resize_image('checkmark.png', (self.normalize(300, 'x'), self.normalize(100, 'y')))
                         self.score+=1
                     else:
-                        # self.cor_text = "WRONG!!"
                         self.cor_img = self.init_and_resize_image('wrong.png', (self.normalize(300, 'x'), self.normalize(100, 'y')))
                         rect = self.screen.blit(self.redButton,[left, top])
                         self.screen.blit(text, coordinates_text)
@@ -176,12 +174,15 @@ class Quiz:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done=True #true or false value
-                    break;
+                    break
                 #elif event.type == pygame.MOUSEBUTTONDOWN:
                     #click_sound.play()
                 back = self.make_back(event)
                 if self.q_count<len(self.questions) and not self.timer2.running:
                     self.make_answers(event)
+                if not self.b_press and  not self.timer.running:
+                    self.cor_img = self.init_and_resize_image('wrong.png', (self.normalize(300, 'x'), self.normalize(100, 'y')))
+                    self.b_press = True
                 if self.b_press and not switch_q:
                     self.timer.stop()
                     self.fresh_screen(event) #setsScoreToNewValue

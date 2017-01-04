@@ -42,7 +42,7 @@ class Timer:
             self.lock.release()
         self.running = False
 
-    def printTime(self,):
+    def printTime(self):
         fontValue = ''
         if self.currentTime<60: fontValue += '0:'
         if self.currentTime<10: fontValue += '0'
