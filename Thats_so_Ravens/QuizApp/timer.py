@@ -1,31 +1,37 @@
 import pygame
-#!/usr/bin/python
 import time
 import thread
 pygame.init()
 
+black=(0,0,0)
+white=(255,255,255)
+
 class Timer:
+
     black=(0,0,0)
     white=(255,255,255)
-    def __init__(self,clockFace,display,centerPosX,centerPosY):
+
+    def __init__(self, display, centerPosX, centerPosY, background=None):
         #an "image" directory should be passed for clockFace
         self.font = pygame.font.SysFont('Calibri', 35, True, False)
-        self.clockFace = pygame.transform.scale(pygame.image.load(clockFace).convert(), (50,50))
+        self.clockFace = pygame.transform.scale(pygame.image.load(background).convert(), (83, 48)) if background is not None else None
         self.endTime = ''
         self.startTime = ''
         self.currentTime = ''
         self.display = display
-        self.centerPos = (centerPosX,centerPosY)
+        self.centerPosImage = (centerPosX-8, centerPosY-6)
+        self.centerPos = (centerPosX, centerPosY)
         self.lock = thread.allocate_lock()
         self.running = False
 
 
-    def runTimer(self, startTime, endTime):
+
+    def timerCount(self, startTime, endTime=0):
         self.startTime = startTime
         self.endTime = endTime
         self.currentTime = self.startTime
         self.running = True
-        while self.currentTime != self.endTime and self.running:
+        while self.currentTime >= self.endTime and self.running:
             self.lock.acquire()
             time.sleep(1)
             if self.startTime < self.endTime:
@@ -42,17 +48,30 @@ class Timer:
         if self.currentTime<10: fontValue += '0'
         fontValue += str(self.currentTime)
         timeValue = self.font.render(fontValue, True, black)
-        self.display.fill(white)
+        self.display.blit(self.clockFace, self.centerPosImage)
         self.display.blit(timeValue, self.centerPos)
-        # self.display.blit(self.clockFace,self.centerPos)
 
     def synchronizedPrintTime(self):
         while (self.running):
             self.lock.acquire()
             self.printTime()
             self.lock.release()
+            pygame.display.flip()
 
-<<<<<<< HEAD
+    def runTimer(self, start, end):
+        self.running = True
+        thread.start_new_thread(self.timerCount, (start, end))
+
+    def runAndPrintTimer(self, start, end):
+        self.running = True
+        thread.start_new_thread(self.timerCount, (start, end))
+        thread.start_new_thread(self.synchronizedPrintTime, ())
+
+    def stop(self):
+        self.running = False
+        tf = self.lock.acquire()
+        print tf
+        self.lock.release()
 
 def TestRunning():
     black=(0,0,0)
@@ -60,26 +79,10 @@ def TestRunning():
     size = [560,840]
     screen = pygame.display.set_mode(size)
     screen.fill(white)
-=======
-size = [560,840] 
-screen = pygame.display.set_mode(size)
-screen.fill(white)
-pygame.display.flip()
-timer = Timer('quizAssets/ImagesForQuizApp/Button_purple.png', screen, 100, 100)
-going = True
-thread.start_new_thread(timer.runTimer, (0, 10))
-thread.start_new_thread(timer.synchronizedPrintTime, ())
-while going:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            going = False
-            timer.running = False
->>>>>>> 5f9fc3a0c4bfc1658d5063fe205ca499a5639c5a
     pygame.display.flip()
-    timer = Timer('quizAssets/ImagesForQuizApp/Button_purple.png', screen, 100, 100)
+    timer = Timer(screen, 100, 100)
     going = True
-    thread.start_new_thread(timer.runTimer, (20, 0))
-    thread.start_new_thread(timer.synchronizedPrintTime, ())
+    timer.runTimer(20, 0)
     while going:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
