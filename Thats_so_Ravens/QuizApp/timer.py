@@ -69,7 +69,9 @@ class Timer:
 
     def stop(self):
         self.running = False
-
+        tf = self.lock.acquire()
+        print tf
+        self.lock.release()
 
 def TestRunning():
     black=(0,0,0)
