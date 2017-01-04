@@ -1,3 +1,4 @@
+import Helpers as helpers
 import pygame
 from QuizApp.quiz import Quiz
 from MazeApp.maze import Maze
@@ -55,8 +56,8 @@ class Quad:
                         #click_sound.play()
                                                     
                 self.screen.blit(zFrame_background, backgroundRect) 
-                self.make_button(event, self.quiz.normalize(460, 'x'), self.quiz.normalize(0, 'y'), self.quiz.normalize(100, 'x'), self.quiz.normalize(840, 'y'), 1)
-                self.make_button(event, self.quiz.normalize(0, 'x'), self.quiz.normalize(480, 'y'), self.quiz.normalize(71, 'x'), self.quiz.normalize(375, 'y'), 4)                            
+                self.make_button(event, helpers.normalize(self.quiz.size, 460, 'x'), helpers.normalize(self.quiz.size,0, 'y'), helpers.normalize(self.quiz.size,100, 'x'), helpers.normalize(self.quiz.size,840, 'y'), 1)
+                self.make_button(event, helpers.normalize(self.quiz.size,0, 'x'), helpers.normalize(self.quiz.size,480, 'y'), helpers.normalize(self.quiz.size,71, 'x'), helpers.normalize(self.quiz.size,375, 'y'), 4)
                 pygame.display.flip()
             
             pygame.quit()                                                           
