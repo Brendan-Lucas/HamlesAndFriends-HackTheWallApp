@@ -125,7 +125,7 @@ class Quiz:
                             self.cor_img = self.init_and_resize_image('checkmark.png', (helpers.normalize(self.size, 300, 'x'), helpers.normalize(self.size, 100, 'y')))
                             self.score+=1
                         else:
-                            self.cor_img = self.init_and_resize_image('wrong.png', (helpers.normalize(self.size, 300, 'x'), helpers.normalize(self.size, 100, 'y')))
+                            self.cor_img = self.init_and_resize_image('Wrong.png', (helpers.normalize(self.size, 300, 'x'), helpers.normalize(self.size, 100, 'y')))
                             rect = self.screen.blit(self.redButton,[left, top])
                             self.screen.blit(text, coordinates_text)
             else:
