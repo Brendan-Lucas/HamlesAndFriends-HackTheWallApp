@@ -38,6 +38,14 @@ def make_back(self, event):
         self.screen.blit(self.backButtonBlack, coordinates_button)
         return not back_pressed
 
+def split_question_print_text(text, arr, font):
+    if (len(text) > 25 and text.find(' ', 21) != -1):
+        num = text.find(' ', 25) if 0 < text.find(' ', 25) <= 26 else text.find(' ', 21)
+        arr.append(font.render(text[:num], True, BLACK))
+        return split_question_print_text(text[num:], arr, font)
+    else:
+        arr.append(font.render(text, True, BLACK))
+        return arr
 
 def make_question(self):
     def split_question_print_text(text, arr):
