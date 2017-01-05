@@ -27,7 +27,7 @@ class Quiz:
         self.file=" hamlesFile "
         self.cor_text = ''
         self.cor_img = ''
-        self.timeout=False  # probably not needed use self.timeoutTimer.running
+        self.timeout=False
         self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "assets/TimerBackground.png")
         self.timer2 = Timer()
         self.timeoutTimer = Timer()
@@ -93,7 +93,6 @@ class Quiz:
         y_center = helpers.normalize(self.size, 30, 'y')
         side = 40
         coordinates_button=(x_center-(side/2), y_center-(side/2))
-        #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
         if (x_center-(side/2) < mouse[0] < x_center+(side/2)) and (y_center-(side/2) < mouse[1] < y_center+(side/2)):
             self.screen.blit(self.backButtonBlue, coordinates_button)
             if event:
@@ -163,7 +162,6 @@ class Quiz:
             pygame.display.flip()
             self.timer2.runTimer(3, 0)
             self.switch_q = True
-            print(self.timer2.running)
         if self.switch_q and not self.timer2.running:
             self.q_count += 1
             self.b_press = False
@@ -202,7 +200,6 @@ class Quiz:
                     pygame.display.flip()
                     self.timer2.runTimer(3, 0)
                     self.switch_q = True
-                    print(self.timer2.running)
                 #after time passed, want to go to bulrb screen, contians image top left and info below
                 pygame.display.flip()
             #outside for
@@ -210,7 +207,6 @@ class Quiz:
             pygame.display.flip() #possibly not needed
             if not self.timeoutTimer.running:
                 self.timeout = True
-                print "Should end now because its timed out"
         return done
 #click_sound = pygame.mixer.Sound("laser5.ogg")
 #click_sound.play
