@@ -179,7 +179,7 @@ class Quiz:
         back = False
         done = False
         self.fresh_screen()
-        self.timer.runAndPrintTimer(30, 0)
+        if self.q_count<len(self.questions): self.timer.runAndPrintTimer(30, 0)
         self.timeoutTimer.runTimer(90, 0)
         while not (back or done or self.timeout):
             for event in pygame.event.get():
