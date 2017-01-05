@@ -1,0 +1,17 @@
+runscreen:
+  initailize sceen
+  info box
+  LOOP:
+      startTimer(20, 0)
+      next Question():
+              -button actions repeated (back and the four others)
+      correct/wrong screen:
+              -stop timer
+              -start timer2
+              -update score
+              -add back
+              -print cor-text
+              -change button colours
+      info box explains answer:
+              -next_button and back button
+              -startTimer(30 secs)
