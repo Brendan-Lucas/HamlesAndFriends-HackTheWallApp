@@ -11,20 +11,19 @@ class Timer:
     black=(0,0,0)
     white=(255,255,255)
 
-    def __init__(self, display, centerPosX, centerPosY, background=None):
+    def __init__(self, display=None, centerPosX=None, centerPosY=None, background=None):
         #an "image" directory should be passed for clockFace
         self.font = pygame.font.SysFont('Calibri', 35, True, False)
-        self.clockFace = pygame.transform.scale(pygame.image.load(background).convert(), (83, 48)) if background is not None else None
         self.endTime = ''
         self.startTime = ''
         self.currentTime = ''
-        self.display = display
-        self.centerPosImage = (centerPosX-8, centerPosY-6)
-        self.centerPos = (centerPosX, centerPosY)
         self.lock = thread.allocate_lock()
         self.running = False
-
-
+        print background
+        if background: self.clockFace = pygame.transform.scale(pygame.image.load(background), (83, 48))
+        if display: self.display = display
+        if centerPosX and centerPosY: self.centerPosImage = (centerPosX-8, centerPosY-6)
+        if centerPosX and centerPosY: self.centerPos = (centerPosX, centerPosY)
 
     def timerCount(self, startTime, endTime=0):
         self.startTime = startTime

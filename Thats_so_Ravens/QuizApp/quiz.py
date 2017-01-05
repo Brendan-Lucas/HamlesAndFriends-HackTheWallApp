@@ -28,9 +28,9 @@ class Quiz:
         self.cor_text = ''
         self.cor_img = ''
         self.timeout=False  # probably not needed use self.timeoutTimer.running
-        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'))
-        self.timer2 = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'))
-        self.timeoutTimer = Timer(self.screen, 0, 0)
+        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "assets/TimerBackground.png")
+        self.timer2 = Timer()
+        self.timeoutTimer = Timer()
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
@@ -62,13 +62,6 @@ class Quiz:
         for i in range(0,5):
             self.questions.append(Question().init_question(Qarr[i], Aarr[i]))
 ############## End of INIT HELPERS
-
-    def normalize(self, coordinate, x_or_y):
-        if x_or_y == 'x':
-            number = self.size[0]*(coordinate/560.0)
-        else:
-            number = self.size[1]*(coordinate/840.0)
-        return int(number)
 
     def make_question(self):
         def split_question_print_text(text, arr):
@@ -161,11 +154,11 @@ class Quiz:
             self.make_answers(event)
         if not self.b_press and not self.timer.running:
             self.cor_img = self.init_and_resize_image('wrong.png', (helpers.normalize(self.size, 300, 'x'), helpers.normalize(self.size, 100, 'y')))
-            self.b_press = True
+            if self.q_count<len(self.questions): self.b_press = True
         if self.b_press and not self.switch_q:
             self.timer.stop()
             self.fresh_screen(event)  # setsScoreToNewValue
-            if self.q_count<len(self.questions): self.make_answers()
+            self.make_answers()
             self.screen.blit(self.cor_img, [helpers.normalize(self.size, 130, 'x'), helpers.normalize(self.size, 390, 'y')])
             pygame.display.flip()
             self.timer2.runTimer(3, 0)
@@ -201,7 +194,7 @@ class Quiz:
                     self.make_answers(event)
                 if not self.b_press and not self.timer.running:
                     self.cor_img = self.init_and_resize_image('wrong.png', (helpers.normalize(self.size, 300, 'x'), helpers.normalize(self.size, 100, 'y')))
-                    self.b_press = True
+                    if self.q_count<len(self.questions): self.b_press = True
                 if self.b_press and not self.switch_q:
                     self.timer.stop()
                     self.fresh_screen(event)  # setsScoreToNewValue
