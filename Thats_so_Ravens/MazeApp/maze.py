@@ -1,4 +1,5 @@
 import pygame
+import Thats_so_Ravens.Helpers as helpers
 from labyrinth import Labyrinth
 from player import Player
 from wall import Wall
@@ -25,6 +26,7 @@ BLUE = (0,   0, 255)
 
 class Maze():
     def __init__(self, size, dimensions):
+        self.size = size
         self.tile_size = min(size[0]/dimensions[0], size[1]/dimensions[1])
         self.player = Player(self.tile_size/3)
         self.walls = []
@@ -34,8 +36,19 @@ class Maze():
         self.clock = pygame.time.Clock()
         self.floorImage = []
         self.wallImage = []
+        self.load_life_images()
 
         self.tile_setup(dimensions)
+
+    def load_life_images(self):
+        self.life_images = []
+        for i in range(1, 4):
+            image = pygame.transform.scale(pygame.image.load("MazeApp/mazeAssets/lives_" + str(i) + ".png"), (helpers.normalize(self.size, 120, 'x'), helpers.normalize(self.size, 40, 'y')))
+            self.life_images.append(image)
+
+    def print_lives(self):
+        lives = self.player.lives - 1
+        self.screen.blit(self.life_images[lives], (helpers.normalize(self.size, 430, 'x'), helpers.normalize(self.size, 10, 'y')))
 
     def get_grid_from_labyrinth(self, dimensions):
         lab = Labyrinth(dimensions)
@@ -47,7 +60,6 @@ class Maze():
         self.load_wall_images()
         self.init_floors_and_walls(array)
         self.two_d_tiles(array)
-
 
     def collision(self):
         x_coords = [self.player.rect.x / self.tile_size]
@@ -144,6 +156,7 @@ class Maze():
                     if self.collision() == 'dead':
                         done = True
                         break
+                    self.print_lives()
                     pygame.display.flip()
         pygame.mouse.set_visible(True)
         if done:
