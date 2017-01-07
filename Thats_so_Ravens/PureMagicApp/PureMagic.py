@@ -11,15 +11,15 @@ class PureMagic(ShowBase):
         #load model
         self.scene = self.loader.loadModel("PureMagicAssets/Gym.egg")
         #reparent scene to render
-        #self.scene.reparentTo(self.render)
+        self.scene.reparentTo(self.render)
         #set scale and positon of the model/scene
-        #self.scene.setScale(0.25, 0.25, 0.25)
-        #self.scene.setPos(-8, 42, 0)
+        self.scene.setScale(0.25, 0.25, 0.25)
+        self.scene.setPos(-8, 42, 0)
         self.profModels = []
         self.initProfModels()
-        self.Profs = []
-        self.init_profs()
-        self.rodney = Rodney(self.scene)
+        #self.Profs = []
+        #self.init_profs()
+        #self.rodney = Rodney(self.scene)
         #position camera;
 
     def init_profModels(self):
@@ -51,7 +51,9 @@ class PureMagic(ShowBase):
         self.prof_count=0
         self.scene.reparentTo(self.render)
         #infoBoxExplainingStuff
-        while self.prof_count < 4:
-            self.nextProf()
-            self.rodney.run()
-            
+        #while self.prof_count < 4:
+            #self.rodney.run()
+            #self.nextProf()
+
+pureMagic = PureMagic()
+pureMagic.run()
