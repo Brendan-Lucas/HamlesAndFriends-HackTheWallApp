@@ -1,7 +1,6 @@
-from direct.showbae.ShowBase import ShowBase
-import info
-import Thats_so_Ravens.Helpers as helpers
-import Thats_so_Ravens.info as info
+from direct.showbase.ShowBase import ShowBase
+# import Thats_so_Ravens.Helpers as helpers
+# import Thats_so_Ravens.info as info
 
 class PureMagic(ShowBase):
 
@@ -16,7 +15,7 @@ class PureMagic(ShowBase):
         self.scene.setScale(0.25, 0.25, 0.25)
         self.scene.setPos(-8, 42, 0)
         self.profModels = []
-        self.initProfModels()
+        self.init_profModels()
         #self.Profs = []
         #self.init_profs()
         #self.rodney = Rodney(self.scene)
@@ -39,21 +38,87 @@ class PureMagic(ShowBase):
 
     def nextProf(self):
         if self.prof_count == 3:
-            render_object(self.Profs)
+            self.render_object(self.Profs)
         else:
-            render_object(self.Profs[prof_count])
+            self.render_object(self.Profs[self.prof_count])
 
         #make prof walk to scenterofRoom.
-        self.Profs[prof_count].start_attacking()
-        self.prof_count+=1
+        self.Profs[self.prof_count].start_attacking()
+        self.prof_count += 1
 
     def run(self):
-        self.prof_count=0
+        self.prof_count = 0
         self.scene.reparentTo(self.render)
         #infoBoxExplainingStuff
         #while self.prof_count < 4:
             #self.rodney.run()
             #self.nextProf()
+
+    ##def scene.game_over
+
+class Prof(Actor):
+    def __init__(self, scene, model, lives):
+        Actor.__init__(model)
+        self.scene = scene
+        self.lives = lives
+
+    def attack(self, shot_frequency):
+        self.loop(movement_sequence)
+        self.shoot(shot_frequency)
+
+    def enter(self):
+        self.play(enter_animation)
+        self.play(shit_talk)
+
+    def get_hit(self):
+        self.lives -= 1
+        self.play(get_hit_animation)
+        if self.lives == 0:
+            self.die()
+
+    def shoot(self):
+        ###### RANDOM LOOP OF SHOOTING
+            ### shoot
+
+    def die(self):
+        self.play(death_animation)
+        self.removeNode()
+
+class Rodney(Actor):
+    def __init__(self, scene, model, lives):
+        Actor.__init__(model)
+        self.scene = scene
+        self.lives = lives
+        self.charged = False
+        self.block = True
+
+    def charge(self):
+        self.play(charge_animation)
+        self.charged = True
+
+    def shoot(self, direction):
+        if self.charge:
+            #### CREATE PROJECTILE AND FIRE IT IN THE DIRECTION THAT WE WANT IT TO GO
+            self.charged = False
+        else:
+            self.play(uncharged animation)
+
+    def get_hit(self):
+        if not self.block:
+            self.lives -= 1
+            self.play(get hit animation)
+            if self.lives == 0:
+                self.die
+
+    def die(self):
+        self.play(death_animation)
+        self.scene.game_over()
+
+    def block(self):
+        self.block = True
+        self.play(blocking animation)
+        self.pose(blocking animation) #### last frame for 1 second
+        self.block = False
 
 pureMagic = PureMagic()
 pureMagic.run()
