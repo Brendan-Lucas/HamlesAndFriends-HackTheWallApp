@@ -1,4 +1,5 @@
 from direct.showbase.ShowBase import ShowBase
+from direct.actor.Actor import Actor
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
@@ -63,25 +64,27 @@ class Prof(Actor):
         self.lives = lives
 
     def attack(self, shot_frequency):
-        self.loop(movement_sequence)
+        #self.loop(movement_sequence)
         self.shoot(shot_frequency)
 
     def enter(self):
-        self.play(enter_animation)
-        self.play(shit_talk)
+        #self.play(enter_animation)
+        #self.play(shit_talk)
+        x = 1
 
     def get_hit(self):
         self.lives -= 1
-        self.play(get_hit_animation)
+        #self.play(get_hit_animation)
         if self.lives == 0:
             self.die()
 
     def shoot(self):
+        x = 1
         ###### RANDOM LOOP OF SHOOTING
             ### shoot
 
     def die(self):
-        self.play(death_animation)
+        #self.play(death_animation)
         self.removeNode()
 
 class Rodney(Actor):
@@ -93,31 +96,31 @@ class Rodney(Actor):
         self.block = True
 
     def charge(self):
-        self.play(charge_animation)
+        #self.play(charge_animation)
         self.charged = True
 
     def shoot(self, direction):
         if self.charge:
             #### CREATE PROJECTILE AND FIRE IT IN THE DIRECTION THAT WE WANT IT TO GO
             self.charged = False
-        else:
-            self.play(uncharged animation)
+        # else:
+          #  self.play(uncharged animation)
 
     def get_hit(self):
         if not self.block:
             self.lives -= 1
-            self.play(get hit animation)
+         #   self.play(get hit animation)
             if self.lives == 0:
                 self.die
 
     def die(self):
-        self.play(death_animation)
+        #self.play(death_animation)
         self.scene.game_over()
 
     def block(self):
         self.block = True
-        self.play(blocking animation)
-        self.pose(blocking animation) #### last frame for 1 second
+        #self.play(blocking animation)
+        #self.pose(blocking animation) #### last frame for 1 second
         self.block = False
 
 pureMagic = PureMagic()
