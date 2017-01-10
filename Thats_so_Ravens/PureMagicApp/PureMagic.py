@@ -1,5 +1,8 @@
 from direct.showbase.ShowBase import ShowBase
 from direct.actor.Actor import Actor
+from direct.interval.IntervalGlobal import Sequence
+from direct.interval.LerpInterval import LerpPosInterval
+from panda3d.core import Point3
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
@@ -59,12 +62,13 @@ class PureMagic(ShowBase):
 
 class Prof(Actor):
     def __init__(self, scene, model, lives):
-        Actor.__init__(model)
+        Actor.__init__(self, model)
         self.scene = scene
         self.lives = lives
+        self.make_move_animation()
 
     def attack(self, shot_frequency):
-        #self.loop(movement_sequence)
+        self.movement_animation.loop()
         self.shoot(shot_frequency)
 
     def enter(self):
@@ -87,9 +91,25 @@ class Prof(Actor):
         #self.play(death_animation)
         self.removeNode()
 
+    # def make_move_animation(self, profName):
+    #     if profName == "Arod":
+    #         profPositionInterval1 = self.posInterval(5, Point3(self.end), startPos = self.start)
+    #         profPositionInterval2 = self.posInterval(5, Point3(self.start), startPos = self.end)
+    #         self.movement_animation = Sequence(profPositionInterval1, profPositionInterval2, name="movement_animation")
+    #     if profName == "Emily":
+    #         # def
+    #         # profPositionInterval1 = self.posInterval(2, Point3(2,2,0), startPos = ())
+    #         # profPositionInterval2 = self.posInterval(2, Point3(4,0,0), startPos = (2,2,0))
+    #         # profPositionInterval3 =
+    #         # profPositionInterval4 =
+    #         # profPositionInterval5 =
+    #         # profPositionInterval6 =
+    #
+    #     if profName == "Other"
+
 class Rodney(Actor):
     def __init__(self, scene, model, lives):
-        Actor.__init__(model)
+        Actor.__init__(self, model)
         self.scene = scene
         self.lives = lives
         self.charged = False
@@ -122,6 +142,18 @@ class Rodney(Actor):
         #self.play(blocking animation)
         #self.pose(blocking animation) #### last frame for 1 second
         self.block = False
+
+class Projectiles(Actor):
+    def __init__(self, scene, model, start, end):
+        Actor.__init__(self, model)
+        self.scene = scene
+        self.start = start
+        self.end = end
+        self.movement_animation = self.make_move_animation()
+        self.movement_animation.loop()
+
+    def make_move_animation(self):
+        return self.LerpPosInterval(13, Point3(self.end), startPos = self.start)
 
 pureMagic = PureMagic()
 pureMagic.run()
