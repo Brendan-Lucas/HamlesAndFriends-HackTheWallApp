@@ -30,9 +30,14 @@ class PureMagic(ShowBase):
         self.profModels.append(self.loader.loadModel("PureMagicAssets/Emily.egg"))
         self.profModels.append(self.loader.loadModel("PureMagicAssets/other.egg"))
 
+    def init_profNames(self):
+        self.profNames.append("Arod")
+        self.profNames.append("Emily")
+        self.profNames.append("Other")
+
     def init_profs(self):
-        for i in range(0, 4, step=1):
-            self.Profs.append(Prof(self.scene, self.profModels[i], (i+2)))
+        for i in range(0, 3):
+            self.Profs.append(Prof(self.render, self.profModels[i], (i+2), self.profNames[i]))
 
     def render_object(items, NodePath, scale, pos=(1,1,-1)):
         for item in items:
@@ -106,7 +111,7 @@ class Prof(Actor):
         if self.prof_name == "Arod":
             profPositionIntervals.append(self.posInterval(5, Point3(start), startPos = (60, 0, 0)))
             profPositionIntervals.append(self.posInterval(5, Point3(60, 0, 0), startPos = start))
-            self.prof_movement = Sequence(profPositionInterval1, profPositionInterval2, name="movement_animation")
+            self.prof_movement = Sequence(*profPositionIntervals, name="movement_animation")
         elif self.prof_name == "Emily":
             for i in range(0, 3):
                 profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (20, -20, 0))),
