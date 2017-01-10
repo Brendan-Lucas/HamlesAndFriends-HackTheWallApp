@@ -50,21 +50,24 @@ class PureMagic(ShowBase):
         self.Profs[self.prof_count].start_attacking()
         self.prof_count += 1
 
-    def run(self):
-        self.prof_count = 0
-        self.scene.reparentTo(self.render)
-        #infoBoxExplainingStuff
-        #while self.prof_count < 4:
-            #self.rodney.run()
-            #self.nextProf()
+    # def run(self):
+    #     self.prof_count = 0
+    #     self.scene.reparentTo(self.render)
+    #     #infoBoxExplainingStuff
+    #     #while self.prof_count < 4:
+    #         #self.rodney.run()
+    #         #self.nextProf()
 
     ##def scene.game_over
 
 class Prof(Actor):
-    def __init__(self, scene, model, lives):
+    def __init__(self, scene, model, lives, name):
         Actor.__init__(self, model)
+        self.reparentTo(scene)
+        self.setScale(0.03,0.03,0.03)
         self.scene = scene
         self.lives = lives
+        self.prof_name = name
         self.make_move_animation()
 
     def attack(self, shot_frequency):
@@ -91,33 +94,45 @@ class Prof(Actor):
         #self.play(death_animation)
         self.removeNode()
 
-    def make_move_animation(self, profName):
+    def make_move_animation(self):
         def addTupple(x, y):
             z = []
             for i in range(len(x)):
                 z.append(x[i] + y[i])
             return tuple(z)
-        if profName == "Arod":
-            profPositionInterval2 = self.posInterval(5, Point3(self.start), startPos = self.end)
-            profPositionInterval1 = self.posInterval(5, Point3(self.end), startPos = self.start)
-            self.movement_animation = Sequence(profPositionInterval1, profPositionInterval2, name="movement_animation")
-        if profName == "Emily":
-            start = self.getPos()
-            profPositionIntervals = []
-            for i in range(0, 3):
-                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(start, (2, 2, 0))),
-                                                     startPos=start))
-                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(start, (4, 0, 0))),
-                                                     startPos=addTupple(start, (2, 2, 0))))
-                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(start, (3, 1, 0))),
-                                                     startPos=addTupple(start, (4, 0, 0))))
-                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(start, (2, 0, 0))),
-                                                     startPos=addTupple(start, (3, 1, 0))))
-                start = addTupple(start, (2, 0, 0))
-            self.scene.getParent().prof_movement = Sequence(profPositionIntervals[0], profPositionIntervals[1], profPositionIntervals[2], profPositionIntervals[3], profPositionIntervals[4], profPositionIntervals[5], profPositionIntervals[6], profPositionIntervals[7], profPositionIntervals[8], profPositionIntervals[9], profPositionIntervals[10], profPositionIntervals[11], name="prof_movement")
 
-        if profName == "Other":
-            return
+        start = location = self.getPos()
+        profPositionIntervals = []
+        if self.prof_name == "Arod":
+            profPositionIntervals.append(self.posInterval(5, Point3(start), startPos = (60, 0, 0)))
+            profPositionIntervals.append(self.posInterval(5, Point3(60, 0, 0), startPos = start))
+            self.prof_movement = Sequence(profPositionInterval1, profPositionInterval2, name="movement_animation")
+        elif self.prof_name == "Emily":
+            for i in range(0, 3):
+                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (20, -20, 0))),
+                                                     startPos=location))
+                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (40, 0, 0))),
+                                                     startPos=addTupple(location, (20, -20, 0))))
+                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (30, -10, 0))),
+                                                     startPos=addTupple(location, (40, 0, 0))))
+                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (20, 0, 0))),
+                                                     startPos=addTupple(location, (30, -10, 0))))
+                location = addTupple(location, (20, 0, 0))
+            profPositionIntervals.append(self.posInterval(4, Point3(start), startPos=location))
+        elif self.prof_name == "Other":
+            for i in range(0,5):
+                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (20, 0, 0))), startPos=location))
+                profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (10, 0, 0))), startPos=addTupple(location, (20, 0, 0))))
+                location = addTupple(location, (20, 0, 0))
+            for i in range(0,5):
+                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (-20, 0, 0))), startPos=location))
+                profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (-10, 0, 0))),
+                                                              startPos=addTupple(location, (-20, 0, 0))))
+                location = addTupple(location, (-20, 0, 0))
+            # profPositionIntervals.append(self.posInterval(3, Point3(start), startPos=location))
+
+        self.prof_movement = Sequence(*profPositionIntervals, name="prof_movement")
+
 
 class Rodney(Actor):
     def __init__(self, scene, model, lives):
