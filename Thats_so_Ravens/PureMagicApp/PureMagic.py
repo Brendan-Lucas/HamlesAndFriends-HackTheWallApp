@@ -20,9 +20,11 @@ class PureMagic(ShowBase):
         self.scene.setPos(-8, 42, 0)
         self.profModels = []
         self.init_profModels()
-        #self.Profs = []
-        #self.init_profs()
+        self.Profs = []
+        #TODO: multiThread Rodney
         #self.rodney = Rodney(self.scene)
+        self.init_profs()
+        #TODO: Decide what happens after profs die.
         #position camera;
 
     def init_profModels(self):
@@ -31,8 +33,9 @@ class PureMagic(ShowBase):
         self.profModels.append(self.loader.loadModel("PureMagicAssets/other.egg"))
 
     def init_profs(self):
-        for i in range(0, 4, step=1):
-            self.Profs.append(Prof(self.scene, self.profModels[i], (i+2)))
+        profNames=["Arod", "Emily", "Other"]
+        for i in range(0, 4):
+            self.Profs.append(Prof(self.scene, self.profModels[i], (i+2), profNames[i], 1, self))
 
     def render_object(items, NodePath, scale, pos=(1,1,-1)):
         for item in items:
@@ -47,29 +50,23 @@ class PureMagic(ShowBase):
             self.render_object(self.Profs[self.prof_count])
 
         #make prof walk to scenterofRoom.
-        self.Profs[self.prof_count].start_attacking()
+        self.Profs[self.prof_count].attack()
         self.prof_count += 1
-
-    def run(self):
-        self.prof_count = 0
-        self.scene.reparentTo(self.render)
-        #infoBoxExplainingStuff
-        #while self.prof_count < 4:
-            #self.rodney.run()
-            #self.nextProf()
-
     ##def scene.game_over
 
 class Prof(Actor):
-    def __init__(self, scene, model, lives):
+    def __init__(self, scene, model, lives, name, attack_speed, pureApp):
         Actor.__init__(self, model)
         self.scene = scene
         self.lives = lives
+        self.prof_name = name
+        self.app = pureApp
+        self.attack_speed = attack_speed
         self.make_move_animation()
 
-    def attack(self, shot_frequency):
+    def attack(self):
         self.movement_animation.loop()
-        self.shoot(shot_frequency)
+        self.shoot()
 
     def enter(self):
         #self.play(enter_animation)
@@ -83,6 +80,7 @@ class Prof(Actor):
             self.die()
 
     def shoot(self):
+        #self.attack_speed
         return
         ###### RANDOM LOOP OF SHOOTING
             ### shoot
@@ -90,18 +88,20 @@ class Prof(Actor):
     def die(self):
         #self.play(death_animation)
         self.removeNode()
+        self.app.nextProf()
 
-    def make_move_animation(self, profName):
+    def make_move_animation(self):
         def addTupple(x, y):
             z = []
             for i in range(len(x)):
                 z.append(x[i] + y[i])
             return tuple(z)
-        if profName == "Arod":
+
+        if self.prof_name == "Arod":
             profPositionInterval2 = self.posInterval(5, Point3(self.start), startPos = self.end)
             profPositionInterval1 = self.posInterval(5, Point3(self.end), startPos = self.start)
             self.movement_animation = Sequence(profPositionInterval1, profPositionInterval2, name="movement_animation")
-        if profName == "Emily":
+        if self.prof_name == "Emily":
             start = self.getPos()
             profPositionIntervals = []
             for i in range(0, 3):
@@ -116,7 +116,7 @@ class Prof(Actor):
                 start = addTupple(start, (2, 0, 0))
             self.scene.getParent().prof_movement = Sequence(profPositionIntervals[0], profPositionIntervals[1], profPositionIntervals[2], profPositionIntervals[3], profPositionIntervals[4], profPositionIntervals[5], profPositionIntervals[6], profPositionIntervals[7], profPositionIntervals[8], profPositionIntervals[9], profPositionIntervals[10], profPositionIntervals[11], name="prof_movement")
 
-        if profName == "Other":
+        if self.prof_name == "Other":
             return
 
 class Rodney(Actor):
