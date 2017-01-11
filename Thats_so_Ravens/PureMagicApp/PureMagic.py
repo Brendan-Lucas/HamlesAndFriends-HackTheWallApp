@@ -2,7 +2,7 @@ from direct.showbase.ShowBase import ShowBase
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
 from direct.interval.LerpInterval import LerpPosInterval
-from panda3d.core import Point3
+from panda3d.core import *
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
@@ -10,20 +10,34 @@ class PureMagic(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
-        self.prof_count = 0;
+        self.prof_count = 0
+        #Ambient Light
+        ambientLight = AmbientLight("AmbLight")
+        ambientLight.setColor(Vec4(1, 1, 1, 1))
+        ambientLightNodePath = self.render.attachNewNode(ambientLight)
+        self.render.setLight(ambientLightNodePath)
+        #DirectionalLightFacing forward:
+        #directionalLight = DirectionalLight('directionalLight')
+        #directionalLight.setColor(Vec4(1, 1, 1, 1))
+        #directionalLightNP = self.render.attachNewNode(directionalLight)
+        # This light is facing forwards, away from the camera.
+        #directionalLightNP.setHpr(0, -10, 20)
+        #self.render.setLight(directionalLightNP)
+
         #load model
-        self.scene = self.loader.loadModel("PureMagicAssets/Gym.egg")
+        self.scene = self.init_scene()
+        #self.scene.setTexGen(TextureStage.getDefault(), TexGenAttrib.MWorldPosition)
+        #self.scene.setTexProjector(TextureStage.getDefault(), self.render,  self.scene)
+        #self.scene.setTexPos(TextureStage.getDefault(), 0, 0, 0)
+        #self.scene.setTexScale(TextureStage.getDefault(), 0.25)
         #reparent scene to render
-        self.scene.reparentTo(self.render)
         #set scale and positon of the model/scene
-        self.scene.setScale(0.25, 0.25, 0.25)
-        self.scene.setPos(-8, 42, 0)
         self.profModels = []
-        self.init_profModels()
-        self.Profs = []
+        #self.init_profModels()
+        #self.Profs = []
         #TODO: multiThread Rodney
         #self.rodney = Rodney(self.scene)
-        self.init_profs()
+        #self.init_profs()
         #TODO: Decide what happens after profs die.
         #position camera;
 
@@ -53,6 +67,29 @@ class PureMagic(ShowBase):
         self.Profs[self.prof_count].attack()
         self.prof_count += 1
     ##def scene.game_over
+
+
+    def init_scene(self):
+        tunnel = [None] * 4
+
+        for x in range(4):
+            # Load a copy of the tunnel
+            tunnel[x] = self.loader.loadModel('PureMagicAssets/tunnel')
+            # The front segment needs to be attached to render
+            if x == 0:
+                tunnel[x].reparentTo(self.render)
+            # The rest of the segments parent to the previous one, so that by moving
+            # the front segement, the entire tunnel is moved
+            else:
+                tunnel[x].reparentTo(tunnel[x - 1])
+            # We have to offset each segment by its length so that they stack onto
+            # each other. Otherwise, they would all occupy the same space.
+            tunnel[x].setPos(0, 0, -50)
+            # Now we have a tunnel consisting of 4 repeating segments with a
+            # hierarchy like this:
+            # render<-tunnel[0]<-tunnel[1]<-tunnel[2]<-tunnel[3]
+            return tunnel
+                ##def scene.game_over
 
 class Prof(Actor):
     def __init__(self, scene, model, lives, name, attack_speed, pureApp):
