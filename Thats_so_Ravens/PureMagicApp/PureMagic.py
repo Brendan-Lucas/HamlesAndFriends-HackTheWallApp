@@ -71,13 +71,14 @@ class Prof(Actor):
         self.reparentTo(scene)
         self.setScale(0.03,0.03,0.03)
         self.scene = scene
+        self.setPos(0, 0, 0)
         self.lives = lives
         self.prof_name = name
         self.make_move_animation()
 
-    def attack(self, shot_frequency):
-        self.movement_animation.loop()
-        self.shoot(shot_frequency)
+    def attack(self, shot_frequency = 1):
+        self.prof_movement.loop()
+        self.shooting_pattern()
 
     def enter(self):
         #self.play(enter_animation)
@@ -90,8 +91,12 @@ class Prof(Actor):
         if self.lives == 0:
             self.die()
 
+    def shooting_pattern(self):
+        self.shoot()
+
     def shoot(self):
-        return
+        #prof shoot animation
+        Projectile(self.scene, "PureMagicAssets/other.egg", self.getPos(), self.scene.rodney.getPos())
         ###### RANDOM LOOP OF SHOOTING
             ### shoot
 
@@ -151,9 +156,10 @@ class Rodney(Actor):
         #self.play(charge_animation)
         self.charged = True
 
-    def shoot(self, direction):
+    def shoot(self, target):
         if self.charge:
-            #### CREATE PROJECTILE AND FIRE IT IN THE DIRECTION THAT WE WANT IT TO GO
+            ###Rodney shoot animation
+            Projectile(self.scene, "PureMagicAssets/other.egg", self.getPos(), target)
             self.charged = False
         # else:
           #  self.play(uncharged animation)
@@ -175,17 +181,24 @@ class Rodney(Actor):
         #self.pose(blocking animation) #### last frame for 1 second
         self.block = False
 
-class Projectiles(Actor):
+class Projectile(Actor):
     def __init__(self, scene, model, start, end):
         Actor.__init__(self, model)
         self.scene = scene
         self.start = start
         self.end = end
-        self.movement_animation = self.make_move_animation()
+        self.reparentTo(self.scene)
+        self.make_move_animation()
+
+    def shoot(self):
         self.movement_animation.loop()
 
     def make_move_animation(self):
-        return self.LerpPosInterval(13, Point3(self.end), startPos = self.start)
+        projectilePositionInterval = self.posInterval(5, Point3(self.end), startPos = self.start)
+        self.movement_animation = Sequence(projectilePositionInterval, name = "movement_animation")
+
+    def delete(self):
+        self.remove_node()
 
 pureMagic = PureMagic()
 pureMagic.run()
