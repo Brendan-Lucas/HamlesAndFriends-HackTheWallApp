@@ -26,18 +26,25 @@ class PureMagic(ShowBase):
         #position camera;
 
     def init_profModels(self):
-        self.profModels.append(self.loader.loadModel("PureMagicAssets/A_Rod_Mod.egg"))
-        self.profModels.append(self.loader.loadModel("PureMagicAssets/Emily.egg"))
-        self.profModels.append(self.loader.loadModel("PureMagicAssets/other.egg"))
+        profModels = []
+        profModels.append(self.loader.loadModel("PureMagicAssets/A_Rod_Mod.egg"))
+        profModels.append(self.loader.loadModel("PureMagicAssets/Emily.egg"))
+        profModels.append(self.loader.loadModel("PureMagicAssets/other.egg"))
+        return profModels
 
     def init_profNames(self):
-        self.profNames.append("Arod")
-        self.profNames.append("Emily")
-        self.profNames.append("Other")
+        profNames = []
+        profNames.append("Arod")
+        profNames.append("Emily")
+        profNames.append("Other")
+        return profNames
+
 
     def init_profs(self):
+        profNames = self.init_profNames()
+        profModels = self.init_profModels()
         for i in range(0, 3):
-            self.Profs.append(Prof(self.render, self.profModels[i], (i+2), self.profNames[i]))
+            self.Profs.append(Prof(self.render, profModels[i], (i+2), profNames[i]))
 
     def render_object(items, NodePath, scale, pos=(1,1,-1)):
         for item in items:
@@ -68,13 +75,22 @@ class PureMagic(ShowBase):
 class Prof(Actor):
     def __init__(self, scene, model, lives, name):
         Actor.__init__(self, model)
-        self.reparentTo(scene)
+        # self.reparentTo(scene)
         self.setScale(0.03,0.03,0.03)
         self.scene = scene
         self.setPos(0, 0, 0)
         self.lives = lives
         self.prof_name = name
         self.make_move_animation()
+
+    def walkin(self):
+        self.setPos(0, 200, 0)
+        self.reparentTo(self.scene)
+
+    def go(self):
+        self.walkin()
+        # self.attack()
+
 
     def attack(self, shot_frequency = 1):
         self.prof_movement.loop()
