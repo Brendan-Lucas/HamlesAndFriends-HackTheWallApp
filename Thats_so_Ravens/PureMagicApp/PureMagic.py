@@ -2,7 +2,8 @@ from direct.showbase.ShowBase import ShowBase
 from direct.actor.Actor import Actor
 from direct.interval.IntervalGlobal import Sequence
 from direct.interval.LerpInterval import LerpPosInterval
-from panda3d.core import Point3
+from direct.interval.FunctionInterval import Func
+from panda3d.core import *
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
@@ -25,6 +26,16 @@ class PureMagic(ShowBase):
         #self.rodney = Rodney(self.scene)
         #position camera;
 
+    def test_function(self):
+        self.rodney = self.loader.loadModel("PureMagicAssets/Emily.egg")
+        self.rodney.setScale(0.1, 0.1, 0.1 )
+        self.rodney.setPos(0, 20, 0)
+        self.rodney.reparentTo(self.render)
+        self.Profs = []
+        self.scene = self.render
+        self.init_profs()
+        self.Profs[1].go()
+
     def init_profModels(self):
         profModels = []
         profModels.append(self.loader.loadModel("PureMagicAssets/A_Rod_Mod.egg"))
@@ -44,7 +55,7 @@ class PureMagic(ShowBase):
         profNames = self.init_profNames()
         profModels = self.init_profModels()
         for i in range(0, 3):
-            self.Profs.append(Prof(self.render, profModels[i], (i+2), profNames[i]))
+            self.Profs.append(Prof(self, profModels[i], (i+2), profNames[i]))
 
     def render_object(items, NodePath, scale, pos=(1,1,-1)):
         for item in items:
@@ -73,28 +84,28 @@ class PureMagic(ShowBase):
     ##def scene.game_over
 
 class Prof(Actor):
-    def __init__(self, scene, model, lives, name):
+    def __init__(self, app, model, lives, name):
         Actor.__init__(self, model)
         # self.reparentTo(scene)
         self.setScale(0.03,0.03,0.03)
-        self.scene = scene
-        self.setPos(0, 0, 0)
+        self.app = app
+        self.scene = self.app.scene
         self.lives = lives
         self.prof_name = name
-        self.make_move_animation()
 
     def walkin(self):
         self.setPos(0, 200, 0)
         self.reparentTo(self.scene)
+        self.make_move_animation()
 
     def go(self):
         self.walkin()
-        # self.attack()
+        self.attack()
 
 
     def attack(self, shot_frequency = 1):
         self.prof_movement.loop()
-        self.shooting_pattern()
+        # self.shooting_pattern()
 
     def enter(self):
         #self.play(enter_animation)
@@ -107,12 +118,12 @@ class Prof(Actor):
         if self.lives == 0:
             self.die()
 
-    def shooting_pattern(self):
-        self.shoot()
+    # def shooting_pattern(self):
+    #     self.shoot()
 
-    def shoot(self):
+    def shoot(self, start, end):
         #prof shoot animation
-        Projectile(self.scene, "PureMagicAssets/other.egg", self.getPos(), self.scene.rodney.getPos())
+        Projectile(self.scene, "PureMagicAssets/other.egg", start, end).shoot()
         ###### RANDOM LOOP OF SHOOTING
             ### shoot
 
@@ -137,17 +148,22 @@ class Prof(Actor):
             for i in range(0, 3):
                 profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (20, -20, 0))),
                                                      startPos=location))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (20, -20, 0))), self.app.rodney.getPos))
                 profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (40, 0, 0))),
                                                      startPos=addTupple(location, (20, -20, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (40, 0, 0))), self.app.rodney.getPos))
                 profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (30, -10, 0))),
                                                      startPos=addTupple(location, (40, 0, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (30, -10, 0))), self.app.rodney.getPos))
+
                 profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (20, 0, 0))),
                                                      startPos=addTupple(location, (30, -10, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (20, 0, 0))), self.app.rodney.getPos))
                 location = addTupple(location, (20, 0, 0))
             profPositionIntervals.append(self.posInterval(4, Point3(start), startPos=location))
         elif self.prof_name == "Other":
             for i in range(0,5):
-                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (20, 0, 0))), startPos=location))
+                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (20, 0, 0))), startPos=location),)
                 profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (10, 0, 0))), startPos=addTupple(location, (20, 0, 0))))
                 location = addTupple(location, (20, 0, 0))
             for i in range(0,5):
@@ -156,6 +172,8 @@ class Prof(Actor):
                                                               startPos=addTupple(location, (-20, 0, 0))))
                 location = addTupple(location, (-20, 0, 0))
             # profPositionIntervals.append(self.posInterval(3, Point3(start), startPos=location))
+
+        # for action in profPositionIntervals:
 
         self.prof_movement = Sequence(*profPositionIntervals, name="prof_movement")
 
@@ -175,7 +193,7 @@ class Rodney(Actor):
     def shoot(self, target):
         if self.charge:
             ###Rodney shoot animation
-            Projectile(self.scene, "PureMagicAssets/other.egg", self.getPos(), target)
+            Projectile(self.scene, "PureMagicAssets/other.egg", self.getPos(), target).shoot()
             self.charged = False
         # else:
           #  self.play(uncharged animation)
@@ -210,7 +228,7 @@ class Projectile(Actor):
         self.movement_animation.loop()
 
     def make_move_animation(self):
-        projectilePositionInterval = self.posInterval(5, Point3(self.end), startPos = self.start)
+        projectilePositionInterval = self.posInterval(5, self.end, startPos = self.start)
         self.movement_animation = Sequence(projectilePositionInterval, name = "movement_animation")
 
     def delete(self):
