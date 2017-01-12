@@ -10,7 +10,7 @@ import random
 #Bottom     -1    0     5    -6
 #Left       4     -5    0    -2
 #Right      3     6     2     0
-#inAndout = [[0, -1, -4, 3],[1, 0, -5, 6],[4, 5, 0, 2],[-3, -6, -2, 0]]  
+#inAndout = [[0, -1, -4, 3],[1, 0, -5, 6],[4, 5, 0, 2],[-3, -6, -2, 0]]
 #def find_tile(self, inp, outp):
     #for direction in direct:
         #if inp in direction[1]:
@@ -21,7 +21,7 @@ def init_dictofdict(self):
     leftLoad = {'bottom': 5, 'top':4, 'right':-2}
     rightLoad = {'bottom': -6, 'left': 2, 'top':-3}
     load = {'top': topLoad, 'bottom': bottomLoad, 'left': leftLoad, 'right': rightLoad}
-    
+
 # def grid_value(self, setter = False, cursor = False):
 #     if not cursor:
 #         cursor = self.cursor
@@ -39,8 +39,8 @@ def init_dictofdict(self):
 #     self.get_feed()
 #
 # def find_tile_in_dict(self, feed):
-    
-    
+
+
 
 
 class Labyrinth():
@@ -50,7 +50,7 @@ class Labyrinth():
         self.cursor = [1,0]
         self.cursorStack = [[0,0]]
         self.done = False
-        
+
         self.init_grid(self.dimensions[0], self.dimensions[1])
 
     def remove_nines(self):
@@ -58,23 +58,23 @@ class Labyrinth():
             for y in range(0, len(self.grid[0])):
                 if self.grid[x][y] == 9:
                     self.grid[x][y] = 0
-        
-    def make_labyrinth(self):  
+
+    def make_labyrinth(self):
         while not self.done:
             if not self.check():
                 self.pop()
             else:
                 self.fill(self.check())
         self.remove_nines()
-                
+
     def pop(self):
         self.grid[self.cursor[0]][self.cursor[1]] = 9
         self.cursor[0] = self.cursorStack[-1][0]
         self.cursor[1] = self.cursorStack[-1][1]
         del self.cursorStack[-1]
-        
-        
-    
+
+
+
     def move_cursor(self, direction):
         if direction == 'top':
             self.cursor[1] -= 1
@@ -85,8 +85,8 @@ class Labyrinth():
         elif direction == 'left':
             self.cursor[0] -= 1
         else:
-            print('error in move_cursor')        
-                
+            print('error in move_cursor')
+
     def fill(self, directionArray):
         dvar = random.randint(0,len(directionArray)-1)
         direction = directionArray[dvar]
@@ -94,7 +94,7 @@ class Labyrinth():
         self.grid[self.cursor[0]][self.cursor[1]] = tileNumber
         self.cursorStack.append([self.cursor[0], self.cursor[1]])
         self.move_cursor(direction)
-            
+
     def find_match(self, direction):
         pingpong = self.grid[self.cursorStack[-1][0]][self.cursorStack[-1][1]]
         if direction == 'top':
@@ -123,7 +123,7 @@ class Labyrinth():
             elif pingpong in (2, 3, 6, 7):
                 return 5
             else:
-                return 'error,in downfindMatch'  
+                return 'error,in downfindMatch'
         elif direction == 'left':
             if pingpong in (1, 4, -3):
                 return -5
@@ -132,11 +132,11 @@ class Labyrinth():
             elif pingpong in (-2, -4, -5):
                 return -2
             else:
-                return 'error,in leftfindMatch'  
-        else:  
-            return 'could not find direction'      
-    
-    def check(self): 
+                return 'error,in leftfindMatch'
+        else:
+            return 'could not find direction'
+
+    def check(self):
         directionArray = []
         if self.cursor[1] != 0:
             if self.grid[self.cursor[0]][self.cursor[1]-1] == 0:
@@ -166,18 +166,19 @@ class Labyrinth():
             return directionArray
         else:
             return False
-        
-        
+
+
     def get_grid(self):
         return self.grid
-    
-    
+
+
     def init_grid(self, width, length):
         self.grid = []
         for i in range (0,width):
             self.grid.append([])
             for j in range (0,length):
-                self.grid[i].append(0) 
+                self.grid[i].append(0)
+        for i in range (1, 4):
+            self.grid[0][-i] = 9
         self.grid[0][0] = 7
         self.grid[-1][-1] = 8
-        
