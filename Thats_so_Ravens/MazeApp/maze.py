@@ -99,7 +99,7 @@ class Maze():
 
     def load_wall_images(self):
         for i in range(0, 9):
-            self.wallImage.append(pygame.image.load('MazeApp/mazeAssets/walls/Lines' + str(i) + '.png'))
+            self.wallImage.append(pygame.image.load('MazeApp/mazeAssets/walls/Wall' + str(i) + '.png'))
             self.floorImage.append(pygame.image.load('MazeApp/mazeAssets/floors/Floor' + str(i) + '.png'))
 
     def draw_tiles(self):
@@ -110,7 +110,7 @@ class Maze():
 
     def draw_rodney(self):
         self.screen.blit(self.player.image, self.player.rect)
-        
+
     def make_wall_from_array_location(self, x, y, number):
         tile = self.make_tile((x*self.tile_size, y*self.tile_size), self.floorImage[abs(number)], self.wallImage[abs(number)])
         wall = tile[0]
@@ -172,4 +172,3 @@ class Maze():
 
 # maze = Maze((560, 840), (10,15))
 # maze.run_screen()
-
