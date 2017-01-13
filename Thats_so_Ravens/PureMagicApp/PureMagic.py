@@ -27,6 +27,7 @@ class PureMagic(ShowBase):
         #position camera;
 
     def test_function(self):
+        self.Projectiles = []
         self.rodney = self.loader.loadModel("PureMagicAssets/Emily.egg")
         self.rodney.setScale(0.1, 0.1, 0.1 )
         self.rodney.setPos(0, 20, 0)
@@ -104,7 +105,8 @@ class Prof(Actor):
 
 
     def attack(self, shot_frequency = 1):
-        self.prof_movement.loop()
+        self.prof_movement.start()
+        #self.app.scene.Projectile[0].delete()
         # self.shooting_pattern()
 
     def enter(self):
@@ -123,7 +125,8 @@ class Prof(Actor):
 
     def shoot(self, start, end):
         #prof shoot animation
-        Projectile(self.scene, "PureMagicAssets/other.egg", start, end).shoot()
+        self.app.Projectiles.append(Projectile(self.scene, "PureMagicAssets/other.egg", start, end))
+        self.app.Projectiles[-1].shoot()
         ###### RANDOM LOOP OF SHOOTING
             ### shoot
 
@@ -179,12 +182,28 @@ class Prof(Actor):
 
 
 class Rodney(Actor):
-    def __init__(self, scene, model, lives):
+    def __init__(self, scene, model, rightArm, leftArm ,lives):
         Actor.__init__(self, model)
         self.scene = scene
         self.lives = lives
         self.charged = False
         self.block = True
+        self.leftArm = leftArm
+        self.rightArm = rightArm
+
+    def shooting_animation(self):
+        shooting_animation = []
+        ######## TODO Change numbers to actually make a shooting animation
+        shooting_animation.append(self.rightArm.hprInterval(1.0, Vec3(180, 90, 0)))
+        shoot = Sequence(*shooting_animation)
+        shoot.start();
+
+    def blocking_animation(self):
+        blocking_animation = []
+        ######## TODO Change numbers to actually make a shooting animation
+        blocking_animation.append(self.leftArm.hprInterval(1.0, Vec3(180, 90, 0)))
+        block = Sequence(*blocking_animation)
+        block.start()
 
     def charge(self):
         #self.play(charge_animation)
@@ -222,16 +241,17 @@ class Projectile(Actor):
         self.start = start
         self.end = end
         self.reparentTo(self.scene)
-        self.make_move_animation()
+        self.make_shot_animation()
 
     def shoot(self):
-        self.movement_animation.loop()
+        self.movement_animation.start()
 
-    def make_move_animation(self):
-        projectilePositionInterval = self.posInterval(5, self.end, startPos = self.start)
-        self.movement_animation = Sequence(projectilePositionInterval, name = "movement_animation")
+    def make_shot_animation(self):
+        projectilePositionInterval = self.posInterval(2, self.end, startPos = self.start)
+        self.movement_animation = Sequence(projectilePositionInterval)
 
     def delete(self):
+        
         self.remove_node()
 
 pureMagic = PureMagic()
