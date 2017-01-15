@@ -56,7 +56,7 @@ class PureMagic(ShowBase):
             #for Prof in self.Profs: Prof.attack()
         elif self.prof_count < 3:
             ls.append(self.Profs[self.prof_count])
-            render_object(ls, self.scene, (0.001,0.001,0.001), (-5, 5, 4.5))
+            render_object(ls, self.scene, scale=(0.001, 0.001, 0.001), pos=(-5, 5, 4.5))
             #make prof walk to scenterofRoom.
             #self.Profs[self.prof_count].attack()
 
