@@ -60,15 +60,18 @@ class PureMagic(ShowBase):
         for entry in self.handler.getEntries():
             if entry.getIntoNodePath().getName() == "rodneyCnode" and entry.getFromNodePath().getName() == "profShotCnode":
                 self.rodney.get_hit()
-                self.profProjectiles[0].delete()
-                del self.profProjectiles[0]
+                if self.profProjectiles:
+                    self.profProjectiles[0].delete()
+                    del self.profProjectiles[0]
             elif entry.getIntoNodePath().getName() == "profCnode" and entry.getFromNodePath().getName() == "rodneyShotCnode":
                 self.Profs[self.active_prof].get_hit()
-                self.rodProjectiles[0].delete()
-                del self.rodProjectiles[0]
+                if self.rodProjectiles:
+                    self.rodProjectiles[0].delete()
+                    del self.rodProjectiles[0]
             elif entry.getIntoNodePath().getName() == "wall_plane":
-                self.rodProjectiles[0].delete()
-                del self.rodProjectiles[0]
+                if self.rodProjectiles:
+                    self.rodProjectiles[0].delete()
+                    del self.rodProjectiles[0]
             self.handler.clear_entries()
         return Task.cont
 
