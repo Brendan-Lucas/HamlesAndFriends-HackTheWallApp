@@ -18,19 +18,23 @@ class Projectile(Actor):
         cs = CollisionSphere(0, 0, 0, 1)
         cnodePath = self.attachNewNode(CollisionNode('projectileCnode'))
         cnodePath.node().addSolid(cs)
+        self.app.cTrav.addCollider(cnodePath, self.app.handler)
 
-        projectileTag = self
-        rodneyTag = self.app.rodney
-        self.app.handler.addInPattern('projectileTag-into-rodneyTag')
-        self.app.rodney.accept('projectileTag-into-rodneyTag', self.app.rodney.get_hit)
-        for prof in self.app.Profs:
-            profTag = prof
-            self.app.handler.addInPattern('projectileTag-into-profTag')
-            prof.accept('projectileTag-into-profTag', prof.get_hit)
+        # projectileTag = self
+        # rodneyTag = self.app.rodney
+        # self.app.handler.addInPattern('projectileTag-into-rodneyTag')
+        # self.app.rodney.accept('projectileTag-into-rodneyTag', self.app.rodney.get_hit)
+        # for prof in self.app.Profs:
+        #     profTag = prof
+        #     self.app.handler.addInPattern('projectileTag-into-profTag')
+        #     prof.accept('projectileTag-into-profTag', prof.get_hit)
 
     def shoot(self):
         self.movement_animation.start()
 
+    def delete(self):
+        self.removeNode()
+
     def make_shot_animation(self):
-        projectilePositionInterval = self.posInterval(2, self.end, startPos = self.start)
+        projectilePositionInterval = self.posInterval(.5, self.end, startPos = self.start)
         self.movement_animation = Sequence(projectilePositionInterval)

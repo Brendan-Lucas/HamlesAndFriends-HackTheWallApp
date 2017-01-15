@@ -1,11 +1,11 @@
 from direct.showbase.ShowBase import ShowBase
-from direct.actor.Actor import Actor
-from direct.interval.IntervalGlobal import Sequence
-from direct.interval.FunctionInterval import Func
+from panda3d.core import CollisionTraverser, CollisionNode
+from panda3d.core import CollisionHandlerQueue, CollisionRay
 from panda3d.core import *
 from Rodney import Rodney
 from Projectiles import Projectile
 from Profs import Prof
+from direct.task import Task
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
@@ -17,6 +17,7 @@ class PureMagic(ShowBase):
         #load model
         self.scene = self.render
         self.test_function()
+        self.taskMgr.add(self.collision_task, "handle_collisions")
         # self.scene = self.loader.loadModel("PureMagicAssets/Gym.egg")
         # #reparent scene to render
         # self.scene.reparentTo(self.render)
@@ -32,23 +33,30 @@ class PureMagic(ShowBase):
 
     def test_function(self):
         self.handler = CollisionHandlerEvent()
-        self.Projectiles = []
+        self.rodProjectiles = []
+        self.profProjectiles = []
         self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
-        self.rodney.setScale(0.1, 0.1, 0.1 )
+        self.rodney.setScale(0.1, 0.1, 0.1)
         self.rodney.setPos(0, 20, 0)
         self.rodney.reparentTo(self.render)
         self.Profs = []
         self.scene = self.render
         self.init_profs()
         self.Profs[1].go()
+        self.handler = CollisionHandlerQueue()
+        self.traverser = CollisionTraverser('check projectiles')
+        self.cTrav = self.traverser
 
-    def init_collision_handlers(self):
-        for projectile in self.Projectiles:
-            projectileTag = projectile.getTag()
-            self.handler.addInPattern('projectileTag-into-rodneyTag')
-            for prof in self.Profs:
-                profTag = prof.getTag()
-                self.handler.addInPattern('projecitleTag-into-profTag')
+    def collision_task(self, task):
+        for entry in self.handler.getEntries():
+            if entry.getIntoNodePath().getName() == "rodneyCnode":
+                self.rodney.get_hit()
+                self.profProjectiles[0].delete()
+                del self.profProjectiles[0]
+            elif entry.getIntoNodePath().getName() == "profCnode":
+                self.Profs[self.active_prof].get_hit()
+            self.handler.clear_entries()
+        return Task.cont
 
     def init_profModels(self):
         profModels = []
@@ -70,6 +78,7 @@ class PureMagic(ShowBase):
         profModels = self.init_profModels()
         for i in range(0, 3):
             self.Profs.append(Prof(self, profModels[i], (i+2), profNames[i]))
+        self.active_prof = 0
 
     def render_object(items, NodePath, scale, pos=(1,1,-1)):
         for item in items:

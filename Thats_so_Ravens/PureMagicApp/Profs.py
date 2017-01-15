@@ -14,7 +14,6 @@ class Prof(Actor):
         self.lives = lives
         self.prof_name = name
         self.init_collision()
-        self.accept('projectileTag-into-profTag', self.get_hit)
 
 
     def walkin(self):
@@ -47,14 +46,15 @@ class Prof(Actor):
 
     def shoot(self, start, end):
         #prof shoot animation
-        self.app.Projectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", start, end))
-        self.app.Projectiles[-1].shoot()
+        self.app.profProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", start, end))
+        self.app.profProjectiles[-1].shoot()
 
         ###### RANDOM LOOP OF SHOOTING
             ### shoot
 
     def die(self):
         #self.play(death_animation)
+        self.app.active_prof += 1
         self.removeNode()
 
     def make_move_animation(self):

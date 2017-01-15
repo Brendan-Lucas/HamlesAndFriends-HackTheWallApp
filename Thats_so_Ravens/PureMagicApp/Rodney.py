@@ -11,11 +11,10 @@ class Rodney(Actor):
         self.scene = app.scene
         self.lives = lives
         self.charged = False
-        self.block = True
+        self.block = False
         self.leftArm = leftArm
         self.rightArm = rightArm
         self.init_collision()
-        self.accept('projectileTag-into-rodneyTag', self.get_hit)
 
     def init_collision(self):
         cs = CollisionSphere(0, 0, 0, 1)
@@ -48,17 +47,16 @@ class Rodney(Actor):
         # else:
           #  self.play(uncharged animation)
 
-    def get_hit(self):
-        print "hit"
-        # if not self.block:
-        #     self.lives -= 1
-        #  #   self.play(get hit animation)
-        #     if self.lives == 0:
-        #         self.die
-
     def die(self):
-        #self.play(death_animation)
+        print 'die'
         self.scene.game_over()
+
+    def get_hit(self):
+        if not self.block:
+            self.lives -= 1
+         #   self.play(get hit animation)
+            if self.lives == 0:
+                self.die()
 
     def block(self):
         self.block = True
