@@ -6,6 +6,12 @@ from panda3d.core import *
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
+def render_object(items, NodePath, scale=(1,1,1), pos=(1,1,-1)):
+    for item in items:
+        item.reparentTo(NodePath)
+        item.setScale(scale)
+        item.setPos(pos)
+
 class PureMagic(ShowBase):
 
     def __init__(self):
@@ -16,30 +22,20 @@ class PureMagic(ShowBase):
         ambientLight.setColor(Vec4(1, 1, 1, 1))
         ambientLightNodePath = self.render.attachNewNode(ambientLight)
         self.render.setLight(ambientLightNodePath)
-        #DirectionalLightFacing forward:
-        #directionalLight = DirectionalLight('directionalLight')
-        #directionalLight.setColor(Vec4(1, 1, 1, 1))
-        #directionalLightNP = self.render.attachNewNode(directionalLight)
-        # This light is facing forwards, away from the camera.
-        #directionalLightNP.setHpr(0, -10, 20)
-        #self.render.setLight(directionalLightNP)
-
-        #load model
-        self.scene = self.init_scene()
-        #self.scene.setTexGen(TextureStage.getDefault(), TexGenAttrib.MWorldPosition)
-        #self.scene.setTexProjector(TextureStage.getDefault(), self.render,  self.scene)
-        #self.scene.setTexPos(TextureStage.getDefault(), 0, 0, 0)
-        #self.scene.setTexScale(TextureStage.getDefault(), 0.25)
-        #reparent scene to render
-        #set scale and positon of the model/scene
+        #backgroundColour seting to mostly red.
+        self.setBackgroundColor(1,0.2,0.2,1)
+        #setup scene model and camera position
+        self.scene = self.init_scene_and_cam()
+        # load models
         self.profModels = []
-        #self.init_profModels()
-        #self.Profs = []
+        self.init_profModels()
+        #init profs
+        self.Profs = []
+        self.init_profs()
         #TODO: multiThread Rodney
         #self.rodney = Rodney(self.scene)
-        #self.init_profs()
-        #TODO: Decide what happens after profs die.
-        #position camera;
+        #start the game.
+        self.nextProf()
 
     def init_profModels(self):
         self.profModels.append(self.loader.loadModel("PureMagicAssets/A_Rod_Mod.egg"))
@@ -48,48 +44,33 @@ class PureMagic(ShowBase):
 
     def init_profs(self):
         profNames=["Arod", "Emily", "Other"]
-        for i in range(0, 4):
+        for i in range(0, 3):
             self.Profs.append(Prof(self.scene, self.profModels[i], (i+2), profNames[i], 1, self))
 
-    def render_object(items, NodePath, scale, pos=(1,1,-1)):
-        for item in items:
-            item.reparentTo(NodePath)
-            if scale: item.setScale(scale)
-            item.setPos(pos)
-
     def nextProf(self):
+        ls = []
         if self.prof_count == 3:
-            self.render_object(self.Profs)
-        else:
-            self.render_object(self.Profs[self.prof_count])
+            #TODO: load all three proffs to different locations and have them begin to attack
+            render_object(self.Profs, self.scene)
+            #TODO: Make proff attacking a task so that we can run it for all three.
+            #for Prof in self.Profs: Prof.attack()
+        elif self.prof_count < 3:
+            ls.append(self.Profs[self.prof_count])
+            render_object(ls, self.scene, (0.001,0.001,0.001), (-5, 5, 4.5))
+            #make prof walk to scenterofRoom.
+            #self.Profs[self.prof_count].attack()
 
-        #make prof walk to scenterofRoom.
-        self.Profs[self.prof_count].attack()
         self.prof_count += 1
     ##def scene.game_over
 
+    def init_scene_and_cam(self):
+        scene = self.loader.loadModel('PureMagicAssets/ring')
+        scene.reparentTo(self.render)
+        scene.setPos(0, 0, 0)
+        #setup Camera
+        self.cam.setPos(0, -25, 8)
+        return scene
 
-    def init_scene(self):
-        tunnel = [None] * 4
-
-        for x in range(4):
-            # Load a copy of the tunnel
-            tunnel[x] = self.loader.loadModel('PureMagicAssets/tunnel')
-            # The front segment needs to be attached to render
-            if x == 0:
-                tunnel[x].reparentTo(self.render)
-            # The rest of the segments parent to the previous one, so that by moving
-            # the front segement, the entire tunnel is moved
-            else:
-                tunnel[x].reparentTo(tunnel[x - 1])
-            # We have to offset each segment by its length so that they stack onto
-            # each other. Otherwise, they would all occupy the same space.
-            tunnel[x].setPos(0, 0, -50)
-            # Now we have a tunnel consisting of 4 repeating segments with a
-            # hierarchy like this:
-            # render<-tunnel[0]<-tunnel[1]<-tunnel[2]<-tunnel[3]
-            return tunnel
-                ##def scene.game_over
 
 class Prof(Actor):
     def __init__(self, scene, model, lives, name, attack_speed, pureApp):
@@ -99,7 +80,7 @@ class Prof(Actor):
         self.prof_name = name
         self.app = pureApp
         self.attack_speed = attack_speed
-        self.make_move_animation()
+        #self.make_move_animation()
 
     def attack(self):
         self.movement_animation.loop()
