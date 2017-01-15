@@ -10,7 +10,7 @@ class Rodney(Actor):
         self.app = app
         self.scene = app.scene
         self.lives = lives
-        self.charged = False
+        self.charged = True
         self.block = False
         self.leftArm = leftArm
         self.rightArm = rightArm
@@ -40,9 +40,10 @@ class Rodney(Actor):
         self.charged = True
 
     def shoot(self, target):
-        if self.charge:
+        if self.charged:
             ###Rodney shoot animation
-            Projectile(self.app, "PureMagicAssets/other.egg", self.getPos(), target).shoot()
+            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", self.getPos(), target, "rodney"))
+            self.app.rodProjectiles[-1].shoot()
             self.charged = False
         # else:
           #  self.play(uncharged animation)
@@ -58,8 +59,9 @@ class Rodney(Actor):
             if self.lives == 0:
                 self.die()
 
-    def block(self):
+    def blocks(self):
         self.block = True
         #self.play(blocking animation)
         #self.pose(blocking animation) #### last frame for 1 second
+    def unblocks(self):
         self.block = False

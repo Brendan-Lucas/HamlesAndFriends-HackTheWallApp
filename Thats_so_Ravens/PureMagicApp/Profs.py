@@ -9,15 +9,16 @@ class Prof(Actor):
         Actor.__init__(self, model)
         # self.reparentTo(scene)
         self.setScale(0.03,0.03,0.03)
+        self.setPos(0, 200, 0)
         self.app = app
         self.scene = self.app.scene
         self.lives = lives
         self.prof_name = name
         self.init_collision()
+        self.init_collision_plane()
 
 
     def walkin(self):
-        self.setPos(0, 200, 0)
         self.reparentTo(self.scene)
         self.make_move_animation()
 
@@ -26,14 +27,10 @@ class Prof(Actor):
         self.attack()
 
 
-    def attack(self, shot_frequency = 1):
+    def attack(self):
         self.prof_movement.loop()
-        # self.shooting_pattern()
-
-    def enter(self):
-        #self.play(enter_animation)
-        #self.play(shit_talk)
         return
+
 
     def get_hit(self):
         self.lives -= 1
@@ -46,7 +43,7 @@ class Prof(Actor):
 
     def shoot(self, start, end):
         #prof shoot animation
-        self.app.profProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", start, end))
+        self.app.profProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", start, end, "prof"))
         self.app.profProjectiles[-1].shoot()
 
         ###### RANDOM LOOP OF SHOOTING
@@ -106,3 +103,9 @@ class Prof(Actor):
         cs = CollisionSphere(0, 0, 0, 1)
         cnodePath = self.attachNewNode(CollisionNode('profCnode'))
         cnodePath.node().addSolid(cs)
+
+    def init_collision_plane(self):
+        cp = CollisionPlane(Plane(Vec3(0, -1, 0), Point3(0, 10, 0)))
+        cnodePath = self.attachNewNode(CollisionNode('wall_plane'))
+        cnodePath.node().addSolid(cp)
+        cnodePath.show()

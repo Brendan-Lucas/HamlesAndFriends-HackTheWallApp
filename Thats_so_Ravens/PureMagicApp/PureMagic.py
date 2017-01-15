@@ -6,6 +6,7 @@ from Rodney import Rodney
 from Projectiles import Projectile
 from Profs import Prof
 from direct.task import Task
+from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
@@ -18,6 +19,7 @@ class PureMagic(ShowBase):
         self.scene = self.render
         self.test_function()
         self.taskMgr.add(self.collision_task, "handle_collisions")
+        l = Listener(self)
         # self.scene = self.loader.loadModel("PureMagicAssets/Gym.egg")
         # #reparent scene to render
         # self.scene.reparentTo(self.render)
@@ -32,29 +34,41 @@ class PureMagic(ShowBase):
         #position camera;
 
     def test_function(self):
-        self.handler = CollisionHandlerEvent()
         self.rodProjectiles = []
         self.profProjectiles = []
+
         self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
         self.rodney.setScale(0.1, 0.1, 0.1)
         self.rodney.setPos(0, 20, 0)
         self.rodney.reparentTo(self.render)
+
         self.Profs = []
         self.scene = self.render
         self.init_profs()
+
         self.Profs[1].go()
+
         self.handler = CollisionHandlerQueue()
         self.traverser = CollisionTraverser('check projectiles')
         self.cTrav = self.traverser
 
+    def shoot_task(self, task):
+        return
+
+
     def collision_task(self, task):
         for entry in self.handler.getEntries():
-            if entry.getIntoNodePath().getName() == "rodneyCnode":
+            if entry.getIntoNodePath().getName() == "rodneyCnode" and entry.getFromNodePath().getName() == "profShotCnode":
                 self.rodney.get_hit()
                 self.profProjectiles[0].delete()
                 del self.profProjectiles[0]
-            elif entry.getIntoNodePath().getName() == "profCnode":
+            elif entry.getIntoNodePath().getName() == "profCnode" and entry.getFromNodePath().getName() == "rodneyShotCnode":
                 self.Profs[self.active_prof].get_hit()
+                self.rodProjectiles[0].delete()
+                del self.rodProjectiles[0]
+            elif entry.getIntoNodePath().getName() == "wall_plane":
+                self.rodProjectiles[0].delete()
+                del self.rodProjectiles[0]
             self.handler.clear_entries()
         return Task.cont
 
