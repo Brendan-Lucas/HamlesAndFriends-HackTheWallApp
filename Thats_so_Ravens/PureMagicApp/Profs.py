@@ -61,38 +61,48 @@ class Prof(Actor):
                 z.append(x[i] + y[i])
             return tuple(z)
 
+        x = 10
         start = location = self.getPos()
         profPositionIntervals = []
         if self.prof_name == "Arod":
-            profPositionIntervals.append(self.posInterval(5, Point3(start), startPos = (60, 0, 0)))
-            profPositionIntervals.append(self.posInterval(5, Point3(60, 0, 0), startPos = start))
+            i = 1
+            while i <= 6:
+                profPositionIntervals.append(self.posInterval(5, Point3(addTupple(location, (1 * x, 0, 0))), startPos=location))
+                location = addTupple(location, (1 * x, 0, 0))
+                profPositionIntervals.append(Func(self.shoot, Point3(location), self.app.rodney.getPos))
+                i += 1
+            while i >= 1:
+                profPositionIntervals.append(self.posInterval(5, Point3(addTupple(location, (-1 * x, 0, 0))), startPos=location))
+                location = addTupple(location, (-1 * x, 0, 0))
+                profPositionIntervals.append(Func(self.shoot, Point3(location), self.app.rodney.getPos))
+                i -= 1
         elif self.prof_name == "Emily":
             for i in range(0, 3):
-                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (20, -20, 0))),
+                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (2*x, -2*x, 0))),
                                                      startPos=location))
-                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (20, -20, 0))), self.app.rodney.getPos))
-                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (40, 0, 0))),
-                                                     startPos=addTupple(location, (20, -20, 0))))
-                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (40, 0, 0))), self.app.rodney.getPos))
-                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (30, -10, 0))),
-                                                     startPos=addTupple(location, (40, 0, 0))))
-                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (30, -10, 0))), self.app.rodney.getPos))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (2*x, -2*x, 0))), self.app.rodney.getPos))
+                profPositionIntervals.append(self.posInterval(2, Point3(addTupple(location, (4*x, 0, 0))),
+                                                     startPos=addTupple(location, (2*x, -2*x, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (4*x, 0, 0))), self.app.rodney.getPos))
+                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (3*x, -1*x, 0))),
+                                                     startPos=addTupple(location, (4*x, 0, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (3*x, -1*x, 0))), self.app.rodney.getPos))
 
-                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (20, 0, 0))),
-                                                     startPos=addTupple(location, (30, -10, 0))))
-                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (20, 0, 0))), self.app.rodney.getPos))
-                location = addTupple(location, (20, 0, 0))
+                profPositionIntervals.append(self.posInterval(1, Point3(addTupple(location, (2*x, 0, 0))),
+                                                     startPos=addTupple(location, (3*x, -1*x, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (2*x, 0, 0))), self.app.rodney.getPos))
+                location = addTupple(location, (2*x, 0, 0))
             profPositionIntervals.append(self.posInterval(4, Point3(start), startPos=location))
         elif self.prof_name == "Other":
             for i in range(0,5):
-                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (20, 0, 0))), startPos=location),)
-                profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (10, 0, 0))), startPos=addTupple(location, (20, 0, 0))))
-                location = addTupple(location, (20, 0, 0))
+                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (2*x, 0, 0))), startPos=location),)
+                profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (1*x, 0, 0))), startPos=addTupple(location, (2*x, 0, 0))))
+                location = addTupple(location, (2*x, 0, 0))
             for i in range(0,5):
-                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (-20, 0, 0))), startPos=location))
-                profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (-10, 0, 0))),
-                                                              startPos=addTupple(location, (-20, 0, 0))))
-                location = addTupple(location, (-20, 0, 0))
+                profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (-2*x, 0, 0))), startPos=location))
+                profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (-1*x, 0, 0))),
+                                                              startPos=addTupple(location, (-2*x, 0, 0))))
+                location = addTupple(location, (-2*x, 0, 0))
             # profPositionIntervals.append(self.posInterval(3, Point3(start), startPos=location))
 
         # for action in profPositionIntervals:
