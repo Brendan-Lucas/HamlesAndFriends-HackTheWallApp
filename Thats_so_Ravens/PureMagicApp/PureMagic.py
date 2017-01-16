@@ -9,6 +9,11 @@ from direct.task import Task
 from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
+from pandac.PandaModules import loadPrcFileData
+loadPrcFileData("", "window-title Your Title")
+loadPrcFileData("", "fullscreen 0")
+loadPrcFileData("", "win-size 560 840")
+loadPrcFileData("", "win-origin 10 10")
 
 SHOOT_TRIGGER = 0.50 #50% of the screen line
 BLOCK_TRIGGER = 0.15 #15% of the screen line
@@ -105,8 +110,8 @@ class PureMagic(ShowBase):
 
     def init_Rodney(self):
         self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
-        self.rodney.setScale(0.1, 0.1, 0.1)
-        self.rodney.setPos(0, 20, 0)
+        self.rodney.setScale(0.01, 0.01, 0.01)
+        self.rodney.setPos(0, -10, 10)
         self.rodney.reparentTo(self.scene)
 
     ##def scene.game_over

@@ -6,6 +6,8 @@ from panda3d.core import *
 from pandac.PandaModules import WindowProperties
 import math
 from OpenGL.GL import *
+from direct.gui.OnscreenImage import OnscreenImage
+from panda3d.core import TransparencyAttrib
 
 SHOOT_TRIGGER = 0.50 #50% of the screen line
 BLOCK_TRIGGER = 0.15 #15% of the screen line
@@ -23,6 +25,27 @@ class Rodney(Actor):
         self.leftArm = leftArm
         self.rightArm = rightArm
         self.init_collision()
+        self.load_HUD()
+        self.init_mouse_control_event()
+
+    def load_HUD(self):
+        self.life_image = OnscreenImage(image='PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
+                                        pos=(.8, 0, 1.3))
+        self.life_image.setTransparency(TransparencyAttrib.MAlpha)
+        self.charge_image = OnscreenImage(image='PureMagicAssets/charge_on.png', scale=(0.1),
+                                          pos=(.8, 0, 1))
+        self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
+
+    def set_life_image(self):
+        self.life_image.setImage('PureMagicAssets/rodney_lives_' + str(self.lives) + '.png')
+        self.life_image.setTransparency(TransparencyAttrib.MAlpha)
+
+    def set_charge_image(self, onoff):
+        self.charge_image.setImage('PureMagicAssets/charge_' + onoff + '.png')
+        self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
+
+
+    # def set_charge_image(self):
 
     def init_collision(self):
         cs = CollisionSphere(0, 0, 0, 1)
@@ -46,6 +69,7 @@ class Rodney(Actor):
     def charge(self):
         #self.play(charge_animation)
         self.charged = True
+        self.set_charge_image("on")
 
     def shoot(self, target):
         if self.charged:
@@ -53,6 +77,7 @@ class Rodney(Actor):
             self.app.rodProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", self.getPos(), target, "rodney"))
             self.app.rodProjectiles[-1].shoot()
             self.charged = False
+            self.set_charge_image("off")
         # else:
           #  self.play(uncharged animation)
 
@@ -63,9 +88,12 @@ class Rodney(Actor):
     def get_hit(self):
         if not self.block:
             self.lives -= 1
-         #   self.play(get hit animation)
+            #   self.play(get hit animation)
             if self.lives == 0:
                 self.die()
+            else:
+                self.set_life_image()
+
 
     def blocks(self):
         self.block = True
@@ -80,19 +108,6 @@ class Rodney(Actor):
         props.setCursorHidden(True)
         base.win.requestProperties(props)
 
-<<<<<<< HEAD
-    def mouseControlEvent(self):
-        curr_x = base.mouseWatcherNode.getMouseX()
-        curr_y = base.mouseWatcherNode.getMouseY()
-        
-        if base.mouseWatcherNode.hasMouse():
-            if self.last_y < 40 and curr_y():
-                self.last_x = base.mouseWatcherNode.getMouseX()
-                self.last_y = base.mouseWatcherNode.getMouseY()
-        
-        
-        
-=======
     def mouse_control_event(self):
         if base.mouseWatcherNode.hasMouse():
             pres_y = base.mouseWatcherNode.getMouseY()
@@ -111,7 +126,6 @@ class Rodney(Actor):
             self.last_x = base.mouseWatcherNode.getMouseX()
             self.last_y = base.mouseWatcherNode.getMouseY()
 
->>>>>>> 3e95804... math for mouse tracking shooting and lines drawn in PureMagic
         task.again
 
     def scale(self, degree):
