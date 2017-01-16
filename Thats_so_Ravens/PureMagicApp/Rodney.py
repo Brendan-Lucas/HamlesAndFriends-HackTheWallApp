@@ -4,6 +4,8 @@ from direct.interval.FunctionInterval import Func
 from Projectiles import Projectile
 from panda3d.core import *
 from direct.gui.OnscreenImage import OnscreenImage
+from panda3d.core import TransparencyAttrib
+
 
 class Rodney(Actor):
     def __init__(self, app, model, rightArm=None, leftArm=None,lives=3):
@@ -16,7 +18,26 @@ class Rodney(Actor):
         self.leftArm = leftArm
         self.rightArm = rightArm
         self.init_collision()
-        self.life_image = OnscreenImage(image='PureMagicAssets/rodney_lives' + str(self.lives) + '.jpg', scale=0.1, pos=(1, 0, .9))
+        self.load_HUD()
+
+    def load_HUD(self):
+        self.life_image = OnscreenImage(image='PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
+                                        pos=(.8, 0, 1.3))
+        self.life_image.setTransparency(TransparencyAttrib.MAlpha)
+        self.charge_image = OnscreenImage(image='PureMagicAssets/charge_on.png', scale=(0.1),
+                                          pos=(.8, 0, 1))
+        self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
+
+    def set_life_image(self):
+        self.life_image.setImage('PureMagicAssets/rodney_lives_' + str(self.lives) + '.png')
+        self.life_image.setTransparency(TransparencyAttrib.MAlpha)
+
+    def set_charge_image(self, onoff):
+        self.charge_image.setImage('PureMagicAssets/charge_' + onoff + '.png')
+        self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
+
+
+    # def set_charge_image(self):
 
     def init_collision(self):
         cs = CollisionSphere(0, 0, 0, 1)
@@ -40,6 +61,7 @@ class Rodney(Actor):
     def charge(self):
         #self.play(charge_animation)
         self.charged = True
+        self.set_charge_image("on")
 
     def shoot(self, target):
         if self.charged:
@@ -47,6 +69,7 @@ class Rodney(Actor):
             self.app.rodProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", self.getPos(), target, "rodney"))
             self.app.rodProjectiles[-1].shoot()
             self.charged = False
+            self.set_charge_image("off")
         # else:
           #  self.play(uncharged animation)
 
@@ -57,10 +80,12 @@ class Rodney(Actor):
     def get_hit(self):
         if not self.block:
             self.lives -= 1
-            self.life_image.setImage('PureMagicAssets/rodney_lives' + str(self.lives) + '.jpg')
-         #   self.play(get hit animation)
+            #   self.play(get hit animation)
             if self.lives == 0:
                 self.die()
+            else:
+                self.set_life_image()
+
 
     def blocks(self):
         self.block = True
