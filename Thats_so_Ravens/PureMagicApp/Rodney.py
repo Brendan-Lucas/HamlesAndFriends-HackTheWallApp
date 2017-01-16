@@ -77,9 +77,14 @@ class Rodney(Actor):
         base.win.requestProperties(props)
 
     def mouseControlEvent(self):
+        curr_x = base.mouseWatcherNode.getMouseX()
+        curr_y = base.mouseWatcherNode.getMouseY()
+        
         if base.mouseWatcherNode.hasMouse():
-            if self.last_y < 40 and base.mouseWatcherNode.getMouseY()
-            self.last_x = base.mouseWatcherNode.getMouseX()
-            self.last_y = base.mouseWatcherNode.getMouseY()
-
+            if self.last_y < 40 and curr_y():
+                self.last_x = base.mouseWatcherNode.getMouseX()
+                self.last_y = base.mouseWatcherNode.getMouseY()
+        
+        
+        
         task.again
