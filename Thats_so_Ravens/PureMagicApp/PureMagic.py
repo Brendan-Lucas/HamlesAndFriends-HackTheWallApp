@@ -16,8 +16,8 @@ loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
 loadPrcFileData("", "win-size " + str(WINDOWSIZEX) + " " + str(WINDOWSIZEY))
 loadPrcFileData("", "win-origin 10 10")
-loadPrcFileData("", "want-directtools #t")
-loadPrcFileData("", "want-tk #t")
+# loadPrcFileData("", "want-directtools #t")
+# loadPrcFileData("", "want-tk #t")
 
 def render_object(items, NodePath, scale=(1,1,1), pos=(1,1,-1)):
     for item in items:
@@ -85,7 +85,12 @@ class PureMagic(ShowBase):
             #TODO: load all three proffs to different locations and have them begin to attack
             render_object(self.Profs, self.scene,  pos=(-6, 8, 4.5))
             #TODO: Make proff attacking a task so that we can run it for all three.
-            for Prof in self.Profs: Prof.go()
+            iterator = 0
+            for Prof in self.Profs:
+                Prof.lives = iterator + 3
+                Prof.set_life_bar()
+                Prof.go()
+                iterator += 1
         elif self.prof_count < 3:
             ls.append(self.Profs[self.prof_count])
             render_object(ls, self.scene, pos=(-8, 8, 4.5))
