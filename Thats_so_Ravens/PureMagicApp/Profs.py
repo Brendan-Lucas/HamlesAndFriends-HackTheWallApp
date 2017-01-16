@@ -79,7 +79,8 @@ class Prof(Actor):
                 z.append(x[i] + y[i])
             return tuple(z)
 
-        x = 2 
+        distance = 38
+        x = distance/6
         start = location = self.getPos()
         profPositionIntervals = []
         if self.prof_name == "Arod":

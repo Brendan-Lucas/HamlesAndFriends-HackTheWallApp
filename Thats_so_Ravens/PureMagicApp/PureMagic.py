@@ -10,10 +10,14 @@ from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 from pandac.PandaModules import loadPrcFileData
+WINDOWSIZEX = 560
+WINDOWSIZEY = 840
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
-loadPrcFileData("", "win-size 560 840")
+loadPrcFileData("", "win-size " + str(WINDOWSIZEX) + " " + str(WINDOWSIZEY))
 loadPrcFileData("", "win-origin 10 10")
+loadPrcFileData("", "want-directtools #t")
+loadPrcFileData("", "want-tk #t")
 
 def render_object(items, NodePath, scale=(1,1,1), pos=(1,1,-1)):
     for item in items:
@@ -53,11 +57,13 @@ class PureMagic(ShowBase):
         self.render.setLight(ambientLightNodePath)
 
     def init_scene_and_cam(self):
-        scene = self.loader.loadModel('PureMagicAssets/ring')
+        scene = self.loader.loadModel('PureMagicAssets/classroom.egg')
         scene.reparentTo(self.render)
         scene.setPos(0, 0, 0)
+        scene.setScale(1,2,2)
         #setup Camera
-        self.cam.setPos(0, -25, 8)
+        self.cam.setHpr(0, -22, 0)
+        self.cam.setPos(12, -80, 40)
         return scene
 
     def init_profModels(self):
@@ -77,7 +83,7 @@ class PureMagic(ShowBase):
         ls = []
         if self.prof_count == 3:
             #TODO: load all three proffs to different locations and have them begin to attack
-            render_object(self.Profs, self.scene,  pos=(-8, 8, 4.5))
+            render_object(self.Profs, self.scene,  pos=(-6, 8, 4.5))
             #TODO: Make proff attacking a task so that we can run it for all three.
             for Prof in self.Profs: Prof.go()
         elif self.prof_count < 3:
@@ -88,9 +94,9 @@ class PureMagic(ShowBase):
         self.prof_count += 1
 
     def init_Rodney(self):
-        self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
-        self.rodney.setScale(0.01, 0.01, 0.01)
-        self.rodney.setPos(0, -10, 10)
+        self.rodney = Rodney(self, "PureMagicAssets/rodney_torso.egg", rightArm = "PureMagicAssets/rodney_right_arm.egg")
+        self.rodney.setScale(1, 1, 1)
+        self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)
 
     ##def scene.game_over
