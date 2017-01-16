@@ -3,6 +3,8 @@ from direct.interval.IntervalGlobal import Sequence
 from direct.interval.FunctionInterval import Func
 from Projectiles import Projectile
 from panda3d.core import *
+from pandac.PandaModules import WindowProperties
+
 
 class Rodney(Actor):
     def __init__(self, app, model, rightArm=None, leftArm=None,lives=3):
@@ -10,11 +12,14 @@ class Rodney(Actor):
         self.app = app
         self.scene = app.scene
         self.lives = lives
+        self.last_x = 0
+        self.last_y = 0
         self.charged = True
         self.block = False
         self.leftArm = leftArm
         self.rightArm = rightArm
         self.init_collision()
+        self.taskMgr.add(self.mouseControlEvent, "mouseShootingEvent")
 
     def init_collision(self):
         cs = CollisionSphere(0, 0, 0, 1)
@@ -65,3 +70,16 @@ class Rodney(Actor):
         #self.pose(blocking animation) #### last frame for 1 second
     def unblocks(self):
         self.block = False
+
+    def init_mouse_shooting(self):
+        props = WindowProperties()
+        props.setCursorHidden(True)
+        base.win.requestProperties(props)
+
+    def mouseControlEvent(self):
+        if base.mouseWatcherNode.hasMouse():
+            if self.last_y < 40 and base.mouseWatcherNode.getMouseY()
+            self.last_x = base.mouseWatcherNode.getMouseX()
+            self.last_y = base.mouseWatcherNode.getMouseY()
+
+        task.again
