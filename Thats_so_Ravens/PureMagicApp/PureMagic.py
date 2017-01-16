@@ -9,6 +9,11 @@ from direct.task import Task
 from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
+from pandac.PandaModules import loadPrcFileData
+loadPrcFileData("", "window-title Your Title")
+loadPrcFileData("", "fullscreen 0")
+loadPrcFileData("", "win-size 560 840")
+loadPrcFileData("", "win-origin 10 10")
 
 def render_object(items, NodePath, scale=(1,1,1), pos=(1,1,-1)):
     for item in items:
