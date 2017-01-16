@@ -15,10 +15,19 @@ class Rodney(Actor):
         self.lives = lives
         self.charged = True
         self.block = False
-        self.leftArm = leftArm
-        self.rightArm = rightArm
+        self.setHpr(180, 0, 0)
+        if leftArm: self.leftArm = self.app.loader.loadModel(leftArm)
+        if rightArm: self.rightArm = self.app.loader.loadModel(rightArm)
+        self.set_up_arms()
         self.init_collision()
         self.load_HUD()
+
+    def set_up_arms(self):
+        self.rightArm.reparentTo(self)
+        self.rightArm.setPos(0, -1, 0.8)
+        self.rightArm.setHpr(180, 0, 0)
+        # self.leftArm.reparentTo(self)
+        # self.lefttArm.setPos(-5, 0, 2)
 
     def load_HUD(self):
         self.life_image = OnscreenImage(image='PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
