@@ -11,6 +11,7 @@ class Prof(Actor):
 
         self.setPos(0, 200, 0)
         self.app = app
+        self.name = name
         self.scene = self.app.scene
         self.lives = lives
         self.prof_name = name
@@ -45,11 +46,8 @@ class Prof(Actor):
         self.walkin()
         self.attack()
 
-
     def attack(self):
         self.prof_movement.loop()
-        return
-
 
     def get_hit(self):
         self.lives -= 1
@@ -116,18 +114,23 @@ class Prof(Actor):
         elif self.prof_name == "Other":
             for i in range(0,5):
                 profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (2*x, 0, 0))), startPos=location),)
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (2*x, 0, 0))), self.app.rodney.getPos))
                 profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (1*x, 0, 0))), startPos=addTupple(location, (2*x, 0, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (1*x, 0, 0))), self.app.rodney.getPos))
                 location = addTupple(location, (2*x, 0, 0))
             for i in range(0,5):
                 profPositionIntervals.append(self.posInterval(.5, Point3(addTupple(location, (-2*x, 0, 0))), startPos=location))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (-2*x, 0, 0))), self.app.rodney.getPos))
                 profPositionIntervals.append(self.posInterval(.25, Point3(addTupple(location, (-1*x, 0, 0))),
                                                               startPos=addTupple(location, (-2*x, 0, 0))))
+                profPositionIntervals.append(Func(self.shoot, Point3(addTupple(location, (-1*x, 0, 0))), self.app.rodney.getPos))
+
                 location = addTupple(location, (-2*x, 0, 0))
             # profPositionIntervals.append(self.posInterval(3, Point3(start), startPos=location))
 
         # for action in profPositionIntervals:
 
-        self.prof_movement = Sequence(*profPositionIntervals, name="prof_movement")
+        self.prof_movement = Sequence(*profPositionIntervals, name="prof_movement" + str(self.name))
 
     def init_collision(self):
         cs = CollisionSphere(0, 0, 0, 1)

@@ -36,7 +36,6 @@ class Rodney(Actor):
         self.charge_image.setImage('PureMagicAssets/charge_' + onoff + '.png')
         self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
 
-
     # def set_charge_image(self):
 
     def init_collision(self):
