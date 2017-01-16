@@ -3,6 +3,7 @@ from direct.interval.IntervalGlobal import Sequence
 from direct.interval.FunctionInterval import Func
 from Projectiles import Projectile
 from panda3d.core import *
+from direct.gui.OnscreenImage import OnscreenImage
 
 class Rodney(Actor):
     def __init__(self, app, model, rightArm=None, leftArm=None,lives=3):
@@ -15,6 +16,7 @@ class Rodney(Actor):
         self.leftArm = leftArm
         self.rightArm = rightArm
         self.init_collision()
+        self.life_image = OnscreenImage(image='PureMagicAssets/rodney_lives' + str(self.lives) + '.jpg', scale=0.1, pos=(1, 0, .9))
 
     def init_collision(self):
         cs = CollisionSphere(0, 0, 0, 1)
@@ -55,6 +57,7 @@ class Rodney(Actor):
     def get_hit(self):
         if not self.block:
             self.lives -= 1
+            self.life_image.setImage('PureMagicAssets/rodney_lives' + str(self.lives) + '.jpg')
          #   self.play(get hit animation)
             if self.lives == 0:
                 self.die()

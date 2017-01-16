@@ -86,8 +86,8 @@ class PureMagic(ShowBase):
 
     def init_Rodney(self):
         self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
-        self.rodney.setScale(0.1, 0.1, 0.1)
-        self.rodney.setPos(0, 20, 0)
+        self.rodney.setScale(0.01, 0.01, 0.01)
+        self.rodney.setPos(0, -10, 10)
         self.rodney.reparentTo(self.scene)
 
     ##def scene.game_over
