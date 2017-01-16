@@ -30,7 +30,7 @@ class PureMagic(ShowBase):
         self.profProjectiles = []
         self.prof_count = 0
         self.Profs = []
-        self.rodney
+        self.rodney = ''
         self.init_profs()
         self.init_Rodney()
         self.taskMgr.add(self.collision_task, "handle_collisions")
@@ -66,7 +66,7 @@ class PureMagic(ShowBase):
         profNames=["Arod", "Emily", "Other"]
         profModels = self.init_profModels()
         for i in range(0, 3):
-            self.Profs.append(Prof(self.scene, profModels[i], (i+2), profNames[i], 1, self))
+            self.Profs.append(Prof(self, profModels[i], (i+2), profNames[i]))
         self.active_prof = 0
 
     def nextProf(self):
@@ -78,10 +78,11 @@ class PureMagic(ShowBase):
             for Prof in self.Profs: Prof.go()
         elif self.prof_count < 3:
             ls.append(self.Profs[self.prof_count])
-            render_object(ls, self.scene, scale=(0.001, 0.001, 0.001), pos=(-5, 5, 4.5))
+            render_object(ls, self.scene, scale=(0.001, 0.001, 0.001), pos=(-8, 8, 4.5))
             #make prof walk to centerOfRoom.
             self.Profs[self.prof_count].go()
         self.prof_count += 1
+        self.active_prof += 1
 
     def init_Rodney(self):
         self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")

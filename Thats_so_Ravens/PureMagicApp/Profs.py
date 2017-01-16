@@ -51,8 +51,8 @@ class Prof(Actor):
 
     def die(self):
         #self.play(death_animation)
-        self.app.active_prof += 1
         self.removeNode()
+        self.app.nextProf()
 
     def make_move_animation(self):
         def addTupple(x, y):
