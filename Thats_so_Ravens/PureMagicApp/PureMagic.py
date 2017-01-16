@@ -12,11 +12,11 @@ from listener import Listener
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
 
-WINDOWSIZEX = 560
-WINDOWSIZEY = 840
+WINDOW_SIZE_X = 560
+WINDOW_SIZE_Y = 840
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
-loadPrcFileData("", "win-size " + str(WINDOWSIZEX) + " " + str(WINDOWSIZEY))
+loadPrcFileData("", "win-size " + str(WINDOW_SIZE_X) + " " + str(WINDOW_SIZE_Y))
 loadPrcFileData("", "win-origin 10 10")
 # loadPrcFileData("", "want-directtools #t")
 # loadPrcFileData("", "want-tk #t")
@@ -40,6 +40,8 @@ class PureMagic(ShowBase):
         #setup scene model and camera position
         self.scene = self.init_scene_and_cam()
         #some variables:
+        self.WINDOW_SIZE_X = WINDOW_SIZE_X
+        self.WINDOW_SIZE_Y = WINDOW_SIZE_Y
         self.rodProjectiles = []
         self.profProjectiles = []
         self.prof_count = 0
