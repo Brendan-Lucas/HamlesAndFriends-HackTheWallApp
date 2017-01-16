@@ -9,7 +9,9 @@ class Listener(DirectObject.DirectObject):
         self.accept('b', self.rodney_block)
         self.accept('b-up', self.rodney_unblock)
     def rodney_shoots(self):
-        self.app.rodney.shoot((-8, 8, 4.5))
+        ##### THIS IS PURELY FOR TESTING PURPOSES
+        prof = self.app.Profs[self.app.prof_count-1]
+        self.app.rodney.shoot(prof.getPos())
     def rodney_reloads(self):
         self.app.rodney.charge()
     def rodney_block(self):

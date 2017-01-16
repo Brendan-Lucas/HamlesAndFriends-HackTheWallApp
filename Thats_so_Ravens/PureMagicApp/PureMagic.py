@@ -62,9 +62,9 @@ class PureMagic(ShowBase):
 
     def init_profModels(self):
         profModels = []
-        profModels.append(self.loader.loadModel("PureMagicAssets/A_Rod_Mod.egg"))
-        profModels.append(self.loader.loadModel("PureMagicAssets/Emily.egg"))
-        profModels.append(self.loader.loadModel("PureMagicAssets/other.egg"))
+        profModels.append(self.loader.loadModel("PureMagicAssets/interimfiles/olderbrother.egg"))
+        profModels.append(self.loader.loadModel("PureMagicAssets/interimfiles/ralph.egg"))
+        profModels.append(self.loader.loadModel("PureMagicAssets/interimfiles/littlebrother.egg"))
         return profModels
 
     def init_profs(self):
@@ -77,12 +77,12 @@ class PureMagic(ShowBase):
         ls = []
         if self.prof_count == 3:
             #TODO: load all three proffs to different locations and have them begin to attack
-            render_object(self.Profs, self.scene)
+            render_object(self.Profs, self.scene,  pos=(-8, 8, 4.5))
             #TODO: Make proff attacking a task so that we can run it for all three.
             for Prof in self.Profs: Prof.go()
         elif self.prof_count < 3:
             ls.append(self.Profs[self.prof_count])
-            render_object(ls, self.scene, scale=(0.001, 0.001, 0.001), pos=(-8, 8, 4.5))
+            render_object(ls, self.scene, pos=(-8, 8, 4.5))
             #make prof walk to centerOfRoom.
             self.Profs[self.prof_count].go()
         self.prof_count += 1

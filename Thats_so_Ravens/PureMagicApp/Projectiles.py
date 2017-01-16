@@ -37,5 +37,5 @@ class Projectile(Actor):
         self.removeNode()
 
     def make_shot_animation(self):
-        projectilePositionInterval = self.posInterval(2, self.end, startPos = self.start)
+        projectilePositionInterval = self.posInterval(.3, self.end, startPos = self.start)
         self.movement_animation = Sequence(projectilePositionInterval)

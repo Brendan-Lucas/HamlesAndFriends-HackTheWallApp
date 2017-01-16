@@ -8,7 +8,7 @@ class Prof(Actor):
     def __init__(self, app, model, lives, name):
         Actor.__init__(self, model)
         # self.reparentTo(scene)
-        self.setScale(0.03,0.03,0.03)
+
         self.setPos(0, 200, 0)
         self.app = app
         self.scene = self.app.scene
@@ -21,7 +21,7 @@ class Prof(Actor):
     def setup_life_bar(self):
         self.life_bar = self.app.loader.loadModel("PureMagicAssets/other.egg")
         self.life_bar.reparentTo(self)
-        self.life_bar.setPos(0, 0, 1000)
+        self.life_bar.setPos(0, 0, 3)
         self.set_life_bar()
 
 
@@ -29,14 +29,12 @@ class Prof(Actor):
         if self.lives == 1:
             self.life_bar.setColor(255, 0, 0)
         elif self.lives == 2:
-            self.life_bar.setColor(0, 255, 255)
+            self.life_bar.setColor(255, 255, 0)
         elif self.lives == 3:
             self.life_bar.setColor(0, 255, 0)
         elif self.lives == 4:
-            self.life_bar.setColor(0, 100, 255)
-        elif self.lives == 5:
             self.life_bar.setColor(0, 0, 255)
-        self.life_bar.setScale(self.lives*50, 30, 30)
+        self.life_bar.setScale(self.lives*.1, .1, .1)
 
 
     def walkin(self):
@@ -83,7 +81,7 @@ class Prof(Actor):
                 z.append(x[i] + y[i])
             return tuple(z)
 
-        x = 10
+        x = 2 
         start = location = self.getPos()
         profPositionIntervals = []
         if self.prof_name == "Arod":
@@ -137,7 +135,6 @@ class Prof(Actor):
         cnodePath.node().addSolid(cs)
 
     def init_collision_plane(self):
-        cp = CollisionPlane(Plane(Vec3(0, -1, 0), Point3(0, 1000, 0)))
+        cp = CollisionPlane(Plane(Vec3(0, -1, 0), Point3(0, 1, 0)))
         cnodePath = self.attachNewNode(CollisionNode('wall_plane'))
         cnodePath.node().addSolid(cp)
-        cnodePath.show()
