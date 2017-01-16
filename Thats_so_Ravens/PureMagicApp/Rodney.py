@@ -49,7 +49,7 @@ class Rodney(Actor):
         ######## TODO Change numbers to actually make a shooting animation
         shooting_animation.append(self.rightArm.hprInterval(1.0, Vec3(180, 90, 0)))
         shoot = Sequence(*shooting_animation)
-        shoot.start();
+        shoot.start()
 
     def blocking_animation(self):
         blocking_animation = []

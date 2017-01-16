@@ -72,7 +72,6 @@ class PureMagic(ShowBase):
         profModels = self.init_profModels()
         for i in range(0, 3):
             self.Profs.append(Prof(self, profModels[i], (i+2), profNames[i]))
-        self.active_prof = 0
 
     def nextProf(self):
         ls = []
@@ -87,7 +86,6 @@ class PureMagic(ShowBase):
             #make prof walk to centerOfRoom.
             self.Profs[self.prof_count].go()
         self.prof_count += 1
-        self.active_prof += 1
 
     def init_Rodney(self):
         self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
@@ -105,7 +103,7 @@ class PureMagic(ShowBase):
                     self.profProjectiles[0].delete()
                     del self.profProjectiles[0]
             elif entry.getIntoNodePath().getName() == "profCnode" and entry.getFromNodePath().getName() == "rodneyShotCnode":
-                self.Profs[self.active_prof].get_hit()
+                self.Profs[self.prof_count-1].get_hit()
                 if self.rodProjectiles:
                     self.rodProjectiles[0].delete()
                     del self.rodProjectiles[0]

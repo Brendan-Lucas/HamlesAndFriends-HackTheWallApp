@@ -1,4 +1,5 @@
 from direct.showbase import DirectObject
+from panda3d.core import *
 
 class Listener(DirectObject.DirectObject):
     def __init__(self, app):
@@ -8,7 +9,7 @@ class Listener(DirectObject.DirectObject):
         self.accept('b', self.rodney_block)
         self.accept('b-up', self.rodney_unblock)
     def rodney_shoots(self):
-        self.app.rodney.shoot((0, 350, 0))
+        self.app.rodney.shoot((-8, 8, 4.5))
     def rodney_reloads(self):
         self.app.rodney.charge()
     def rodney_block(self):

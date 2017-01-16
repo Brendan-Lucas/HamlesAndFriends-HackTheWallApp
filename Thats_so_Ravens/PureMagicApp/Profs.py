@@ -16,6 +16,27 @@ class Prof(Actor):
         self.prof_name = name
         self.init_collision()
         self.init_collision_plane()
+        self.setup_life_bar()
+
+    def setup_life_bar(self):
+        self.life_bar = self.app.loader.loadModel("PureMagicAssets/other.egg")
+        self.life_bar.reparentTo(self)
+        self.life_bar.setPos(0, 0, 1000)
+        self.set_life_bar()
+
+
+    def set_life_bar(self):
+        if self.lives == 1:
+            self.life_bar.setColor(255, 0, 0)
+        elif self.lives == 2:
+            self.life_bar.setColor(0, 255, 255)
+        elif self.lives == 3:
+            self.life_bar.setColor(0, 255, 0)
+        elif self.lives == 4:
+            self.life_bar.setColor(0, 100, 255)
+        elif self.lives == 5:
+            self.life_bar.setColor(0, 0, 255)
+        self.life_bar.setScale(self.lives*50, 30, 30)
 
 
     def walkin(self):
@@ -37,6 +58,7 @@ class Prof(Actor):
         #self.play(get_hit_animation)
         if self.lives == 0:
             self.die()
+        self.set_life_bar()
 
     # def shooting_pattern(self):
     #     self.shoot()
@@ -51,7 +73,7 @@ class Prof(Actor):
 
     def die(self):
         #self.play(death_animation)
-        self.removeNode()
+        self.detachNode()
         self.app.nextProf()
 
     def make_move_animation(self):
@@ -115,7 +137,7 @@ class Prof(Actor):
         cnodePath.node().addSolid(cs)
 
     def init_collision_plane(self):
-        cp = CollisionPlane(Plane(Vec3(0, -1, 0), Point3(0, 10, 0)))
+        cp = CollisionPlane(Plane(Vec3(0, -1, 0), Point3(0, 1000, 0)))
         cnodePath = self.attachNewNode(CollisionNode('wall_plane'))
         cnodePath.node().addSolid(cp)
         cnodePath.show()
