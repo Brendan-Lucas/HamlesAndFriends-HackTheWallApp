@@ -15,6 +15,9 @@ loadPrcFileData("", "fullscreen 0")
 loadPrcFileData("", "win-size 560 840")
 loadPrcFileData("", "win-origin 10 10")
 
+SHOOT_TRIGGER = 0.50 #50% of the screen line
+BLOCK_TRIGGER = 0.15 #15% of the screen line
+
 def render_object(items, NodePath, scale=(1,1,1), pos=(1,1,-1)):
     for item in items:
         item.reparentTo(NodePath)
@@ -42,6 +45,9 @@ class PureMagic(ShowBase):
         l = Listener(self)
         #start the game.
         self.nextProf()
+        collideTask = Task(rodney.mouse_control_event, "mouseShootingEvent")
+        collideTask.delayTime=0.2
+        taskMgr.add(collideTask)
         self.handler = CollisionHandlerQueue()
         self.traverser = CollisionTraverser('check projectiles')
         self.cTrav = self.traverser
@@ -58,6 +64,19 @@ class PureMagic(ShowBase):
         scene.setPos(0, 0, 0)
         #setup Camera
         self.cam.setPos(0, -25, 8)
+
+        glLineWidth(2.5);
+        glColor3f(1.0, 0.0, 0.0);
+        glBegin(GL_LINES);
+        glVertex2f(0.0, self.WINDOW_SIZE_Y * SHOOT_TRIGGER);
+        glVertex2f(self.WINDOW_SIZE_X, self.WINDOW_SIZE_Y * SHOOT_TRIGGER);
+        glEnd();
+
+        glBegin(GL_LINES)
+        glVertex2f(0.0, self.WINDOW_SIZE_Y * BLOCK_TRIGGER)
+        glVertex2f(self.WINDOW_SIZE_X, self.WINDOW_SIZE_Y * BLOCK_TRIGGER)
+        glEnd();
+
         return scene
 
     def init_profModels(self):
