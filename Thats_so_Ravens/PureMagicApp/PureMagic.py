@@ -10,51 +10,86 @@ from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 
-class PureMagic(ShowBase):
+def render_object(items, NodePath, scale=(1,1,1), pos=(1,1,-1)):
+    for item in items:
+        item.reparentTo(NodePath)
+        item.setScale(scale)
+        item.setPos(pos)
 
+class PureMagic(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
-        self.prof_count = 0;
-        #load model
-        self.scene = self.render
-        self.test_function()
-        self.taskMgr.add(self.collision_task, "handle_collisions")
-        l = Listener(self)
-        # self.scene = self.loader.loadModel("PureMagicAssets/Gym.egg")
-        # #reparent scene to render
-        # self.scene.reparentTo(self.render)
-        # #set scale and positon of the model/scene
-        # self.scene.setScale(0.25, 0.25, 0.25)
-        # self.scene.setPos(-8, 42, 0)
-        # self.profModels = []
-        # self.init_profModels()
-        # #self.Profs = []
-        #self.init_profs()
-        #self.rodney = Rodney(self.scene)
-        #position camera;
-
-    def test_function(self):
+        #Ambient Light
+        self.init_light()
+        #backgroundColour seting to mostly red.
+        self.setBackgroundColor(1,0.2,0.2,1)
+        #setup scene model and camera position
+        self.scene = self.init_scene_and_cam()
+        #some variables:
         self.rodProjectiles = []
         self.profProjectiles = []
-
-        self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
-        self.rodney.setScale(0.1, 0.1, 0.1)
-        self.rodney.setPos(0, 20, 0)
-        self.rodney.reparentTo(self.render)
-
+        self.prof_count = 0
         self.Profs = []
-        self.scene = self.render
+        self.rodney
         self.init_profs()
-
-        self.Profs[1].go()
-
+        self.init_Rodney()
+        self.taskMgr.add(self.collision_task, "handle_collisions")
+        l = Listener(self)
+        #start the game.
+        self.nextProf()
         self.handler = CollisionHandlerQueue()
         self.traverser = CollisionTraverser('check projectiles')
         self.cTrav = self.traverser
 
-    def shoot_task(self, task):
-        return
+    def init_light(self):
+        ambientLight = AmbientLight("AmbLight")
+        ambientLight.setColor(Vec4(1, 1, 1, 1))
+        ambientLightNodePath = self.render.attachNewNode(ambientLight)
+        self.render.setLight(ambientLightNodePath)
 
+    def init_scene_and_cam(self):
+        scene = self.loader.loadModel('PureMagicAssets/ring')
+        scene.reparentTo(self.render)
+        scene.setPos(0, 0, 0)
+        #setup Camera
+        self.cam.setPos(0, -25, 8)
+        return scene
+
+    def init_profModels(self):
+        profModels = []
+        profModels.append(self.loader.loadModel("PureMagicAssets/A_Rod_Mod.egg"))
+        profModels.append(self.loader.loadModel("PureMagicAssets/Emily.egg"))
+        profModels.append(self.loader.loadModel("PureMagicAssets/other.egg"))
+        return profModels
+
+    def init_profs(self):
+        profNames=["Arod", "Emily", "Other"]
+        profModels = self.init_profModels()
+        for i in range(0, 3):
+            self.Profs.append(Prof(self.scene, profModels[i], (i+2), profNames[i], 1, self))
+        self.active_prof = 0
+
+    def nextProf(self):
+        ls = []
+        if self.prof_count == 3:
+            #TODO: load all three proffs to different locations and have them begin to attack
+            render_object(self.Profs, self.scene)
+            #TODO: Make proff attacking a task so that we can run it for all three.
+            for Prof in self.Profs: Prof.go()
+        elif self.prof_count < 3:
+            ls.append(self.Profs[self.prof_count])
+            render_object(ls, self.scene, scale=(0.001, 0.001, 0.001), pos=(-5, 5, 4.5))
+            #make prof walk to centerOfRoom.
+            self.Profs[self.prof_count].go()
+        self.prof_count += 1
+
+    def init_Rodney(self):
+        self.rodney = Rodney(self, "PureMagicAssets/Emily.egg")
+        self.rodney.setScale(0.1, 0.1, 0.1)
+        self.rodney.setPos(0, 20, 0)
+        self.rodney.reparentTo(self.scene)
+
+    ##def scene.game_over
 
     def collision_task(self, task):
         for entry in self.handler.getEntries():
@@ -74,54 +109,6 @@ class PureMagic(ShowBase):
                     del self.rodProjectiles[0]
             self.handler.clear_entries()
         return Task.cont
-
-    def init_profModels(self):
-        profModels = []
-        profModels.append(self.loader.loadModel("PureMagicAssets/A_Rod_Mod.egg"))
-        profModels.append(self.loader.loadModel("PureMagicAssets/Emily.egg"))
-        profModels.append(self.loader.loadModel("PureMagicAssets/other.egg"))
-        return profModels
-
-    def init_profNames(self):
-        profNames = []
-        profNames.append("Arod")
-        profNames.append("Emily")
-        profNames.append("Other")
-        return profNames
-
-
-    def init_profs(self):
-        profNames = self.init_profNames()
-        profModels = self.init_profModels()
-        for i in range(0, 3):
-            self.Profs.append(Prof(self, profModels[i], (i+2), profNames[i]))
-        self.active_prof = 0
-
-    def render_object(items, NodePath, scale, pos=(1,1,-1)):
-        for item in items:
-            item.reparentTo(NodePath)
-            if scale: item.setScale(scale)
-            item.setPos(pos)
-
-    def nextProf(self):
-        if self.prof_count == 3:
-            self.render_object(self.Profs)
-        else:
-            self.render_object(self.Profs[self.prof_count])
-
-        #make prof walk to scenterofRoom.
-        self.Profs[self.prof_count].start_attacking()
-        self.prof_count += 1
-
-    # def run(self):
-    #     self.prof_count = 0
-    #     self.scene.reparentTo(self.render)
-    #     #infoBoxExplainingStuff
-    #     #while self.prof_count < 4:
-    #         #self.rodney.run()
-    #         #self.nextProf()
-
-    ##def scene.game_over
 
 pureMagic = PureMagic()
 pureMagic.run()
