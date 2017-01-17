@@ -17,7 +17,6 @@ class Quad:
                 self.done = False
                 self.maze = Maze(size, (10,15))
                 self.quiz = Quiz(size)
-                self.pureMagic = PureMagic()
                 self.screen = pygame.display.set_mode(size)
                 
 
@@ -40,7 +39,7 @@ class Quad:
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return
                 elif blockNum == 2:
-                    self.done=self.pureMagic.run()
+                    self.done=PureMagic().run()
                     self.b_press=False
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
 
@@ -64,17 +63,17 @@ class Quad:
                 self.screen.blit(zFrame_background, backgroundRect) 
                 self.make_button(event,
                                  helpers.normalize(self.quiz.size, 460, 'x'),
-                                 helpers.normalize(self.quiz.size,0, 'y'),
-                                 helpers.normalize(self.quiz.size,100, 'x'),
-                                 helpers.normalize(self.quiz.size,840, 'y'), 1)
+                                 helpers.normalize(self.quiz.size, 0, 'y'),
+                                 helpers.normalize(self.quiz.size, 100, 'x'),
+                                 helpers.normalize(self.quiz.size, 840, 'y'), 1)
                 self.make_button(event, helpers.normalize(self.quiz.size,0, 'x'),
-                                 helpers.normalize(self.quiz.size,480, 'y'),
-                                 helpers.normalize(self.quiz.size,71, 'x'),
-                                 helpers.normalize(self.quiz.size,375, 'y'), 4)
-                self.make_button(event, helpers.normalize(self.quiz.size, 0, 'x'),
                                  helpers.normalize(self.quiz.size, 480, 'y'),
                                  helpers.normalize(self.quiz.size, 71, 'x'),
-                                 helpers.normalize(self.quiz.size, 375, 'y'), 2)
+                                 helpers.normalize(self.quiz.size, 375, 'y'), 4)
+                self.make_button(event, helpers.normalize(self.quiz.size, 50, 'x'),
+                                 helpers.normalize(self.quiz.size, 0, 'y'),
+                                 helpers.normalize(self.quiz.size, 400, 'x'),
+                                 helpers.normalize(self.quiz.size, 100, 'y'), 2)
                 pygame.display.flip()
             
             pygame.quit()                                                           

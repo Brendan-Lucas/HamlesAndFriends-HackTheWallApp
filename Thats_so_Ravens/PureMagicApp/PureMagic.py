@@ -8,20 +8,19 @@ from Profs import Prof
 from direct.task import Task
 from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
-# import Thats_so_Ravens.info as infobbb
+# import Thats_so_Ravens.info as info
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
-import os
 
 WINDOW_SIZE_X = 560
 WINDOW_SIZE_Y = 840
+loadPrcFileData("", "model-path $MAIN_DIR/..")
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
 loadPrcFileData("", "win-size " + str(WINDOW_SIZE_X) + " " + str(WINDOW_SIZE_Y))
-loadPrcFileData("", "model-path $MAIN_DIR/Maya_Assets")
 loadPrcFileData("", "win-origin 10 10")
-loadPrcFileData("", "want-directtools #t")
-loadPrcFileData("", "want-tk #t")
+# loadPrcFileData("", "want-directtools #t")
+# loadPrcFileData("", "want-tk #t")
 
 SHOOT_TRIGGER = 0.50 #50% of the screen line
 BLOCK_TRIGGER = 0.15 #15% of the screen line
@@ -59,7 +58,6 @@ class PureMagic(ShowBase):
         self.handler = CollisionHandlerQueue()
         self.traverser = CollisionTraverser('check projectiles')
         self.cTrav = self.traverser
-        self.dir_path = os.path.dirname(os.path.realpath(__file__))
 
     def init_light(self):
         ambientLight = AmbientLight("AmbLight")
@@ -91,9 +89,9 @@ class PureMagic(ShowBase):
 
     def init_profModels(self):
         profModels = []
-        profModels.append(self.loader.loadModel("PureMagicAssets/interimfiles/olderbrother.egg"))
-        profModels.append(self.loader.loadModel("PureMagicAssets/interimfiles/ralph.egg"))
-        profModels.append(self.loader.loadModel("PureMagicAssets/interimfiles/littlebrother.egg"))
+        profModels.append(self.loader.loadModel("PureMagicApp/PureMagicAssets/interimfiles/olderbrother.egg"))
+        profModels.append(self.loader.loadModel("PureMagicApp/PureMagicAssets/interimfiles/ralph.egg"))
+        profModels.append(self.loader.loadModel("PureMagicApp/PureMagicAssets/interimfiles/littlebrother.egg"))
         return profModels
 
     def init_profs(self):
@@ -127,8 +125,6 @@ class PureMagic(ShowBase):
         self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)
 
-    ##def scene.game_over
-
     def collision_task(self, task):
         for entry in self.handler.getEntries():
             if entry.getIntoNodePath().getName() == "rodneyCnode" and entry.getFromNodePath().getName() == "profShotCnode":
@@ -147,6 +143,6 @@ class PureMagic(ShowBase):
                     del self.rodProjectiles[0]
             self.handler.clear_entries()
         return Task.cont
-
-pureMagic = PureMagic()
-pureMagic.run()
+#
+# pureMagic = PureMagic()
+# pureMagic.run()

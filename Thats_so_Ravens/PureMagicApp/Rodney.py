@@ -37,19 +37,19 @@ class Rodney(Actor):
         # self.lefttArm.setPos(-5, 0, 2)
 
     def load_HUD(self):
-        self.life_image = OnscreenImage(image='PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
+        self.life_image = OnscreenImage(image='PureMagicApp/PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
                                         pos=(.8, 0, 1.3))
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
-        self.charge_image = OnscreenImage(image='PureMagicAssets/charge_on.png', scale=(0.1),
+        self.charge_image = OnscreenImage(image='PureMagicApp/PureMagicAssets/charge_on.png', scale=(0.1),
                                           pos=(.8, 0, 1))
         self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
 
     def set_life_image(self):
-        self.life_image.setImage('PureMagicAssets/rodney_lives_' + str(self.lives) + '.png')
+        self.life_image.setImage('PureMagicApp/PureMagicAssets/rodney_lives_' + str(self.lives) + '.png')
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
 
     def set_charge_image(self, onoff):
-        self.charge_image.setImage('PureMagicAssets/charge_' + onoff + '.png')
+        self.charge_image.setImage('PureMagicApp/PureMagicAssets/charge_' + onoff + '.png')
         self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
 
     # def set_charge_image(self):
@@ -81,7 +81,7 @@ class Rodney(Actor):
     def shoot(self, target):
         if self.charged:
             ###Rodney shoot animation
-            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", self.getPos(), target, "rodney"))
+            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/PureMagicAssets/other.egg", self.getPos(), target, "rodney"))
             self.app.rodProjectiles[-1].shoot()
             self.charged = False
             self.set_charge_image("off")

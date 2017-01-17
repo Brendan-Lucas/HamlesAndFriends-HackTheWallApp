@@ -20,7 +20,7 @@ class Prof(Actor):
         self.setup_life_bar()
 
     def setup_life_bar(self):
-        self.life_bar = self.app.loader.loadModel("PureMagicAssets/other.egg")
+        self.life_bar = self.app.loader.loadModel("PureMagicApp/PureMagicAssets/other.egg")
         self.life_bar.reparentTo(self)
         self.life_bar.setPos(0, 0, 3)
         self.set_life_bar()
@@ -61,7 +61,7 @@ class Prof(Actor):
 
     def shoot(self, start, end):
         #prof shoot animation
-        self.app.profProjectiles.append(Projectile(self.app, "PureMagicAssets/other.egg", start, end, "prof"))
+        self.app.profProjectiles.append(Projectile(self.app, "PureMagicApp/PureMagicAssets/other.egg", start, end, "prof"))
         self.app.profProjectiles[-1].shoot()
 
         ###### RANDOM LOOP OF SHOOTING
