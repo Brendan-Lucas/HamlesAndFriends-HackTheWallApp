@@ -8,7 +8,7 @@ from Profs import Prof
 from direct.task import Task
 from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
-# import Thats_so_Ravens.info as info
+# import Thats_so_Ravens.info as infobbb
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
 
@@ -18,8 +18,8 @@ loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
 loadPrcFileData("", "win-size " + str(WINDOW_SIZE_X) + " " + str(WINDOW_SIZE_Y))
 loadPrcFileData("", "win-origin 10 10")
-# loadPrcFileData("", "want-directtools #t")
-# loadPrcFileData("", "want-tk #t")
+loadPrcFileData("", "want-directtools #t")
+loadPrcFileData("", "want-tk #t")
 
 SHOOT_TRIGGER = 0.50 #50% of the screen line
 BLOCK_TRIGGER = 0.15 #15% of the screen line
@@ -65,7 +65,7 @@ class PureMagic(ShowBase):
         self.render.setLight(ambientLightNodePath)
 
     def init_scene_and_cam(self):
-        scene = self.loader.loadModel('PureMagicAssets/classroom.egg')
+        scene = self.loader.loadModel('/c/Users/brendanlucas/Documents/GitHub/HamlesAndFriends-HackTheWallApp/Thats_so_Ravens/assets/Maya_Assets/scenes/classroom3.egg')
         scene.reparentTo(self.render)
         scene.setPos(0, 0, 0)
         scene.setScale(1,2,2)
@@ -119,7 +119,7 @@ class PureMagic(ShowBase):
         self.prof_count += 1
 
     def init_Rodney(self):
-        self.rodney = Rodney(self, "PureMagicAssets/rodney_torso.egg", rightArm = "PureMagicAssets/rodney_right_arm.egg")
+        self.rodney = Rodney(self, "/c/Users/brendanlucas/Documents/GitHub/HamlesAndFriends-HackTheWallApp/Thats_so_Ravens/assets/Maya_Assets/scenes/rodney_torso2.egg", rightArm = "/c/Users/brendanlucas/Documents/GitHub/HamlesAndFriends-HackTheWallApp/Thats_so_Ravens/assets/Maya_Assets/scenes/rodney_right_arm.egg")
         self.rodney.setScale(1, 1, 1)
         self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)

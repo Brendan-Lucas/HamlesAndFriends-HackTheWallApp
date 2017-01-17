@@ -1,7 +1,7 @@
 <CoordinateSystem> { Y-Up }
 
 <Comment> {
-  "maya2egg2016 -o classroom.egg classroom_BIg.mb"
+  "maya2egg2016 classroom_BIg.mb ClassRoom2.egg"
 }
 <Texture> phong6SG {
   "../assets/chalkboard-152414_1280.png"
