@@ -18,6 +18,7 @@ WINDOW_SIZE_Y = 840
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
 loadPrcFileData("", "win-size " + str(WINDOW_SIZE_X) + " " + str(WINDOW_SIZE_Y))
+loadPrcFileData("", "model-path $MAIN_DIR/Maya_Assets")
 loadPrcFileData("", "win-origin 10 10")
 loadPrcFileData("", "want-directtools #t")
 loadPrcFileData("", "want-tk #t")
