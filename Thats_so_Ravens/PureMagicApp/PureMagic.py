@@ -119,11 +119,16 @@ class PureMagic(ShowBase):
             self.Profs[self.prof_count].go()
         self.prof_count += 1
 
+    #TODO: remove LIves=1;
     def init_Rodney(self):
-        self.rodney = Rodney(self, "PureMagicApp/Maya_Assets/scenes/rodney_torso2.egg", rightArm = "PureMagicApp/Maya_Assets/scenes/rodney_right_arm.egg")
+        self.rodney = Rodney(self, "PureMagicApp/Maya_Assets/scenes/rodney_torso2.egg", rightArm = "PureMagicApp/Maya_Assets/scenes/rodney_right_arm.egg", lives=1)
         self.rodney.setScale(1, 1, 1)
         self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)
+
+    def game_over(self):
+        self.exitfunc()
+
 
     def collision_task(self, task):
         for entry in self.handler.getEntries():

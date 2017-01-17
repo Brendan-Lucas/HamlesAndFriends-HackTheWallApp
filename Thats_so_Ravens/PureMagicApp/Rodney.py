@@ -90,7 +90,7 @@ class Rodney(Actor):
 
     def die(self):
         print 'die'
-        self.scene.game_over()
+        self.app.game_over()
 
     def get_hit(self):
         if not self.block:
