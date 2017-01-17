@@ -8,7 +8,7 @@ from Profs import Prof
 from direct.task import Task
 from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
-# import Thats_so_Ravens.info as info
+# import Thats_so_Ravens.info as infobbb
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
 
@@ -65,7 +65,7 @@ class PureMagic(ShowBase):
         self.render.setLight(ambientLightNodePath)
 
     def init_scene_and_cam(self):
-        scene = self.loader.loadModel('PureMagicAssets/classroom.egg')
+        scene = self.loader.loadModel('/c/Users/brendanlucas/Documents/GitHub/HamlesAndFriends-HackTheWallApp/Thats_so_Ravens/assets/Maya_Assets/scenes/classroom3.egg')
         scene.reparentTo(self.render)
         scene.setPos(0, 0, 0)
         scene.setScale(1,2,2)
