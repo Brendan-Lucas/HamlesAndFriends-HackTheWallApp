@@ -11,6 +11,7 @@ from listener import Listener
 # import Thats_so_Ravens.info as infobbb
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
+import os
 
 WINDOW_SIZE_X = 560
 WINDOW_SIZE_Y = 840
@@ -57,6 +58,7 @@ class PureMagic(ShowBase):
         self.handler = CollisionHandlerQueue()
         self.traverser = CollisionTraverser('check projectiles')
         self.cTrav = self.traverser
+        self.dir_path = os.path.dirname(os.path.realpath(__file__))
 
     def init_light(self):
         ambientLight = AmbientLight("AmbLight")
@@ -65,7 +67,7 @@ class PureMagic(ShowBase):
         self.render.setLight(ambientLightNodePath)
 
     def init_scene_and_cam(self):
-        scene = self.loader.loadModel('/c/Users/brendanlucas/Documents/GitHub/HamlesAndFriends-HackTheWallApp/Thats_so_Ravens/assets/Maya_Assets/scenes/classroom3.egg')
+        scene = self.loader.loadModel("Maya_Assets/scenes/classroom3.egg")
         scene.reparentTo(self.render)
         scene.setPos(0, 0, 0)
         scene.setScale(1,2,2)
@@ -119,7 +121,7 @@ class PureMagic(ShowBase):
         self.prof_count += 1
 
     def init_Rodney(self):
-        self.rodney = Rodney(self, "/c/Users/brendanlucas/Documents/GitHub/HamlesAndFriends-HackTheWallApp/Thats_so_Ravens/assets/Maya_Assets/scenes/rodney_torso2.egg", rightArm = "/c/Users/brendanlucas/Documents/GitHub/HamlesAndFriends-HackTheWallApp/Thats_so_Ravens/assets/Maya_Assets/scenes/rodney_right_arm.egg")
+        self.rodney = Rodney(self, "Maya_Assets/scenes/rodney_torso2.egg", rightArm = "Maya_Assets/scenes/rodney_right_arm.egg")
         self.rodney.setScale(1, 1, 1)
         self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)
