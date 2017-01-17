@@ -1,7 +1,7 @@
 <CoordinateSystem> { Y-Up }
 
 <Comment> {
-  "maya2egg2016 -o rodney_torso.egg Rod_Bod.mb"
+  "maya2egg2016 -o scenes/rodney_torso2.egg scenes/Rod_Bod.mb"
 }
 <Texture> phong1SG {
   "../assets/rodney.png"
