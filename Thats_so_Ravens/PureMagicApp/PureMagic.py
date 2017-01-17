@@ -67,7 +67,7 @@ class PureMagic(ShowBase):
         self.render.setLight(ambientLightNodePath)
 
     def init_scene_and_cam(self):
-        scene = self.loader.loadModel("Maya_Assets/scenes/classroom3.egg")
+        scene = self.loader.loadModel("PureMagicApp/Maya_Assets/scenes/classroom3.egg")
         scene.reparentTo(self.render)
         scene.setPos(0, 0, 0)
         scene.setScale(1,2,2)
@@ -121,7 +121,7 @@ class PureMagic(ShowBase):
         self.prof_count += 1
 
     def init_Rodney(self):
-        self.rodney = Rodney(self, "Maya_Assets/scenes/rodney_torso2.egg", rightArm = "Maya_Assets/scenes/rodney_right_arm.egg")
+        self.rodney = Rodney(self, "PureMagicApp/Maya_Assets/scenes/rodney_torso2.egg", rightArm = "PureMagicApp/Maya_Assets/scenes/rodney_right_arm.egg")
         self.rodney.setScale(1, 1, 1)
         self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)
