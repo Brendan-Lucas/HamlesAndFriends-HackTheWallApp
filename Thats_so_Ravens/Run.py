@@ -33,13 +33,15 @@ class Quad:
                     self.b_press=False
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return 
-                elif blockNum==4: 
+                elif blockNum==4:
                     self.done=self.maze.run_screen()
                     self.b_press=False
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return
                 elif blockNum == 2:
-                    self.done=PureMagic().run()
+                    pygame.display.iconify()
+                    self.done = PureMagic().run()
+                    pygame.display.toggle_fullscreen()
                     self.b_press=False
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
 
