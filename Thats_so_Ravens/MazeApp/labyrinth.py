@@ -182,3 +182,5 @@ class Labyrinth():
             self.grid[0][-i] = 9
         self.grid[0][0] = 7
         self.grid[-1][-1] = 8
+        for i in (0, 3):
+            self.grid[-i][0]
