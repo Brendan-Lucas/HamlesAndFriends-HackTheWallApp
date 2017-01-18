@@ -179,8 +179,7 @@ class Labyrinth():
             for j in range (0,length):
                 self.grid[i].append(0)
         for i in range (1, 4):
-            self.grid[0][-i] = 9
+            self.grid[-i][0] = 9
         self.grid[0][0] = 7
         self.grid[-1][-1] = 8
-        for i in (0, 3):
-            self.grid[-i][0]
+
