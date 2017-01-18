@@ -19,7 +19,6 @@ class Timer:
         self.currentTime = ''
         self.lock = thread.allocate_lock()
         self.running = False
-        print background
         if background: self.clockFace = pygame.transform.scale(pygame.image.load(background), (83, 48))
         if display: self.display = display
         if centerPosX and centerPosY: self.centerPosImage = (centerPosX-8, centerPosY-6)
