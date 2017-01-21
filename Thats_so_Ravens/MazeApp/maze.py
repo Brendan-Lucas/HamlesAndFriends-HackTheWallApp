@@ -127,44 +127,42 @@ class Maze():
 
         timeout = False
         back = False
-        done = False
+        self.done = False
         self.draw_tiles()
 
         self.player.alive = True
         pygame.mouse.set_visible(False)
-        while not (back or done or timeout):
+        while not (back or self.done or timeout):
             # while not maze.player.is_dead() and maze.player.alive:
             self.clock.tick(60)
             self.player.alive = True
             if not self.player.is_dead():
                 pygame.time.wait(1000)
                 pygame.mouse.set_pos(self.tile_size/2, self.tile_size/4)
-            while not (self.player.is_dead() or done) and self.player.alive:
+
+            while not (self.player.is_dead() or self.done) and self.player.alive:
                 for event in pygame.event.get():
                     mouse_position = pygame.mouse.get_pos()
                     self.player.move(mouse_position[0], mouse_position[1])
                     self.screen.blit(self.background, self.background.get_rect())
                     self.draw_rodney()
+                    #TODO: analyze these lines
                     if self.player.rect.x / self.tile_size == (len(self.floors) - 1) and self.player.rect.y / self.tile_size == (len(self.floors[0]) - 1):
                         done = True
                     if self.player.rect.x / self.tile_size == 0 and self.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
                         done = True
                         break
                     if event.type == pygame.QUIT:
-                        done = True
+                        self.done = True
                         break
                     if self.collision() == 'dead':
-                        done = True
+                        back = True
                         break
                     self.print_lives()
                     pygame.display.flip()
         pygame.mouse.set_visible(True)
-        if done:
-            return done
-        elif back:
-            return done
-        else:
-            return done
+        return self.done
+
 
 
 

@@ -14,7 +14,7 @@ from pandac.PandaModules import loadPrcFileData
 
 WINDOW_SIZE_X = 560
 WINDOW_SIZE_Y = 840
-loadPrcFileData("", "model-path $MAIN_DIR/..")
+loadPrcFileData("", "model-path $MAIN_DIR")
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
 loadPrcFileData("", "win-size " + str(WINDOW_SIZE_X) + " " + str(WINDOW_SIZE_Y))
@@ -119,9 +119,12 @@ class PureMagic(ShowBase):
             self.Profs[self.prof_count].go()
         self.prof_count += 1
 
-    #TODO: remove LIves=1;
+    #TODO: remove LIves=;
     def init_Rodney(self):
-        self.rodney = Rodney(self, "PureMagicApp/Maya_Assets/scenes/rodney_torso2.egg", rightArm = "PureMagicApp/Maya_Assets/scenes/rodney_right_arm.egg", lives=1)
+        self.rodney = Rodney(self, "PureMagicApp/Maya_Assets/scenes/rodney_torso2.egg",
+                                    rightArm = "PureMagicApp/Maya_Assets/scenes/rodney_right_arm.egg",
+                                    leftArm = "PureMagicApp/Maya_Assets/scenes/LeftArm.egg",
+                                    leftArmBook = "PureMagicApp/Maya_Assets/scenes/text_book.egg", lives=3)
         self.rodney.setScale(1, 1, 1)
         self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)
@@ -148,6 +151,5 @@ class PureMagic(ShowBase):
                     del self.rodProjectiles[0]
             self.handler.clear_entries()
         return Task.cont
-#
-# pureMagic = PureMagic()
-# pureMagic.run()
+
+

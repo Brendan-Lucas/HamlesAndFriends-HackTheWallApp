@@ -12,7 +12,7 @@ SHOOT_TRIGGER = 0.50 #50% of the screen line
 BLOCK_TRIGGER = 0.15 #15% of the screen line
 
 class Rodney(Actor):
-    def __init__(self, app, model, rightArm=None, leftArm=None,lives=3):
+    def __init__(self, app, model, rightArm=None, leftArm=None, leftArmBook=None, lives=3):
         Actor.__init__(self, model)
         self.app = app
         self.scene = app.scene
@@ -24,6 +24,7 @@ class Rodney(Actor):
         self.setHpr(180, 0, 0)
         if leftArm: self.leftArm = self.app.loader.loadModel(leftArm)
         if rightArm: self.rightArm = self.app.loader.loadModel(rightArm)
+        if leftArmBook: self.leftArmBook = self.app.loader.loadModel(leftArmBook)
         self.set_up_arms()
         self.init_collision()
         self.load_HUD()
@@ -33,8 +34,13 @@ class Rodney(Actor):
         self.rightArm.reparentTo(self)
         self.rightArm.setPos(0, -1, 0.8)
         self.rightArm.setHpr(180, 0, 0)
-        # self.leftArm.reparentTo(self)
-        # self.lefttArm.setPos(-5, 0, 2)
+        self.leftArm.reparentTo(self)
+        self.leftArm.setPos(-10, 0, 2)
+        self.leftArm.setScale(0.2, 02, 0.2)
+        self.leftArm.setHpr(180, 0, 0)
+        self.leftArmBook.reparentTo(self.leftArm)
+        self.leftArmBook.setPos(-1, 0, -4)
+
 
     def load_HUD(self):
         self.life_image = OnscreenImage(image='PureMagicApp/PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
@@ -81,7 +87,7 @@ class Rodney(Actor):
     def shoot(self, target):
         if self.charged:
             ###Rodney shoot animation
-            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/PureMagicAssets/other.egg", self.getPos(), target, "rodney"))
+            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/PureMagicAssets/projectile.egg", self.getPos(), target, "rodney"))
             self.app.rodProjectiles[-1].shoot()
             self.charged = False
             self.set_charge_image("off")
@@ -91,10 +97,10 @@ class Rodney(Actor):
     def die(self):
         print 'die'
         self.app.game_over()
-
+    #TODO uncoment out rodneyloosingLives
     def get_hit(self):
         if not self.block:
-            self.lives -= 1
+            #self.lives -= 1
             #   self.play(get hit animation)
             if self.lives == 0:
                 self.die()
