@@ -19,7 +19,6 @@ class Player(pygame.sprite.Sprite):
 
     def is_dead(self):
         if self.lives == 0:
-            self.done = True
             return True
         else:
             return False

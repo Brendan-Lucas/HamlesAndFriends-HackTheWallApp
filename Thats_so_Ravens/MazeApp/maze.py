@@ -148,18 +148,19 @@ class Maze():
                     self.draw_rodney()
                     #TODO: analyze these lines
                     if self.player.rect.x / self.tile_size == (len(self.floors) - 1) and self.player.rect.y / self.tile_size == (len(self.floors[0]) - 1):
-                        done = True
+                        back = True
                     if self.player.rect.x / self.tile_size == 0 and self.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
-                        done = True
+                        back = True
                         break
                     if event.type == pygame.QUIT:
                         self.done = True
                         break
                     if self.collision() == 'dead':
                         back = True
-                        break
+
                     self.print_lives()
                     pygame.display.flip()
+
         pygame.mouse.set_visible(True)
         return self.done
 

@@ -97,7 +97,8 @@ class Quiz:
         if (x_center-(side/2) < mouse[0] < x_center+(side/2)) and (y_center-(side/2) < mouse[1] < y_center+(side/2)):
             self.screen.blit(self.backButtonBlue, coordinates_button)
             if event:
-                if event.type == pygame.MOUSEBUTTONDOWN: return back_pressed
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    return back_pressed
                 else: return not back_pressed
         else:
             self.screen.blit(self.backButtonBlack, coordinates_button)
@@ -190,6 +191,7 @@ class Quiz:
                 #elif event.type == pygame.MOUSEBUTTONDOWN:
                     #click_sound.play()
                 back = self.make_back(event)
+                if back: break
                 if self.q_count<len(self.questions) and not self.timer2.running:
                     self.make_answers(event)
                 if not self.b_press and not self.timer.running:
