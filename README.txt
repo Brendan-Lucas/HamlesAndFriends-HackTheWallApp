@@ -1,4 +1,4 @@
-In Lu of a presentation, I and my teammates would like to take the opportunity to welcome you to our small contribution
+In Lieu of a presentation, I and my teammates would like to take the opportunity to welcome you to our small contribution
 to carleton's wonderful engineering and computer culture.  Our app, Thats_So_Ravens features a character, Rodney the raven
 as a first year student who has been accepted into Carleton's SCE department as a Systems/Software Engineer to be.
 Rodney, as all first years seem to faces a number of challenges along the way.
