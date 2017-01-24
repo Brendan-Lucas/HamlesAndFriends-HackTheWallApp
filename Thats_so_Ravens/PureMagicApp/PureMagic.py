@@ -52,7 +52,7 @@ class PureMagic(ShowBase):
         self.init_profs()
         self.init_Rodney()
         self.taskMgr.add(self.collision_task, "handle_collisions")
-        l = Listener(self)
+        Listener(self)
         #start the game.
         self.nextProf()
         self.taskMgr.add(self.rodney.mouse_control_event, "mouseShootingEvent")

@@ -5,19 +5,26 @@ from MazeApp.maze import Maze
 from PureMagicApp.PureMagic import PureMagic
   
 def run_app():
-    GameStarter = Quad((1080, 1920))
+    GameStarter = Quad((540, 860))
     GameStarter.run_screen()
 
 class Quad:
         
         def __init__(self, size):
+                self.size = size
                 self.block = 0
                 self.b_press = False
                 self.done = False
                 self.maze = Maze(size, (6,10))
                 self.quiz = Quiz(size)
                 self.screen = pygame.display.set_mode(size)
-                
+
+        def wait_for_click(self):
+            pygame.event.set_allowed(None)
+            pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
+            pygame.event.wait()
+            pygame.event.clear()
+            pygame.event.set_allowed(pygame.MOUSEMOTION)
 
         def make_button(self, event, left, top, width, height, blockNum):     
             mouse = pygame.mouse.get_pos()
@@ -38,9 +45,14 @@ class Quad:
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
                     return
                 elif blockNum == 2:
+                    self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/magic_intro_red.png"), self.size), (0, 0))
+                    pygame.display.flip()
+                    self.wait_for_click()
                     pygame.display.iconify()
                     self.done = PureMagic().run()
                     pygame.display.toggle_fullscreen()
+                    self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/magic_end_C-_red.png"), self.size), (0, 0))
+                    pygame.display.flip()
                     self.b_press=False
                     pygame.display.set_caption("Welcome To Mackenzie Quad")
 
