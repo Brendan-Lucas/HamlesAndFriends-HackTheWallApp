@@ -3,13 +3,14 @@ from direct.interval.IntervalGlobal import Sequence
 from direct.interval.FunctionInterval import Func
 from Projectiles import Projectile
 from panda3d.core import *
+from direct.task import Task
 from pandac.PandaModules import WindowProperties
 import math
 from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import TransparencyAttrib
 
-SHOOT_TRIGGER = 0.50 #50% of the screen line
-BLOCK_TRIGGER = 0.15 #15% of the screen line
+SHOOT_TRIGGER = 0 #50% of the screen line
+BLOCK_TRIGGER = -0.70 #15% of the screen line
 
 class Rodney(Actor):
     def __init__(self, app, model, rightArm=None, leftArm=None, leftArmBook=None, lives=3):
@@ -87,7 +88,7 @@ class Rodney(Actor):
     def shoot(self, target):
         if self.charged:
             ###Rodney shoot animation
-            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/PureMagicAssets/projectile.egg", self.getPos(), target, "rodney"))
+            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/Maya_Assets/scenes/projectile.egg", self.getPos(), target, "rodney"))
             self.app.rodProjectiles[-1].shoot()
             self.charged = False
             self.set_charge_image("off")
@@ -118,21 +119,22 @@ class Rodney(Actor):
 
     def init_mouse_control_event(self):
         props = WindowProperties()
-        props.setCursorHidden(True)
+        #props.setCursorHidden(True)
         self.app.win.requestProperties(props)
 
     def mouse_control_event(self, task):
-        task.delaytime = 0.2
         if self.app.mouseWatcherNode.hasMouse():
             pres_y = self.app.mouseWatcherNode.getMouseY()
             pres_x = self.app.mouseWatcherNode.getMouseX()
-            if self.block and pres_x > 15:
+            print pres_x, ', ', pres_y
+            if self.block and pres_x > BLOCK_TRIGGER:
                 self.unblocks()
             # TODO: add the scaling factor of the screen size so that we make the line at 0.4 * screenLength
             if self.last_y < self.app.WINDOW_SIZE_Y * SHOOT_TRIGGER and pres_y > self.app.WINDOW_SIZE_Y * SHOOT_TRIGGER:
-                ratio_y = pres_y - self.last_y
-                ratio_x = pres_x - self.last_x
-                degree = math.degrees(math.atan(ratio_y/ratio_x))
+                ratio_y = self.map(pres_y) - self.map(self.last_y)
+                ratio_x = self.map(pres_x) - self.map(self.last_x)
+                if ratio_x == 0: ratio_x = 0.0001
+                degree = math.degrees( math.atan( ratio_y / ratio_x ))
                 self.shoot(self.scale(degree))
                 #TODO: convert degree(should be between 0-180) to a number within the x constraints of profs motion
             elif pres_y < self.app.WINDOW_SIZE_Y * BLOCK_TRIGGER:
@@ -140,8 +142,14 @@ class Rodney(Actor):
             self.last_x = self.app.mouseWatcherNode.getMouseX()
             self.last_y = self.app.mouseWatcherNode.getMouseY()
 
-        task.again
+        task.delayTime = 0.2
+        return task.again
 
     def scale(self, degree):
         #TODO: ensure that the z coordinate is correct.
-        return (degree//6, self.app.prof_y, 100)
+        print degree
+        return (degree//6, 30, 0)
+
+    def map(self, num):
+        new_num = (num + 100) / 2
+        return new_num

@@ -33,9 +33,12 @@ class Projectile(Actor):
     def shoot(self):
         self.movement_animation.start()
 
-    def delete(self):
+    def get_rid_of(self):
         self.removeNode()
+        self.cleanup()
+        self.delete()
+
 
     def make_shot_animation(self):
-        projectilePositionInterval = self.posInterval(.3, self.end, startPos = self.start)
+        projectilePositionInterval = self.posInterval(.5, self.end, startPos = self.start)
         self.movement_animation = Sequence(projectilePositionInterval)
