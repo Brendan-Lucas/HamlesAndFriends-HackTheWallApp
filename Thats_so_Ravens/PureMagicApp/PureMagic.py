@@ -12,8 +12,8 @@ from listener import Listener
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
 
-WINDOW_SIZE_X = 560
-WINDOW_SIZE_Y = 840
+WINDOW_SIZE_X = 1080
+WINDOW_SIZE_Y = 1920
 loadPrcFileData("", "model-path $MAIN_DIR")
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
@@ -138,16 +138,16 @@ class PureMagic(ShowBase):
             if entry.getIntoNodePath().getName() == "rodneyCnode" and entry.getFromNodePath().getName() == "profShotCnode":
                 self.rodney.get_hit()
                 if self.profProjectiles:
-                    self.profProjectiles[0].delete()
+                    self.profProjectiles[0].get_rid_of()
                     del self.profProjectiles[0]
             elif entry.getIntoNodePath().getName() == "profCnode" and entry.getFromNodePath().getName() == "rodneyShotCnode":
                 self.Profs[self.prof_count-1].get_hit()
                 if self.rodProjectiles:
-                    self.rodProjectiles[0].delete()
+                    self.rodProjectiles[0].get_rid_of()
                     del self.rodProjectiles[0]
             elif entry.getIntoNodePath().getName() == "wall_plane":
                 if self.rodProjectiles:
-                    self.rodProjectiles[0].delete()
+                    self.rodProjectiles[0].get_rid_of()
                     del self.rodProjectiles[0]
             self.handler.clear_entries()
         return Task.cont

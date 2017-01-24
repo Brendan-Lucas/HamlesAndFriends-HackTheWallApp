@@ -76,7 +76,6 @@ class Maze():
         for x in x_coords:
             for y in y_coords:
                 if pygame.sprite.collide_mask(self.player, self.walls[x][y]):
-                    print 'kill rod'
                     self.player.kill()
                     if self.player.is_dead():
                         return 'dead'
@@ -138,20 +137,31 @@ class Maze():
             for event in pygame.event.get():
                 pos_x = pygame.mouse.get_pos()[0]
                 pos_y = pygame.mouse.get_pos()[1]
-            if self.player.rect.left < pos_x < self.player.rect.right and self.player.rect.top < pos_y < self.player.rect.bottom:
-                cont = True
+                if self.player.rect.left < pos_x < self.player.rect.right and self.player.rect.top < pos_y < self.player.rect.bottom:
+                    cont = True
         pygame.mouse.set_visible(False)
+
+    def ending_scenario(self, win = False):
+        if win:
+            image = pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_end_success.png")
+        else:
+            image = pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_end_failure_red.png")
+        self.screen.blit(pygame.transform.scale(image, self.size), (0, 0))
+        pygame.display.flip()
+        self.wait_for_click()
+
+    def wait_for_click(self):
+        pygame.event.set_allowed(None)
+        pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
+        pygame.event.wait()
+        pygame.event.set_allowed(pygame.MOUSEMOTION)
 
     def run_screen(self):
         pygame.display.set_caption("Try and find your way to Architecture 5001 before your lab starts")
 
-        start = False
         self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_intro_red.png"), self.size), (0,0))
         pygame.display.flip()
-        while not start:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    start = True
+        self.wait_for_click()
 
         timeout = False
         back = False
@@ -172,9 +182,11 @@ class Maze():
                     self.player.move(mouse_position[0], mouse_position[1])
                     self.screen.blit(self.background, self.background.get_rect())
                     self.draw_rodney()
+                    self.print_lives()
                     #TODO: analyze these lines
                     if self.player.rect.x / self.tile_size == (len(self.floors) - 1) and self.player.rect.y / self.tile_size == (len(self.floors[0]) - 1):
                         self.done = True
+                        self.ending_scenario(True)
                     if self.player.rect.x / self.tile_size == 0 and self.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
                         self.done = True
                         break
@@ -183,8 +195,8 @@ class Maze():
                         break
                     if self.collision() == 'dead':
                         back = True
+                        self.ending_scenario()
                         break
-                    self.print_lives()
                     pygame.display.flip()
         pygame.mouse.set_visible(True)
         return self.done

@@ -28,7 +28,7 @@ class Quiz:
         self.cor_text = ''
         self.cor_img = ''
         self.timeout=False  # probably not needed use self.timeoutTimer.running
-        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "Thats_so_Ravens/assets/TimerBackground.png")
+        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "Thats_so_Ravens/QuizApp/quizAssets/TimerBackground.png")
         self.timer2 = Timer()
         self.timeoutTimer = Timer()
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
@@ -91,7 +91,7 @@ class Quiz:
         mouse = pygame.mouse.get_pos()
         x_center = helpers.normalize(self.size, 30, 'x')
         y_center = helpers.normalize(self.size, 30, 'y')
-        side = 40
+        side = helpers.normalize(self.size, 40, 'x')
         coordinates_button=(x_center-(side/2), y_center-(side/2))
         #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
         if (x_center-(side/2) < mouse[0] < x_center+(side/2)) and (y_center-(side/2) < mouse[1] < y_center+(side/2)):
@@ -171,6 +171,12 @@ class Quiz:
             self.fresh_screen()
             if self.q_count < len(self.questions): self.timer.runAndPrintTimer(30, 0)
 
+    def wait_for_click(self):
+        pygame.event.set_allowed(None)
+        pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
+        pygame.event.wait()
+        pygame.event.set_allowed(pygame.MOUSEMOTION)
+
     def run_screen(self):
         pygame.display.set_caption("Try and pass ECOR 1010, In Mcrae We Trust")
         self.switch_q = False
@@ -178,10 +184,14 @@ class Quiz:
         self.timeout = False
         back = False
         done = False
+        self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/quiz_intro_red.png"), self.size), (0,0))
+        pygame.display.flip()
+        self.wait_for_click()
         self.fresh_screen()
         if self.q_count<len(self.questions): self.timer.runAndPrintTimer(30, 0)
         self.timeoutTimer.runTimer(90, 0)
         while not (back or done or self.timeout):
+            self.clock.tick(30)
             for event in pygame.event.get():
                 self.timeoutTimer.currentTime = 90
                 if event.type == pygame.QUIT:
@@ -211,6 +221,11 @@ class Quiz:
             if not self.timeoutTimer.running:
                 self.timeout = True
                 print "Should end now because its timed out"
+        if not self.timeout:
+            self.timer.stop()
+            self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/quiz_end_" + str(self.score) + ".png"), self.size), (0, 0))
+            pygame.display.flip()
+            self.wait_for_click()
         return done
 #click_sound = pygame.mixer.Sound("laser5.ogg")
 #click_sound.play
