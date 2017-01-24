@@ -5,7 +5,7 @@ from MazeApp.maze import Maze
 from PureMagicApp.PureMagic import PureMagic
   
 def run_app():
-    GameStarter = Quad((540, 860))
+    GameStarter = Quad((1080, 1920))
     GameStarter.run_screen()
 
 class Quad:
