@@ -146,7 +146,7 @@ class Rodney(Actor):
         return task.again
 
     def scale(self, degree):
-        #TODO: ensure that the z coordinate is correct.
+        #magic numbers are adjustments with 30 = to profs y pos, 0 profs z pos.
         return (degree//2 + 12, 30, 0)
 
     def map(self, num):
