@@ -133,8 +133,8 @@ class Rodney(Actor):
             if self.last_y < self.app.WINDOW_SIZE_Y * SHOOT_TRIGGER and pres_y > self.app.WINDOW_SIZE_Y * SHOOT_TRIGGER:
                 ratio_y = self.map(pres_y) - self.map(self.last_y)
                 ratio_x = self.map(pres_x) - self.map(self.last_x)
-                if ratio_x == 0: ratio_x = 0.0001
-                degree = math.degrees( math.atan( ratio_y / ratio_x ))
+                if ratio_y == 0: ratio_y = 0.0001
+                degree = math.degrees( math.atan( ratio_x/ ratio_y ))
                 self.shoot(self.scale(degree))
                 #TODO: convert degree(should be between 0-180) to a number within the x constraints of profs motion
             elif pres_y < self.app.WINDOW_SIZE_Y * BLOCK_TRIGGER:
@@ -142,13 +142,12 @@ class Rodney(Actor):
             self.last_x = self.app.mouseWatcherNode.getMouseX()
             self.last_y = self.app.mouseWatcherNode.getMouseY()
 
-        task.delayTime = 0.2
+        task.delayTime = 0.15
         return task.again
 
     def scale(self, degree):
         #TODO: ensure that the z coordinate is correct.
-        print degree
-        return (degree//6, 30, 0)
+        return (degree//2 + 12, 30, 0)
 
     def map(self, num):
         new_num = (num + 100) / 2
