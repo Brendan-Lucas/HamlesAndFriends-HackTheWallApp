@@ -47,6 +47,10 @@ class Rodney(Actor):
         self.life_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/life_images/rodney_lives_' + str(self.lives) + '.png', scale = (0.9, 0, 0.1),
                                         pos=(0.1,0,1.3))
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
+        self.shield_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/Shield_off.png', scale = (0.1),
+                                        pos=(0.8,0,1.0))
+        self.shield_image.setTransparency(TransparencyAttrib.MAlpha)
+
         # self.charge_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/charge_on.png', scale=(0.1),
         #                                   pos=(.8, 0, 1))
         # self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
@@ -55,6 +59,9 @@ class Rodney(Actor):
         self.life_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/life_images/rodney_lives_' + str(self.lives) + '.png')
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
 
+    def set_shield_image(self, onoff):
+        self.shield_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/Shield_' + onoff + '.png')
+        self.shield_image.setTransparency(TransparencyAttrib.MAlpha)
     # def set_charge_image(self, onoff):
     #     self.charge_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/charge_' + onoff + '.png')
     #     self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
@@ -112,11 +119,13 @@ class Rodney(Actor):
 
 
     def blocks(self):
+        self.set_shield_image("on")
         self.block = True
         #self.play(blocking animation)
         #self.pose(blocking animation) #### last frame for 1 second
 
     def unblocks(self):
+        self.set_shield_image("off")
         self.block = False
 
     def init_mouse_control_event(self):
