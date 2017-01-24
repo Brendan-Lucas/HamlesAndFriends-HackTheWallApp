@@ -1,7 +1,7 @@
 import Helpers as helpers
 import pygame
 from QuizApp.quiz import Quiz
-from mazeApp.maze import Maze
+from MazeApp.maze import Maze
 from PureMagicApp.PureMagic import PureMagic
   
 def run_app():

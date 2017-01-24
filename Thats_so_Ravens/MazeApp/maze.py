@@ -125,9 +125,9 @@ class Maze():
     def mouse_to_rodney_to_continue(self):
         pygame.time.wait(1000)
         cont = False
-        continue_image = pygame.transform.scale(pygame.image.load("assets/InfoAssets/maze_continue.png"), self.size)
+        continue_image = pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_continue.png"), self.size)
         if self.player.lives == 3:
-            continue_image = pygame.transform.scale(pygame.image.load("assets/InfoAssets/maze_start.png"), self.size)
+            continue_image = pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_start.png"), self.size)
         self.screen.blit(self.background, self.background.get_rect())
         self.player.move(self.tile_size/2, self.tile_size/4)
         self.screen.blit(self.player.image, self.player.rect)
@@ -146,7 +146,7 @@ class Maze():
         pygame.display.set_caption("Try and find your way to Architecture 5001 before your lab starts")
 
         start = False
-        self.screen.blit(pygame.transform.scale(pygame.image.load("assets/InfoAssets/maze_intro_red.png"), self.size), (0,0))
+        self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_intro_red.png"), self.size), (0,0))
         pygame.display.flip()
         while not start:
             for event in pygame.event.get():
@@ -166,7 +166,7 @@ class Maze():
             self.player.alive = True
             if not self.player.is_dead():
                 self.mouse_to_rodney_to_continue()
-            while not (self.player.is_dead() or done) and self.player.alive:
+            while not (self.player.is_dead() or self.done) and self.player.alive:
                 for event in pygame.event.get():
                     mouse_position = pygame.mouse.get_pos()
                     self.player.move(mouse_position[0], mouse_position[1])
@@ -174,9 +174,9 @@ class Maze():
                     self.draw_rodney()
                     #TODO: analyze these lines
                     if self.player.rect.x / self.tile_size == (len(self.floors) - 1) and self.player.rect.y / self.tile_size == (len(self.floors[0]) - 1):
-                        done = True
+                        self.done = True
                     if self.player.rect.x / self.tile_size == 0 and self.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
-                        done = True
+                        self.done = True
                         break
                     if event.type == pygame.QUIT:
                         self.done = True
