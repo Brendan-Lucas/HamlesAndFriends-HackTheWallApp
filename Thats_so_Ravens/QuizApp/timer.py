@@ -36,7 +36,7 @@ class Timer:
                 self.currentTime += 1
                 print(self.currentTime)
             else:
-                self.currentTime -=1
+                self.currentTime -= 1
             self.lock.release()
         self.running = False
 

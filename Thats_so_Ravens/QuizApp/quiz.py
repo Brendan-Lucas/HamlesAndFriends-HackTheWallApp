@@ -28,7 +28,7 @@ class Quiz:
         self.cor_text = ''
         self.cor_img = ''
         self.timeout=False  # probably not needed use self.timeoutTimer.running
-        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "Thats_so_Ravens/assets/TimerBackground.png")
+        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "Thats_so_Ravens/QuizApp/quizAssets/TimerBackground.png")
         self.timer2 = Timer()
         self.timeoutTimer = Timer()
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
