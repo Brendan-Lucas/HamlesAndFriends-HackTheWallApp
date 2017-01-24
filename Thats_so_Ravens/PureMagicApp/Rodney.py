@@ -10,7 +10,7 @@ from direct.gui.OnscreenImage import OnscreenImage
 from panda3d.core import TransparencyAttrib
 
 SHOOT_TRIGGER = 0 #50% of the screen line
-BLOCK_TRIGGER = -0.70 #15% of the screen line
+BLOCK_TRIGGER = -0.40 #15% of the screen line
 
 class Rodney(Actor):
     def __init__(self, app, model, rightArm=None, leftArm=None, leftArmBook=None, lives=9):
@@ -146,8 +146,8 @@ class Rodney(Actor):
                 degree = math.degrees( math.atan( ratio_x/ ratio_y ))
                 self.shoot(self.scale(degree))
                 #TODO: convert degree(should be between 0-180) to a number within the x constraints of profs motion
-            elif pres_y < self.app.WINDOW_SIZE_Y * BLOCK_TRIGGER:
-                 self.blocks()
+            elif pres_y < BLOCK_TRIGGER:
+                self.blocks()
             self.last_x = self.app.mouseWatcherNode.getMouseX()
             self.last_y = self.app.mouseWatcherNode.getMouseY()
 
