@@ -27,7 +27,7 @@ def make_back(self, event):
     mouse = pygame.mouse.get_pos()
     x_center = normalize(self.size, 30, 'x')
     y_center = normalize(self.size, 30, 'y')
-    side = 40
+    side = normalize(self.size, 40, 'x')
     coordinates_button=(x_center-(side/2), y_center-(side/2))
     #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
     if (x_center-(side/2) < mouse[0] < x_center+(side/2)) and (y_center-(side/2) < mouse[1] < y_center+(side/2)):

@@ -35,7 +35,7 @@ class Quiz:
         self.calibri_18 = pygame.font.SysFont('Calibri', 18,True,False)
         self.clock = pygame.time.Clock()
         self.background = self.init_and_resize_image('interim-background.png', self.screen.get_size())
-        self.greenButton = self.init_and_resize_image('green_button_free.png', (helpers.normalize(self.size, helpers.normalize(self.size, 220, 'x'), 'x'),helpers.normalize(self.size, 132, 'y')))
+        self.greenButton = self.init_and_resize_image('green_button_free.png', (helpers.normalize(self.size, 220, 'x'), helpers.normalize(self.size, 132, 'y')))
         self.redButton = self.init_and_resize_image('red_button_free.png', (helpers.normalize(self.size, 220, 'x'),helpers.normalize(self.size, 132, 'y')))
         self.whiteButton = self.init_and_resize_image('blue_button_free.png', (helpers.normalize(self.size, 220, 'x'),helpers.normalize(self.size, 132, 'y')))
         self.blueButton = self.init_and_resize_image('purple_button_free.png', (helpers.normalize(self.size, 220, 'x'),helpers.normalize(self.size, 132, 'y')))
@@ -73,9 +73,9 @@ class Quiz:
                 arr.append(self.calibri_35.render(text,True,BLACK))
                 return arr
 
-        base_q_coordinates = [X, Y] = [60, 290]
-        augment_coordinates = [Xa, Ya] = [0, 32]
-        text = self.questions[self.q_count].get_question() if self.q_count < len(self.questions) else  "Finished, Hope you passed."
+        base_q_coordinates = [X, Y] = [helpers.normalize(self.size, 60, 'x'), helpers.normalize(self.size, 290, 'y')]
+        augment_coordinates = [Xa, Ya] = [0, helpers.normalize(self.size, 32, 'y')]
+        text = self.questions[self.q_count].get_question() if self.q_count < len(self.questions) else "Finished, Hope you passed."
         print_statement = split_question_print_text(text, [])
         for i in range(0,len(print_statement)):
             self.screen.blit(print_statement[i], [X, Y + Ya*i])
@@ -91,7 +91,7 @@ class Quiz:
         mouse = pygame.mouse.get_pos()
         x_center = helpers.normalize(self.size, 30, 'x')
         y_center = helpers.normalize(self.size, 30, 'y')
-        side = 40
+        side = helpers.normalize(self.size, 40, 'x')
         coordinates_button=(x_center-(side/2), y_center-(side/2))
         #print("between "+str(x_center-radius) +" and " + str(x_center+radius) + " andBetween " + str(y_center-radius) +" and " + str(y_center+radius))
         if (x_center-(side/2) < mouse[0] < x_center+(side/2)) and (y_center-(side/2) < mouse[1] < y_center+(side/2)):
@@ -222,6 +222,7 @@ class Quiz:
                 self.timeout = True
                 print "Should end now because its timed out"
         if not self.timeout:
+            self.timer.stop()
             self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/quiz_end_" + str(self.score) + ".png"), self.size), (0, 0))
             pygame.display.flip()
             self.wait_for_click()
