@@ -12,8 +12,8 @@ from listener import Listener
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
 
-WINDOW_SIZE_X = 560
-WINDOW_SIZE_Y = 840
+WINDOW_SIZE_X = 1080
+WINDOW_SIZE_Y = 1920
 loadPrcFileData("", "model-path $MAIN_DIR")
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
