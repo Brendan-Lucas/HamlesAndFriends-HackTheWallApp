@@ -14,7 +14,7 @@ class Quad:
                 self.block = 0
                 self.b_press = False
                 self.done = False
-                self.maze = Maze(size, (10,15))
+                self.maze = Maze(size, (6,10))
                 self.quiz = Quiz(size)
                 self.screen = pygame.display.set_mode(size)
                 
