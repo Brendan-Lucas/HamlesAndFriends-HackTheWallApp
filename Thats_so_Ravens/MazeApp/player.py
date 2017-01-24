@@ -3,7 +3,7 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self, size):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(pygame.image.load('MazeApp/mazeAssets/RodneytheRaven.png'), (size, size))
+        self.image = pygame.transform.scale(pygame.image.load('Thats_so_Ravens/MazeApp/mazeAssets/RodneytheRaven.png'), (size, size))
         self.lives = 3
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image, 20)

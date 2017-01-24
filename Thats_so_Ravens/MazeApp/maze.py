@@ -1,5 +1,5 @@
 import pygame
-import Thats_so_Ravens.Helpers as helpers
+import Helpers as helpers
 from labyrinth import Labyrinth
 from player import Player
 from wall import Wall
@@ -32,7 +32,7 @@ class Maze():
         self.walls = []
         self.floors = []
         self.screen = pygame.display.set_mode(size)
-        self.background = pygame.transform.scale(pygame.image.load('MazeApp/mazeAssets/white.png'), (self.screen.get_size()[0], self.screen.get_size()[1]))
+        self.background = pygame.transform.scale(pygame.image.load('Thats_so_Ravens/mazeApp/mazeAssets/white.png'), (self.screen.get_size()[0], self.screen.get_size()[1]))
         self.clock = pygame.time.Clock()
         self.floorImage = []
         self.wallImage = []
@@ -43,7 +43,7 @@ class Maze():
     def load_life_images(self):
         self.life_images = []
         for i in range(1, 4):
-            image = pygame.transform.scale(pygame.image.load("MazeApp/mazeAssets/lives_" + str(i) + ".png"), (helpers.normalize(self.size, 120, 'x'), helpers.normalize(self.size, 40, 'y')))
+            image = pygame.transform.scale(pygame.image.load("Thats_so_Ravens/mazeApp/mazeAssets/lives_" + str(i) + ".png"), (helpers.normalize(self.size, 120, 'x'), helpers.normalize(self.size, 40, 'y')))
             self.life_images.append(image)
 
     def print_lives(self):
@@ -99,8 +99,8 @@ class Maze():
 
     def load_wall_images(self):
         for i in range(0, 9):
-            self.wallImage.append(pygame.image.load('MazeApp/mazeAssets/walls/Wall' + str(i) + '.png'))
-            self.floorImage.append(pygame.image.load('MazeApp/mazeAssets/floors/Floor' + str(i) + '.png'))
+            self.wallImage.append(pygame.image.load('Thats_so_Ravens/mazeApp/mazeAssets/walls/Wall' + str(i) + '.png'))
+            self.floorImage.append(pygame.image.load('Thats_so_Ravens/mazeApp/mazeAssets/floors/Floor' + str(i) + '.png'))
 
     def draw_tiles(self):
         for x in range(0, len(self.floors)):

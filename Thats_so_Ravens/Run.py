@@ -1,7 +1,7 @@
 import Helpers as helpers
 import pygame
 from QuizApp.quiz import Quiz
-from MazeApp.maze import Maze
+from mazeApp.maze import Maze
 from PureMagicApp.PureMagic import PureMagic
   
 def run_app():
@@ -50,7 +50,7 @@ class Quad:
             pygame.display.set_caption("Welcome To Mackenzie Quad")
             pygame.mouse.set_pos(self.screen.get_rect().center)
                                             
-            zFrame_background = pygame.transform.scale(pygame.image.load("QuizApp/QuadAdjust.jpg").convert(), self.screen.get_size())
+            zFrame_background = pygame.transform.scale(pygame.image.load("Thats_so_Ravens/QuizApp/QuadAdjust.jpg").convert(), self.screen.get_size())
             backgroundRect=zFrame_background.get_rect()
                                                                            
             

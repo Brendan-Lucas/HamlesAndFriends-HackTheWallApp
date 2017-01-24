@@ -1,6 +1,6 @@
 import collections
 import pygame
-import Thats_so_Ravens.Helpers as helpers
+import Helpers as helpers
 from timer import Timer
 import parsing as parse
 from pygame import *
@@ -28,7 +28,7 @@ class Quiz:
         self.cor_text = ''
         self.cor_img = ''
         self.timeout=False  # probably not needed use self.timeoutTimer.running
-        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "assets/TimerBackground.png")
+        self.timer = Timer(self.screen, helpers.normalize(self.size, 410, 'x'), helpers.normalize(self.size, 470, 'y'), "Thats_so_Ravens/assets/TimerBackground.png")
         self.timer2 = Timer()
         self.timeoutTimer = Timer()
         self.calibri_35 = pygame.font.SysFont('Calibri', 35,True,False)
@@ -55,7 +55,7 @@ class Quiz:
         self.blueButton.set_colorkey(color)
 
     def init_and_resize_image(self, filename, size):
-        return pygame.transform.scale(pygame.image.load("QuizApp/quizAssets/ImagesForQuizApp/"+filename), size)
+        return pygame.transform.scale(pygame.image.load("Thats_so_Ravens/QuizApp/quizAssets/ImagesForQuizApp/"+filename), size)
 
     def init_questions(self):  #get array of questions
         (Qarr, Aarr)  = parse.parsing()
