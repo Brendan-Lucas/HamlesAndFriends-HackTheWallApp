@@ -154,6 +154,7 @@ class Maze():
         pygame.event.set_allowed(None)
         pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
         pygame.event.wait()
+        pygame.event.clear()
         pygame.event.set_allowed(pygame.MOUSEMOTION)
 
     def run_screen(self):
