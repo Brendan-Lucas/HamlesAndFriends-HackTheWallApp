@@ -10,6 +10,7 @@ from listener import Listener
 # import Thats_so_Ravens.Helpers as helpers
 # import Thats_so_Ravens.info as info
 from pandac.PandaModules import loadPrcFileData
+import sys
 # from OpenGL.GL import *
 
 WINDOW_SIZE_X = 1080
@@ -130,7 +131,7 @@ class PureMagic(ShowBase):
         self.rodney.reparentTo(self.scene)
 
     def game_over(self):
-        self.exitfunc()
+        sys.exit()
 
 
     def collision_task(self, task):
