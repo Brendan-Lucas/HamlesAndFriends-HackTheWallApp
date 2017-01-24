@@ -12,8 +12,8 @@ from listener import Listener
 from pandac.PandaModules import loadPrcFileData
 # from OpenGL.GL import *
 
-WINDOW_SIZE_X = 560
-WINDOW_SIZE_Y = 840
+WINDOW_SIZE_X = 1080
+WINDOW_SIZE_Y = 1920
 loadPrcFileData("", "model-path $MAIN_DIR")
 loadPrcFileData("", "window-title Your Title")
 loadPrcFileData("", "fullscreen 0")
@@ -114,7 +114,7 @@ class PureMagic(ShowBase):
                 iterator += 1
         elif self.prof_count < 3:
             ls.append(self.Profs[self.prof_count])
-            render_object(ls, self.scene, pos=(-8, 8, 4.5))
+            render_object(ls, self.scene, pos=(-4, 8, 4.5))
             #make prof walk to centerOfRoom.
             self.Profs[self.prof_count].go()
         self.prof_count += 1

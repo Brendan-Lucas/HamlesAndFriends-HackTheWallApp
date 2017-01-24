@@ -5,9 +5,8 @@ from MazeApp.maze import Maze
 from PureMagicApp.PureMagic import PureMagic
   
 def run_app():
-    GameStarter = Quad((560, 840))
-    GameStarter.run_screen()        
-
+    GameStarter = Quad((1080, 1920))
+    GameStarter.run_screen()
 
 class Quad:
         
@@ -15,7 +14,7 @@ class Quad:
                 self.block = 0
                 self.b_press = False
                 self.done = False
-                self.maze = Maze(size, (10,15))
+                self.maze = Maze(size, (6,10))
                 self.quiz = Quiz(size)
                 self.screen = pygame.display.set_mode(size)
                 

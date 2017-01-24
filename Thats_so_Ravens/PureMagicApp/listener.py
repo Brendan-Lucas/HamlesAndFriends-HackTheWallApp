@@ -8,7 +8,7 @@ class Listener(DirectObject.DirectObject):
         self.accept('r', self.rodney_reloads)
         self.accept('b', self.rodney_block)
         self.accept('b-up', self.rodney_unblock)
-        self.accept('p', self.printlocation)
+
     def rodney_shoots(self):
         ##### THIS IS PURELY FOR TESTING PURPOSES
         prof = self.app.Profs[self.app.prof_count-1]
