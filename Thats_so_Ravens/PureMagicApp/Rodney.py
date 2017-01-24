@@ -96,7 +96,6 @@ class Rodney(Actor):
           #  self.play(uncharged animation)
 
     def die(self):
-        print 'die'
         self.app.game_over()
     #TODO uncoment out rodneyloosingLives
     def get_hit(self):
@@ -126,7 +125,6 @@ class Rodney(Actor):
         if self.app.mouseWatcherNode.hasMouse():
             pres_y = self.app.mouseWatcherNode.getMouseY()
             pres_x = self.app.mouseWatcherNode.getMouseX()
-            print pres_x, ', ', pres_y
             if self.block and pres_x > BLOCK_TRIGGER:
                 self.unblocks()
             # TODO: add the scaling factor of the screen size so that we make the line at 0.4 * screenLength

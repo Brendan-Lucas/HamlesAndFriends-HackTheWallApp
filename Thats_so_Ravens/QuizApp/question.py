@@ -28,7 +28,6 @@ class Question:
         self.question = in_question
         self.answers.append(AnswerText(in_answers[0], True))
         for i in range(1,4):
-            print(i)
             self.answers.append(AnswerText(in_answers[i], False))
         np.random.shuffle(self.answers)
         return self
