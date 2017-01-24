@@ -13,7 +13,7 @@ SHOOT_TRIGGER = 0 #50% of the screen line
 BLOCK_TRIGGER = -0.70 #15% of the screen line
 
 class Rodney(Actor):
-    def __init__(self, app, model, rightArm=None, leftArm=None, leftArmBook=None, lives=3):
+    def __init__(self, app, model, rightArm=None, leftArm=None, leftArmBook=None, lives=9):
         Actor.__init__(self, model)
         self.app = app
         self.scene = app.scene
@@ -44,15 +44,15 @@ class Rodney(Actor):
 
 
     def load_HUD(self):
-        self.life_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
-                                        pos=(.8, 0, 1.3))
+        self.life_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/life_images/rodney_lives_' + str(self.lives) + '.png', scale = (0.9, 0, 0.1),
+                                        pos=(0.1,0,1.3))
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
         # self.charge_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/charge_on.png', scale=(0.1),
         #                                   pos=(.8, 0, 1))
         # self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
 
     def set_life_image(self):
-        self.life_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/rodney_lives_' + str(self.lives) + '.png')
+        self.life_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/life_images/rodney_lives_' + str(self.lives) + '.png')
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
 
     # def set_charge_image(self, onoff):
@@ -103,7 +103,7 @@ class Rodney(Actor):
     #TODO uncoment out rodneyloosingLives
     def get_hit(self):
         if not self.block:
-            #self.lives -= 1
+            self.lives -= 1
             #   self.play(get hit animation)
             if self.lives == 0:
                 self.die()
