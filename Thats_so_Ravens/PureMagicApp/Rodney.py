@@ -13,14 +13,14 @@ SHOOT_TRIGGER = 0 #50% of the screen line
 BLOCK_TRIGGER = -0.70 #15% of the screen line
 
 class Rodney(Actor):
-    def __init__(self, app, model, rightArm=None, leftArm=None, leftArmBook=None, lives=3):
+    def __init__(self, app, model, rightArm=None, leftArm=None, leftArmBook=None, lives=9):
         Actor.__init__(self, model)
         self.app = app
         self.scene = app.scene
         self.lives = lives
         self.last_x = 0
         self.last_y = 0
-        self.charged = True
+        # self.charged = True
         self.block = False
         self.setHpr(180, 0, 0)
         if leftArm: self.leftArm = self.app.loader.loadModel(leftArm)
@@ -44,20 +44,20 @@ class Rodney(Actor):
 
 
     def load_HUD(self):
-        self.life_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/rodney_lives_' + str(self.lives) + '.png', scale=(0.1),
-                                        pos=(.8, 0, 1.3))
+        self.life_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/life_images/rodney_lives_' + str(self.lives) + '.png', scale = (0.9, 0, 0.1),
+                                        pos=(0.1,0,1.3))
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
-        self.charge_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/charge_on.png', scale=(0.1),
-                                          pos=(.8, 0, 1))
-        self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
+        # self.charge_image = OnscreenImage(image='Thats_so_Ravens/PureMagicApp/PureMagicAssets/charge_on.png', scale=(0.1),
+        #                                   pos=(.8, 0, 1))
+        # self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
 
     def set_life_image(self):
-        self.life_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/rodney_lives_' + str(self.lives) + '.png')
+        self.life_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/life_images/rodney_lives_' + str(self.lives) + '.png')
         self.life_image.setTransparency(TransparencyAttrib.MAlpha)
 
-    def set_charge_image(self, onoff):
-        self.charge_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/charge_' + onoff + '.png')
-        self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
+    # def set_charge_image(self, onoff):
+    #     self.charge_image.setImage('Thats_so_Ravens/PureMagicApp/PureMagicAssets/charge_' + onoff + '.png')
+    #     self.charge_image.setTransparency(TransparencyAttrib.MAlpha)
 
     # def set_charge_image(self):
 
@@ -80,27 +80,29 @@ class Rodney(Actor):
         block = Sequence(*blocking_animation)
         block.start()
 
-    def charge(self):
-        #self.play(charge_animation)
-        self.charged = True
-        self.set_charge_image("on")
+    # def charge(self):
+    #     #self.play(charge_animation)
+    #     self.charged = True
+    #     self.set_charge_image("on")
 
     def shoot(self, target):
-        if self.charged:
-            ###Rodney shoot animation
-            self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/Maya_Assets/scenes/projectile.egg", self.getPos(), target, "rodney"))
-            self.app.rodProjectiles[-1].shoot()
-            self.charged = False
-            self.set_charge_image("off")
+        # if self.charged:
+        #     ###Rodney shoot animation
+        #     self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/Maya_Assets/scenes/projectile.egg", self.getPos(), target, "rodney"))
+        #     self.app.rodProjectiles[-1].shoot()
+        #     self.charged = False
+        #     self.set_charge_image("off")
         # else:
           #  self.play(uncharged animation)
+        self.app.rodProjectiles.append(Projectile(self.app, "PureMagicApp/Maya_Assets/scenes/projectile.egg", self.getPos(), target, "rodney"))
+        self.app.rodProjectiles[-1].shoot()
 
     def die(self):
         self.app.game_over()
     #TODO uncoment out rodneyloosingLives
     def get_hit(self):
         if not self.block:
-            #self.lives -= 1
+            self.lives -= 1
             #   self.play(get hit animation)
             if self.lives == 0:
                 self.die()

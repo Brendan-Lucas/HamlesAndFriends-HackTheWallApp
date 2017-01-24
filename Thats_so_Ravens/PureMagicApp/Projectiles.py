@@ -11,9 +11,18 @@ class Projectile(Actor):
         self.start = start
         self.end = end
         self.shooter = shooter
+        self.init_projectile_colors()
         self.reparentTo(self.scene)
         self.init_collision()
         self.make_shot_animation()
+
+    def init_projectile_colors(self):
+        if self.shooter == "prof":
+            self.setColor(255, 0, 0)
+            self.setHpr(270,0,0)
+        else:
+            self.setColor(0, 255, 85)
+            self.setHpr(90, 0, 0)
 
     def init_collision(self):
         cs = CollisionSphere(0, 0, 0, 1)

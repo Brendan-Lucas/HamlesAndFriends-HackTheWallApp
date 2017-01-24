@@ -124,7 +124,7 @@ class PureMagic(ShowBase):
         self.rodney = Rodney(self, "PureMagicApp/Maya_Assets/scenes/rodney_torso2.egg",
                                     rightArm = "PureMagicApp/Maya_Assets/scenes/rodney_right_arm.egg",
                                     leftArm = "PureMagicApp/Maya_Assets/scenes/LeftArm.egg",
-                                    leftArmBook = "PureMagicApp/Maya_Assets/scenes/text_book.egg", lives=3)
+                                    leftArmBook = "PureMagicApp/Maya_Assets/scenes/text_book.egg")
         self.rodney.setScale(1, 1, 1)
         self.rodney.setPos(10, -30, 10)
         self.rodney.reparentTo(self.scene)
