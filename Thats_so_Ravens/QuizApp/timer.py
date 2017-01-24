@@ -36,7 +36,6 @@ class Timer:
             time.sleep(1)
             if self.startTime < self.endTime:
                 self.currentTime += 1
-                print(self.currentTime)
             else:
                 self.currentTime -= 1
             self.lock.release()
@@ -70,7 +69,6 @@ class Timer:
     def stop(self):
         self.running = False
         tf = self.lock.acquire()
-        print tf
         self.lock.release()
 
 def TestRunning():

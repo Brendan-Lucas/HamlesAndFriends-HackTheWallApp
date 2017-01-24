@@ -163,7 +163,6 @@ class Quiz:
             pygame.display.flip()
             self.timer2.runTimer(3, 0)
             self.switch_q = True
-            print(self.timer2.running)
         if self.switch_q and not self.timer2.running:
             self.q_count += 1
             self.b_press = False
@@ -212,7 +211,6 @@ class Quiz:
                     pygame.display.flip()
                     self.timer2.runTimer(3, 0)
                     self.switch_q = True
-                    print(self.timer2.running)
                 #after time passed, want to go to bulrb screen, contians image top left and info below
                 pygame.display.flip()
             #outside for
@@ -220,7 +218,6 @@ class Quiz:
             pygame.display.flip() #possibly not needed
             if not self.timeoutTimer.running:
                 self.timeout = True
-                print "Should end now because its timed out"
         if not self.timeout:
             self.timer.stop()
             self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/quiz_end_" + str(self.score) + ".png"), self.size), (0, 0))
