@@ -114,7 +114,7 @@ class PureMagic(ShowBase):
                 iterator += 1
         elif self.prof_count < 3:
             ls.append(self.Profs[self.prof_count])
-            render_object(ls, self.scene, pos=(-8, 8, 4.5))
+            render_object(ls, self.scene, pos=(-4, 8, 4.5))
             #make prof walk to centerOfRoom.
             self.Profs[self.prof_count].go()
         self.prof_count += 1
