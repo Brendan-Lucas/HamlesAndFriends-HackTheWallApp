@@ -122,8 +122,36 @@ class Maze():
         wall = Wall(coordinates, frontImage, self.tile_size)
         return [wall, floor]
 
+    def mouse_to_rodney_to_continue(self):
+        pygame.time.wait(1000)
+        cont = False
+        continue_image = pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_continue.png"), self.size)
+        if self.player.lives == 3:
+            continue_image = pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_start.png"), self.size)
+        self.screen.blit(self.background, self.background.get_rect())
+        self.player.move(self.tile_size/2, self.tile_size/4)
+        self.screen.blit(self.player.image, self.player.rect)
+        self.screen.blit(continue_image, (0,0))
+        pygame.mouse.set_visible(True)
+        pygame.display.flip()
+        while not cont:
+            for event in pygame.event.get():
+                pos_x = pygame.mouse.get_pos()[0]
+                pos_y = pygame.mouse.get_pos()[1]
+            if self.player.rect.left < pos_x < self.player.rect.right and self.player.rect.top < pos_y < self.player.rect.bottom:
+                cont = True
+        pygame.mouse.set_visible(False)
+
     def run_screen(self):
         pygame.display.set_caption("Try and find your way to Architecture 5001 before your lab starts")
+
+        start = False
+        self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/maze_intro_red.png"), self.size), (0,0))
+        pygame.display.flip()
+        while not start:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    start = True
 
         timeout = False
         back = False
@@ -137,9 +165,7 @@ class Maze():
             self.clock.tick(60)
             self.player.alive = True
             if not self.player.is_dead():
-                pygame.time.wait(1000)
-                pygame.mouse.set_pos(self.tile_size/2, self.tile_size/4)
-
+                self.mouse_to_rodney_to_continue()
             while not (self.player.is_dead() or self.done) and self.player.alive:
                 for event in pygame.event.get():
                     mouse_position = pygame.mouse.get_pos()
@@ -148,9 +174,9 @@ class Maze():
                     self.draw_rodney()
                     #TODO: analyze these lines
                     if self.player.rect.x / self.tile_size == (len(self.floors) - 1) and self.player.rect.y / self.tile_size == (len(self.floors[0]) - 1):
-                        done = True
+                        self.done = True
                     if self.player.rect.x / self.tile_size == 0 and self.player.rect.y / self.tile_size == 0 and event.type == pygame.MOUSEBUTTONDOWN:
-                        done = True
+                        self.done = True
                         break
                     if event.type == pygame.QUIT:
                         self.done = True
