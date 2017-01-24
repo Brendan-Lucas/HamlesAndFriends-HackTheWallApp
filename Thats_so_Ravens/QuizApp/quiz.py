@@ -171,6 +171,12 @@ class Quiz:
             self.fresh_screen()
             if self.q_count < len(self.questions): self.timer.runAndPrintTimer(30, 0)
 
+    def wait_for_click(self):
+        pygame.event.set_allowed(None)
+        pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
+        pygame.event.wait()
+        pygame.event.set_allowed(pygame.MOUSEMOTION)
+
     def run_screen(self):
         pygame.display.set_caption("Try and pass ECOR 1010, In Mcrae We Trust")
         self.switch_q = False
@@ -178,10 +184,14 @@ class Quiz:
         self.timeout = False
         back = False
         done = False
+        self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/quiz_intro_red.png"), self.size), (0,0))
+        pygame.display.flip()
+        self.wait_for_click()
         self.fresh_screen()
         if self.q_count<len(self.questions): self.timer.runAndPrintTimer(30, 0)
         self.timeoutTimer.runTimer(90, 0)
         while not (back or done or self.timeout):
+            self.clock.tick(30)
             for event in pygame.event.get():
                 self.timeoutTimer.currentTime = 90
                 if event.type == pygame.QUIT:
@@ -211,6 +221,10 @@ class Quiz:
             if not self.timeoutTimer.running:
                 self.timeout = True
                 print "Should end now because its timed out"
+        if not self.timeout:
+            self.screen.blit(pygame.transform.scale(pygame.image.load("Thats_so_Ravens/assets/InfoAssets/quiz_end_" + str(self.score) + ".png"), self.size), (0, 0))
+            pygame.display.flip()
+            self.wait_for_click()
         return done
 #click_sound = pygame.mixer.Sound("laser5.ogg")
 #click_sound.play
